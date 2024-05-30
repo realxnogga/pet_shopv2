@@ -1,12 +1,23 @@
 
+import { Store } from "./store";
+import { Provider } from "react-redux";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Login } from "./admin/login";
+import { AdminMainPage } from "./admin/adminmainpage";
 
-
-function App() {
+function WrapperApp() {
   return (
-    <div className="App">
-     <p className="text-green-500">dfsdfsfd</p>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/admin/login" element={<Login />} />
+        <Route path="/admin/mainpage" element={<AdminMainPage />} />
+      </Routes>
+    </Router>
   );
 }
 
-export default App;
+export const App = () => (
+  <Provider store={Store}>
+    <WrapperApp />
+  </Provider>
+);
