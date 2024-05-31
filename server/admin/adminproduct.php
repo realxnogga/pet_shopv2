@@ -27,6 +27,7 @@ if (isset($_GET['action'])) {
             $productsize = $data['productsize'];
             $productstock = $data['productstock'];
             $productprice = $data['productprice'];
+            $productdescription = $data['productdescription']; 
             $productcategory = $data['productcategory'];
 
 
@@ -38,7 +39,8 @@ if (isset($_GET['action'])) {
 
             move_uploaded_file($productImageTMP, $productImageDestination);
 
-            $sql = "INSERT INTO adminproduct (productname, productsize, productstock, productprice, productcategory, productimage) VALUES ('$productname', '$productsize', '$productstock', '$productprice', '$productcategory', '$uniqueProductImageName')";
+            $sql = "INSERT INTO adminproduct (productname, productsize, productstock, productprice, productdescription, productcategory, productimage) VALUES ('$productname', '$productsize', '$productstock', '$productprice', '$productdescription', '$productcategory', '$uniqueProductImageName')";
+
             $conn->query($sql);
 
             if ($conn->affected_rows > 0) {
@@ -60,6 +62,31 @@ if (isset($_GET['action'])) {
                 $data[] = $row;
             }
             echo json_encode($data);
+
+            $conn->close();
+            break;
+
+        case 'deleteProduct':
+
+            $data = json_decode(file_get_contents("php://input"), true);
+           
+            $productID = $data['productID'];
+            $productimage = $data['productimage'];
+
+            $sql = "delete from adminproduct where productID = '$productID'";
+            $conn->query($sql);
+
+            if ($conn->affected_rows > 0) {
+                
+                $productImagePath = "../../public/asset/admin/productimage/" . $productimage;
+                if (file_exists($productImagePath)) {
+                    unlink($productImagePath);
+                }
+
+                echo json_encode(true);
+            } else {
+                echo json_encode(false);
+            }
 
             $conn->close();
             break;

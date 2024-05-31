@@ -1,5 +1,6 @@
 
-import { AdminHamburger } from "../component/admin/adminhamburger"
+import { AdminHamburger } from "../../component/admin/adminhamburger";
+
 import { IoPeopleOutline } from "react-icons/io5";
 import { MdAttachMoney } from "react-icons/md";
 import { GoGraph } from "react-icons/go";

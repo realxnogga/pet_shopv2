@@ -1,5 +1,5 @@
 
-import { AdminHamburger } from "../component/admin/adminhamburger"
+import { AdminHamburger } from "../../component/admin/adminhamburger"
 
 export const AdminOrder = () => {
     return (

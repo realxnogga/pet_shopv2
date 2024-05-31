@@ -8,10 +8,14 @@ export const AdminProductSlice = createSlice({
     initialState: {
         isProductDataInserted: null,
         fetchedProductData: [],
+        isProductDataDeleted: null,
     },
     reducers: {
-        clearIsProductDataInserteredState: (state) => {
+        clearIsProductDataInsertered: (state) => {
             state.isProductDataInserted = null;
+        },
+        clearIsProductDataDeleted: (state) => {
+            state.isProductDataDeleted = null;
         },
       
     },
@@ -23,14 +27,36 @@ export const AdminProductSlice = createSlice({
             .addCase(GetProductDataThunk.fulfilled, (state, action) => {
                 state.fetchedProductData = action.payload;
             })
+            .addCase(DeleteProductDataThunk.fulfilled, (state, action) => {
+                state.isProductDataDeleted = action.payload;
+            })
     }
 })
 
-export const {clearIsProductDataInserteredState} = AdminProductSlice.actions;
+export const {clearIsProductDataInsertered, clearIsProductDataDeleted} = AdminProductSlice.actions;
 export const fetchedProductDataTemp = state => state.AdminProductSliceName.fetchedProductData;
 export const isProductDataInsertedTemp = state => state.AdminProductSliceName.isProductDataInserted;
+export const isProductDataDeletedTemp = state => state.AdminProductSliceName.isProductDataDeleted;
+
 export const AdminProductSliceReducer = AdminProductSlice.reducer;
 
+export const DeleteProductDataThunk = createAsyncThunk(
+    "AdminProductSliceName/DeleteProductDataThunk",
+    async ({ productID, productimage }) => {
+        try {   
+            const res = await fetch("http://localhost/petshop/server/admin/adminproduct.php?action=deleteProduct", {    
+                method: 'POST',
+                headers: {'Content-Type' : 'application/json'},
+                body: JSON.stringify({ productID, productimage })
+            });
+            const data = await res.json();
+            return data;
+        } catch (error) {
+            console.log('Error', error);
+        }
+
+    }
+)
 
 export const GetProductDataThunk = createAsyncThunk(
     "AdminProductSliceName/GetProductDataThunk",

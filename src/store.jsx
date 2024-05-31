@@ -6,6 +6,10 @@ import { combineReducers } from '@reduxjs/toolkit';
 import { AdminLoginSliceReducer } from './feature/admin/loginSlice';
 import { AdminSidebarSliceReducer } from './feature/admin/adminsidebarSlice';
 import { AdminProductSliceReducer } from './feature/admin/adminproductSlice';
+import { ClientRegisterSliceReducer } from './feature/client/clientregisterSlice';
+import { ClientLoginSliceReducer } from './feature/client/clientloginSlice';
+import { ClientSidebarSliceReducer } from './feature/client/clientsidebarSlice';
+import { AdminCustomerSliceReducer } from './feature/admin/admincustomerSlice';
 
 const persistConfig = {
   key: 'root',
@@ -16,6 +20,10 @@ const rootReducer = combineReducers({
     AdminLoginSliceName: AdminLoginSliceReducer,
     AdminSidebarSliceName: AdminSidebarSliceReducer,
     AdminProductSliceName: AdminProductSliceReducer,
+    ClientRegisterSliceName: ClientRegisterSliceReducer,
+    ClientLoginSliceName: ClientLoginSliceReducer,
+    ClientSidebarSliceName: ClientSidebarSliceReducer,
+    AdminCustomerSliceName: AdminCustomerSliceReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

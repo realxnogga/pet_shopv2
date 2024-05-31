@@ -1,12 +1,16 @@
 
 import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux";
-import { AuthAdminThunk } from "../feature/admin/loginSlice"
-import { isAdminAuthTemp } from "../feature/admin/loginSlice";
-import { clearIsAdminAuth } from "../feature/admin/loginSlice";
+import { AuthAdminThunk } from "../../feature/admin/loginSlice"
+import { isAdminAuthTemp } from "../../feature/admin/loginSlice";
+import { clearIsAdminAuth } from "../../feature/admin/loginSlice";
 import { useNavigate } from "react-router-dom";
+import { GetProductDataThunk } from "../../feature/admin/adminproductSlice";
+import { GetLoginDataThunk } from "../../feature/client/clientloginSlice";
+import { GetAllCustomerDataThunk } from "../../feature/admin/admincustomerSlice";
 
-export const Login = () => {
+
+export const AdminLogin = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -35,12 +39,14 @@ export const Login = () => {
     const isAdminAuth = useSelector(isAdminAuthTemp);
     useEffect(() => {
         if (isAdminAuth === true) {
-
+       
             navigate('/admin/mainpage');
-            dispatch(clearIsAdminAuth());
-        }
-        if (isAdminAuth === false) {
+            dispatch(clearIsAdminAuth());    
+            dispatch(GetProductDataThunk());
+            dispatch(GetAllCustomerDataThunk());
 
+        }
+        if (isAdminAuth === false) {    
             dispatch(clearIsAdminAuth());
         }
 
@@ -48,20 +54,21 @@ export const Login = () => {
 
     const [showPassword, setShowPassword] = useState(false)
 
-    const showpassword = () => {
-        setShowPassword(!showPassword);
-    }
+    const showpassword = () => setShowPassword(!showPassword);
 
     return (
         <section className="h-screen w-screen flex items-center justify-center relative">
 
             <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-[url('../asset/admin/loginbg/animalbg.jpg')] bg-no-repeat bg-cover bg-center filter blur-sm"></div>
-                <div className="absolute inset-0 bg-gray-900 opacity-50"></div>
+                <div className="absolute inset-0 bg-[url('../asset/loginregisterbg/loginregisterbg.png')] bg-no-repeat bg-cover bg-center filter blur-sm"></div>
+                <div className="absolute inset-0 bg-black opacity-50"></div>
             </div>
 
+          
+
             {/* Login Form */}
-            <div className="z-10 h-fit w-[20rem] bg-white shadow-xl rounded-lg px-4 py-6 flex flex-col justify-center gap-y-5">
+            <div className="z-10 h-fit w-[20rem] bg-white shadow-xl rounded-lg px-4 py-6 flex flex-col justify-center gap-y-5"> 
+             <h3 className="text-center text-3xl font-semibold">Login Admin</h3>
                 <div className="flex flex-col">
                     <label htmlFor="username">Enter Username</label>
                     <input
@@ -87,7 +94,8 @@ export const Login = () => {
                     </div>
                 </div>
 
-                <button onClick={handleSubmitFunc} className="w-full bg-blue-500 hover:bg-blue-400 rounded-[10rem] text-xl p-2 font-semibold text-white">Login Admin</button>
+                <button onClick={handleSubmitFunc} className="w-full bg-blue-500 hover:bg-blue-400 rounded-[10rem] text-xl p-2 font-semibold text-white">Login</button>
+
             </div>
         </section>
     )

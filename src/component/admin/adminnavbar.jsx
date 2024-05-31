@@ -22,7 +22,7 @@ export const AdminNavbar = () => {
             </div>
 
 
-            <button onClick={handleLogoutFunc} className="py-2 px-3 bg-green-500 hover:bg-green-400 rounded-lg font-semibold text-white ">Sign Out</button>
+            <button onClick={handleLogoutFunc} className="py-2 px-3 border border-white rounded-lg font-semibold text-white ">Sign Out</button>
         </nav>
     )
 }
