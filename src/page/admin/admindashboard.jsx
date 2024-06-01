@@ -1,14 +1,25 @@
 
 import { AdminHamburger } from "../../component/admin/adminhamburger";
-
+import { useSelector } from "react-redux";
 import { IoPeopleOutline } from "react-icons/io5";
 import { MdAttachMoney } from "react-icons/md";
 import { GoGraph } from "react-icons/go";
 import { AiOutlineProduct } from "react-icons/ai";
+import { fetchedProductDataTemp } from "../../feature/admin/adminproductSlice";
+import { allClientDataTemp } from "../../feature/admin/admincustomerSlice";
+import { allBuyProductDataTemp } from "../../feature/client/clientbuySlice";
+
 
 export const AdminDashboard = () => {
+
+    const fetchedProductData = useSelector(fetchedProductDataTemp);
+    const allClientData = useSelector(allClientDataTemp);
+    const allBuyProductData = useSelector(allBuyProductDataTemp);
+
+    console.log(allBuyProductData)
+
     return (
-        <section className={`relative bg-gray-100 mt-[4rem] h-screen w-screen flex items-center justify-center`}>
+        <section className={`relative bg-gray-200 mt-[4rem] h-screen w-screen flex items-center justify-center`}>
             <AdminHamburger />
 
             <div className="h-[90%] w-[60rem] flex justify-between">
@@ -17,21 +28,21 @@ export const AdminDashboard = () => {
                     <AiOutlineProduct className="text-6xl" />
                     <hr />
                     <p className="text-3xl ">Total Product</p>
-                    <p className="text-2xl">4</p>
+                    <p className="text-2xl">{fetchedProductData.length}</p>
                 </div>
 
                 <div className="bg-white h-[12rem] w-[14rem] flex flex-col justify-center gap-y-2 p-3 rounded-xl shadow-lg">
                     <IoPeopleOutline className="text-6xl" />
                     <hr />
                     <p className="text-3xl ">Total Client</p>
-                    <p className="text-2xl">4</p>
+                    <p className="text-2xl">{allClientData.length}</p>
                 </div>
 
                 <div className="bg-white h-[12rem] w-[14rem] flex flex-col justify-center gap-y-2 p-3 rounded-xl shadow-lg">
                     <MdAttachMoney className="text-6xl" />
                     <hr />
-                    <p className="text-3xl ">Total Sale</p>
-                    <p className="text-2xl">4</p>
+                    <p className="text-3xl ">Total Sold Item</p>
+                    <p className="text-2xl">{allBuyProductData.length}</p>
                 </div>
 
                 <div className="bg-white h-[12rem] w-[14rem] flex flex-col justify-center gap-y-2 p-3 rounded-xl shadow-lg">

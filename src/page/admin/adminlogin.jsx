@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { GetProductDataThunk } from "../../feature/admin/adminproductSlice";
 import { GetLoginDataThunk } from "../../feature/client/clientloginSlice";
 import { GetAllCustomerDataThunk } from "../../feature/admin/admincustomerSlice";
-
+import { GetAllBuyDataThunk } from "../../feature/client/clientbuySlice";
 
 export const AdminLogin = () => {
 
@@ -44,7 +44,8 @@ export const AdminLogin = () => {
             dispatch(clearIsAdminAuth());    
             dispatch(GetProductDataThunk());
             dispatch(GetAllCustomerDataThunk());
-
+            dispatch(GetAllBuyDataThunk());
+            
         }
         if (isAdminAuth === false) {    
             dispatch(clearIsAdminAuth());

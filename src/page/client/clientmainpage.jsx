@@ -16,12 +16,13 @@ export const ClientMainPage = () => {
     if (whatIsClickedInClientSidebar == 'home') container = <ClientHome />;
     if (whatIsClickedInClientSidebar == 'yourorder') container = <ClientYourOrder />;
     if (whatIsClickedInClientSidebar == 'cart') container = <ClientCart />;
-  
+
     return (
         <>
             <ClientNavbar />
             <ClientSidebar />
             {container}
+
         </>
     )
 

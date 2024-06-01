@@ -10,6 +10,7 @@ import { ClientRegisterSliceReducer } from './feature/client/clientregisterSlice
 import { ClientLoginSliceReducer } from './feature/client/clientloginSlice';
 import { ClientSidebarSliceReducer } from './feature/client/clientsidebarSlice';
 import { AdminCustomerSliceReducer } from './feature/admin/admincustomerSlice';
+import { ClientBuySliceReducer } from './feature/client/clientbuySlice';
 
 const persistConfig = {
   key: 'root',
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
     ClientLoginSliceName: ClientLoginSliceReducer,
     ClientSidebarSliceName: ClientSidebarSliceReducer,
     AdminCustomerSliceName: AdminCustomerSliceReducer,
+    ClientBuySliceName: ClientBuySliceReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -33,7 +33,7 @@ export const AdminCustomer = () => {
     }, [isCustomerDataDeleted])
 
     return (
-        <section className={`relative bg-gray-100 mt-[4rem] h-screen w-screen flex items-center justify-center`}>
+        <section className={`relative bg-gray-200 mt-[4rem] h-screen w-screen flex items-center justify-center`}>
             <AdminHamburger />
 
             <div className="h-[90%] w-[70rem] flex flex-col gap-y-4">

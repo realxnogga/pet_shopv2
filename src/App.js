@@ -16,8 +16,9 @@ function WrapperApp() {
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/mainpage" element={<AdminMainPage />} />
         <Route path="/" element={<ClientLogin />} />
-        <Route path="/register" element={<ClientRegister />} />
+        <Route path="/register" element={<ClientRegister />} />    
         <Route path="/mainpage" element={<ClientMainPage />} />
+
       </Routes>
     </Router>
   );
