@@ -16,7 +16,7 @@ export const AdminDashboard = () => {
     const allClientData = useSelector(allClientDataTemp);
     const allBuyProductData = useSelector(allBuyProductDataTemp);
 
-    console.log(allBuyProductData)
+    const totalIncome = allBuyProductData.reduce((sum, item) => sum + parseInt(item.producttotalprice, 10), 0);
 
     return (
         <section className={`relative bg-gray-200 mt-[4rem] h-screen w-screen flex items-center justify-center`}>
@@ -49,7 +49,7 @@ export const AdminDashboard = () => {
                     <GoGraph className="text-6xl" />
                     <hr />
                     <p className="text-3xl ">Total Income</p>
-                    <p className="text-2xl">4</p>
+                    <p className="text-2xl">₱{totalIncome}.00</p>
                 </div>
 
             </div>

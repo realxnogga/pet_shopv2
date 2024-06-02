@@ -16,6 +16,9 @@ import { isBuyDataInsertedTemp } from '../../feature/client/clientbuySlice';
 import { ShowToast } from '../../component/admin/toaster';
 import { GetBuyDataThunk } from '../../feature/client/clientbuySlice';
 import { GetAllBuyDataThunk } from '../../feature/client/clientbuySlice';
+import { UpdateProductDataThunk } from '../../feature/admin/adminproductSlice';
+import { clearIsProductDataUpdated } from '../../feature/admin/adminproductSlice';
+import { isProductUpdatedTemp } from '../../feature/admin/adminproductSlice';
 
 export const ClientHome = () => {
     const dispatch = useDispatch();
@@ -47,44 +50,72 @@ export const ClientHome = () => {
     }
     const [quantity, setQuantity] = useState(1);
 
-  
+    // for add to cart button
+    const handleAddToCartFunc = () => {
+        selectedProduct.map(item => {
+            const productID = item.productID;
+            const productname = item.productname;
+            const productsize = item.productsize;
+            const producttotalstock = item.productstock - quantity;
+            const productquantity = quantity;
+            const producttotalprice = item.productprice * quantity;
 
-        const handleCheckoutFunc = () => {
-            selectedProduct.map(item => {
-                const productname = item.productname;
-                const productsize = item.productsize;
-                const producttotalstock = item.productstock - quantity;
-                const productquantity = quantity;
-                const producttotalprice = item.productprice * quantity;
-
-                const buyDataTemp = {
-                   clientID: clientID,
-                   clientusername: clientusername,
-                   productname: productname,
-                   productsize: productsize,
-                   productquantity: productquantity,
-                   producttotalprice: producttotalprice,
-                }
-                dispatch(InsertBuyDataThunk({buyDataTemp}));               
-            });
-        };
-    
-        const isBuyDataInserted = useSelector(isBuyDataInsertedTemp);
-        useEffect(() => {
-            if (isBuyDataInserted === true) {
-                ShowToast('you can now check your checkedout product at your order tab.', 'success');
-                document.getElementById('viewProductModal').close();
-                dispatch(clearIsBuyDataInserted());
-
-                dispatch(GetBuyDataThunk(clientusername));
-                dispatch(GetAllBuyDataThunk());
+            const checkoutDataTemp = {
+                clientID: clientID,
+                clientusername: clientusername,
+                productname: productname,
+                productsize: productsize,
+                productquantity: productquantity,
+                producttotalprice: producttotalprice,
             }
-            if (isBuyDataInserted === false) {
-                ShowToast('operation failed.', 'error');
-                document.getElementById('viewProductModal').close();
-                dispatch(clearIsBuyDataInserted());
+            dispatch(InsertBuyDataThunk({ checkoutDataTemp }));
+        });
+    }
+     
+    // for checkout button
+    const handleCheckoutFunc = () => {
+        selectedProduct.map(item => {
+            const productID = item.productID;
+            const productname = item.productname;
+            const productsize = item.productsize;
+            const producttotalstock = item.productstock - quantity;
+            const productquantity = quantity;
+            const producttotalprice = item.productprice * quantity;
+
+            const buyDataTemp = {
+                clientID: clientID,
+                clientusername: clientusername,
+                productname: productname,
+                productsize: productsize,
+                productquantity: productquantity,
+                producttotalprice: producttotalprice,
             }
-        }, [isBuyDataInserted])
+            dispatch(InsertBuyDataThunk({ buyDataTemp }));
+            dispatch(GetBuyDataThunk(clientusername));
+            dispatch(UpdateProductDataThunk({ productID, producttotalstock }));
+
+        });
+    };
+
+    const isBuyDataInserted = useSelector(isBuyDataInsertedTemp);
+    useEffect(() => {
+        if (isBuyDataInserted === true) {
+            ShowToast('you can now check your checkedout product at your order tab.', 'success');
+            document.getElementById('viewProductModal').close();
+            dispatch(clearIsBuyDataInserted());
+
+            dispatch(GetAllBuyDataThunk());
+            dispatch(GetProductDataThunk()); //get all updated product after clicking the checkout btn
+            
+        }
+        if (isBuyDataInserted === false) {
+            ShowToast('operation failed.', 'error');
+            document.getElementById('viewProductModal').close();
+            dispatch(clearIsBuyDataInserted());
+
+        }
+    }, [isBuyDataInserted])
+
 
     return (
         <section className={`relative bg-gray-200 mt-[4rem] h-screen w-screen flex items-center justify-center`}>
@@ -162,6 +193,7 @@ export const ClientHome = () => {
 
                                             </div>
                                             <div className='h-fit w-full font-semibold p-4'>
+                                                <p>Stock:{item.productstock}</p>
                                                 <p>{item.productname}</p>
                                                 <p>₱{item.productprice}</p>
 
@@ -193,7 +225,7 @@ export const ClientHome = () => {
                             <div className='h-full w-[30rem] flex flex-col gap-y-5 p-8'>
                                 <p className='text-5xl font-bold '>{item.productname}</p>
                                 <p className='text-2xl'>Size: {item.productsize}</p>
-                                <p className='text-2xl'>Available Stock: {item.productstock-quantity}</p>
+                                <p className='text-2xl'>Available Stock: {item.productstock - quantity}</p>
 
                                 <div className='h-fit max-h-[14rem] w-full overflow-scroll noScrollbar'>
                                     <p>Description: {item.productdescription}</p>
@@ -205,11 +237,11 @@ export const ClientHome = () => {
                                         type="number" className="h-[2.5rem] w-[5rem] ml-2 outline-none rounded-sm border border-gray-400 px-2" />
                                 </p>
 
-                                <p className='font-semibold text-3xl'>₱{item.productprice*quantity}.00</p>
+                                <p className='font-semibold text-3xl'>₱{item.productprice * quantity}.00</p>
 
                                 <div className='flex gap-x-3'>
                                     <button onClick={handleCheckoutFunc} className='p-2 border border-blue-500 hover:bg-blue-400 duration-700'>Checkout</button>
-                                    <button className='p-2 border border-green-500 hover:bg-green-400 duration-700'>Add To Cart</button>
+                                    <button onClick={handleAddToCartFunc} className='p-2 border border-green-500 hover:bg-green-400 duration-700'>Add To Cart</button>
                                 </div>
 
 

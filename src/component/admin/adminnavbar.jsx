@@ -1,6 +1,13 @@
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux";
 import { clearIsAdminAuth } from "../../feature/admin/loginSlice";
+import { MdRefresh } from "react-icons/md";
+import { GetProductDataThunk } from "../../feature/admin/adminproductSlice";
+import { GetAllCustomerDataThunk } from "../../feature/admin/admincustomerSlice";
+import { GetAllBuyDataThunk } from "../../feature/client/clientbuySlice";
+import { useState } from "react";
+import ReactTooltip from "react-tooltip";
+
 
 export const AdminNavbar = () => {
     const navigate = useNavigate();
@@ -9,6 +16,20 @@ export const AdminNavbar = () => {
     const handleLogoutFunc = () => {
         navigate('/admin/login');
         dispatch(clearIsAdminAuth());
+    }
+
+    const [spin, setSpin] = useState(false);
+
+    const handleRefreshFunc = () => {
+        setSpin(true);
+        dispatch(GetProductDataThunk());
+        dispatch(GetAllCustomerDataThunk());
+        dispatch(GetAllBuyDataThunk());
+
+        setTimeout(() => {
+            setSpin(false);
+        }, 1000);
+
     }
 
 
@@ -21,8 +42,13 @@ export const AdminNavbar = () => {
                 <p className="font-bold text-2xl text-white">Welcome, Admin</p>
             </div>
 
+            <div className="flex items-center justify-center">
+                <MdRefresh data-type="info" data-tip="Refresh" onClick={handleRefreshFunc} className={`${spin ? 'animate-spin' : ''} outline-none text-2xl text-3xl text-white`} />
+                <ReactTooltip />
+                 <hr className="h-[2px] bg-white w-[2.5rem] rotate-90 "/>
+                <button onClick={handleLogoutFunc} className="py-2 px-3 rounded-lg font-semibold hover:bg-blue-500 duration-500 text-white flex items-center gap-x-1 ">Sign Out</button>
+            </div>
 
-            <button onClick={handleLogoutFunc} className="py-2 px-3 border border-white rounded-lg font-semibold text-white ">Sign Out</button>
         </nav>
     )
 }

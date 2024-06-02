@@ -90,6 +90,46 @@ if (isset($_GET['action'])) {
 
             $conn->close();
             break;
+    
+            case 'updateProduct':
+
+                // Get the JSON data from the request
+                $data = json_decode(file_get_contents("php://input"), true);
+            
+                // Extract the product ID and total stock from the JSON data
+                $productID = $data['productID'];
+                $producttotalstock = $data['producttotalstock'];
+            
+                // Update the product stock using normal SQL query
+                $sql = "UPDATE adminproduct SET productstock = '$producttotalstock' WHERE productID = '$productID'";
+                $conn->query($sql);
+            
+                // Check if any rows were affected by the update
+                if ($conn->affected_rows > 0) {
+                    echo json_encode(true);
+            
+                    // Select the updated product stock
+                    $sql = "SELECT productstock FROM adminproduct WHERE productID = '$productID'";
+                    $result = $conn->query($sql);
+            
+                    // Check if we have a result and fetch the product stock
+                    if ($result->num_rows > 0) {
+                        $row = $result->fetch_assoc();
+                        if ($row['productstock'] == 0) {
+                            // Delete the product if stock is zero
+                            $sql = "DELETE FROM adminproduct WHERE productID = '$productID'";
+                            $conn->query($sql);
+                        }
+                    }
+            
+                } else {
+                    echo json_encode(false);
+                }
+            
+                // Close the database connection
+                $conn->close();
+                break;
+            
     }
 }
 

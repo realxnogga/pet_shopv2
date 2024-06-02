@@ -22,6 +22,7 @@ export const ClientYourOrder = () => {
                             <td className="border font-semibold text-left p-[.6rem]">Product size</td>
                             <td className="border font-semibold text-left p-[.6rem]">Product Quantity</td>
                             <td className="border font-semibold text-left p-[.6rem]">Product Total Price</td>
+                            <td className="border font-semibold text-left p-[.6rem]">status</td>
                         </tr>
 
                         {buyProductData.map(item => (
@@ -30,11 +31,9 @@ export const ClientYourOrder = () => {
                                 <td className="border px-2">{item.productsize}</td>
                                 <td className="border px-2">{item.productquantity}</td>
                                 <td className="border px-2">{item.producttotalprice}</td>
-                                <td className="border px-2">
-                                    {/* <div className="flex items-center justify-evenly w-full h-full ">
-                                        <RiDeleteBin5Fill onClick={() => { DeleteCustomerFunc(item.clientID, item.clientprofile) }} data-type="info" data-tip="Delete" className="text-3xl p-1 bg-red-500 hover:bg-red-400 rounded-sm text-white" />
-                                        <ReactTooltip />
-                                    </div> */}
+
+                                <td className="border flex items-center justify-center p-2">
+                                    <button className="bg-green-500 px-3 py-1 text-white">Recieved</button>
                                 </td>
 
 
