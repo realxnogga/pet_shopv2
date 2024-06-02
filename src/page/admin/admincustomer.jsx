@@ -45,6 +45,7 @@ export const AdminCustomer = () => {
                             <td className="border font-semibold text-left p-[.6rem]">Customer ID</td>
                             <td className="border font-semibold text-left p-[.6rem]">Customer Profile</td>
                             <td className="border font-semibold text-left p-[.6rem]">Customer Name</td>
+                            <td className="border font-semibold text-left p-[.6rem]">Join Date</td>
                             <td className="border font-semibold text-left p-[.6rem]">Action</td>
                         </tr>
 
@@ -55,6 +56,7 @@ export const AdminCustomer = () => {
                                     <img src={`../../asset/client/clientprofile/${item.clientprofile}`} alt="" className="h-[5rem]" />
                                 </td>
                                 <td className="border px-2">{item.clientusername}</td>
+                                <td className="border px-2">{item.joindate}</td>
                                 <td className="border px-2">
                                 <div className="flex items-center justify-evenly w-full h-full ">             
                                         <RiDeleteBin5Fill onClick={() => {DeleteCustomerFunc(item.clientID, item.clientprofile)}} data-type="info" data-tip="Delete" className="text-3xl p-1 bg-red-500 hover:bg-red-400 rounded-sm text-white" />

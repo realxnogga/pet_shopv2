@@ -65,7 +65,7 @@ export const ClientNavbar = () => {
                     <div className={`${showDropdown ? '' : 'hidden'} bg-white h-fit p-3 w-fit border rounded-md shadow-md text-nowrap absolute right-0 mt-3 flex flex-col items-start gap-y-2 `}>
                         <p>Name: {clientusername}</p>
                         {/* <hr className="h-[1px] border border-gray-400 w-full "/> */}
-                        <button onClick={handleLogoutFunc} className='hover:text-blue-400 border border-blue-400 rounded-lg py-2 px-2  cursor-pointer flex items-center gap-x-2'>
+                        <button onClick={handleLogoutFunc} className='w-full hover:text-blue-400 border border-blue-400 rounded-lg py-2 px-2  cursor-pointer flex items-center justify-center gap-x-2'>
                             Sign Out<AiOutlineLogout className="text-xl" />
                         </button>
                     </div>

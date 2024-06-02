@@ -207,6 +207,7 @@ export const AdminInventory = () => {
                             <td className="border font-semibold text-left p-[.6rem]">Product Price</td>
                             <td className="border font-semibold text-left p-[.6rem]">Product Description</td>
                             <td className="border font-semibold text-left p-[.6rem]">Product Category</td>
+                            <td className="border font-semibold text-left p-[.6rem]">Creation Date</td>
                             <td className="border font-semibold text-left p-[.6rem]">Action</td>
                         </tr>
 
@@ -222,6 +223,7 @@ export const AdminInventory = () => {
                                 <td className="border px-2">{item.productprice}</td>
                                 <td className="border px-2">{item.productdescription}</td>
                                 <td className="border px-2">{item.productcategory}</td>
+                                <td className="border px-2">{item.creationdate}</td>
                                 <td className="border px-2 min-w-[6rem]">
                                     <div className="flex items-center justify-evenly w-full h-full ">
                                         <MdEdit data-type="info" data-tip="Edit" className="text-3xl p-1 bg-green-500 hover:bg-green-400 rounded-sm text-white" />

@@ -8,6 +8,10 @@ import { isClientAlreadyExistTemp } from "../../feature/client/clientregisterSli
 import { clearIsClientAlreadyExist } from "../../feature/client/clientregisterSlice";
 import { useNavigate } from "react-router-dom";
 
+import { GetProductDataThunk } from "../../feature/admin/adminproductSlice";
+import { GetAllCustomerDataThunk } from "../../feature/admin/admincustomerSlice";
+import { GetAllBuyDataThunk } from "../../feature/client/clientbuySlice";
+
 export const ClientRegister = () => {
 
     const navigate = useNavigate();
@@ -46,14 +50,14 @@ export const ClientRegister = () => {
             ShowToast('account created successfully', 'success');
 
             dispatch(clearIsClientAlreadyExist());
+            dispatch(GetProductDataThunk());
+            dispatch(GetAllCustomerDataThunk());
+            dispatch(GetAllBuyDataThunk());
+
             navigate('/');  
          }
 
     }, [isClientAlreadyExist])
-
-
-
-
 
 
 

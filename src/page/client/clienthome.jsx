@@ -193,10 +193,9 @@ export const ClientHome = () => {
 
                                             </div>
                                             <div className='h-fit w-full font-semibold p-4'>
-                                                <p>Stock:{item.productstock}</p>
-                                                <p>{item.productname}</p>
-                                                <p>₱{item.productprice}</p>
-
+                                                <p className='text-xl font-semibold'>{item.productname}</p>
+                                                <p className='text-blue-500'>₱{item.productprice}</p>
+                                                <p className='text-sm text-gray-400'>Stock:{item.productstock}</p>
                                                 <button onClick={() => { GetSelectedProductFunc(item.productID); document.getElementById('viewProductModal').showModal() }} className='bg-blue-500 hover:bg-blue-400 rounded-sm p-2 mt-1 text-xs text-white'>View More</button>
 
                                             </div>
@@ -240,8 +239,8 @@ export const ClientHome = () => {
                                 <p className='font-semibold text-3xl'>₱{item.productprice * quantity}.00</p>
 
                                 <div className='flex gap-x-3'>
-                                    <button onClick={handleCheckoutFunc} className='p-2 border border-blue-500 hover:bg-blue-400 duration-700'>Checkout</button>
-                                    <button onClick={handleAddToCartFunc} className='p-2 border border-green-500 hover:bg-green-400 duration-700'>Add To Cart</button>
+                                    <button onClick={handleCheckoutFunc} className='p-2 bg-blue-500 hover:bg-blue-400 duration-700 text-white'>Checkout</button>
+                                    <button onClick={handleAddToCartFunc} className='p-2 bg-green-500 hover:bg-green-400 duration-700 text-white'>Add To Cart</button>
                                 </div>
 
 
