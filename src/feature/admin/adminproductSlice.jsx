@@ -10,6 +10,7 @@ export const AdminProductSlice = createSlice({
         fetchedProductData: [],
         isProductDataDeleted: null,
         isProductUpdated: null,
+        isAdminProductUpdated: null,
     },
     reducers: {
         clearIsProductDataInsertered: (state) => {
@@ -20,6 +21,9 @@ export const AdminProductSlice = createSlice({
         },
         clearIsProductDataUpdated: (state) => {
             state.isProductUpdated = null;
+        },
+        clearIsAdminProductUpdated: (state) => {
+            state.isAdminProductUpdated = null;
         },
       
     },
@@ -34,24 +38,50 @@ export const AdminProductSlice = createSlice({
             .addCase(DeleteProductDataThunk.fulfilled, (state, action) => {
                 state.isProductDataDeleted = action.payload;
             })
-            .addCase(UpdateProductDataThunk.fulfilled, (state, action) => {
+            .addCase(UpdateProductStockThunk.fulfilled, (state, action) => {
                 state.isProductUpdated = action.payload;
+            })
+            .addCase(UpdateProductThunk.fulfilled, (state, action) => {
+                state.isAdminProductUpdated = action.payload;
             })
     }
 })
 
+export const isAdminProductUpdatedTemp = state => state.AdminProductSliceName.isAdminProductUpdated;
 export const isProductUpdatedTemp = state => state.AdminProductSliceName.isProductUpdated;
-export const {clearIsProductDataInsertered, clearIsProductDataDeleted, clearIsProductDataUpdated } = AdminProductSlice.actions;
+export const {clearIsProductDataInsertered, clearIsProductDataDeleted, clearIsProductDataUpdated, clearIsAdminProductUpdated } = AdminProductSlice.actions;
 export const fetchedProductDataTemp = state => state.AdminProductSliceName.fetchedProductData;
 export const isProductDataInsertedTemp = state => state.AdminProductSliceName.isProductDataInserted;
 export const isProductDataDeletedTemp = state => state.AdminProductSliceName.isProductDataDeleted;
 export const AdminProductSliceReducer = AdminProductSlice.reducer;
 
-export const UpdateProductDataThunk = createAsyncThunk(
-    "AdminProductSliceName/UpdateProductDataThunk",
+
+export const UpdateProductThunk = createAsyncThunk(
+    "AdminProductSliceName/UpdateProductThunk",
+    async ({selectedProduct, productPic}) => {
+        try {   
+            const formData = new FormData();
+            formData.append('selectedProduct', JSON.stringify(selectedProduct));
+            formData.append('productPic', productPic);
+      
+            const res = await fetch("http://localhost/petshop/server/admin/adminproduct.php?action=updateProduct", {    
+                method: 'POST',
+                body: formData,
+            });
+            const data = await res.json();
+            return data;
+        } catch (error) {
+            console.log('Error', error);
+        }
+
+    }
+)
+
+export const UpdateProductStockThunk = createAsyncThunk(
+    "AdminProductSliceName/UpdateProductStockThunk",
     async ({productID, producttotalstock}) => {
         try {   
-            const res = await fetch("http://localhost/petshop/server/admin/adminproduct.php?action=updateProduct", {    
+            const res = await fetch("http://localhost/petshop/server/admin/adminproduct.php?action=updateProductStock", {    
                 method: 'POST',
                 headers: {'Content-Type' : 'application/json'},
                 body: JSON.stringify({productID, producttotalstock})

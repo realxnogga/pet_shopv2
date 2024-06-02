@@ -39,14 +39,14 @@ export const AdminDashboard = () => {
                 </div>
 
                 <div className="bg-white h-[12rem] w-[14rem] flex flex-col justify-center gap-y-2 p-3 rounded-xl shadow-lg">
-                    <MdAttachMoney className="text-6xl" />
+                    <GoGraph className="text-6xl" />
                     <hr />
                     <p className="text-3xl ">Total Sold Item</p>
                     <p className="text-2xl">{allBuyProductData.length}</p>
                 </div>
-
+                
                 <div className="bg-white h-[12rem] w-[14rem] flex flex-col justify-center gap-y-2 p-3 rounded-xl shadow-lg">
-                    <GoGraph className="text-6xl" />
+                    <MdAttachMoney className="text-6xl" />
                     <hr />
                     <p className="text-3xl ">Total Income</p>
                     <p className="text-2xl">₱{totalIncome}.00</p>

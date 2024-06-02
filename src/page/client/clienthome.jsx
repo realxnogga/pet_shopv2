@@ -17,6 +17,7 @@ import { ShowToast } from '../../component/admin/toaster';
 import { GetBuyDataThunk } from '../../feature/client/clientbuySlice';
 import { GetAllBuyDataThunk } from '../../feature/client/clientbuySlice';
 import { UpdateProductDataThunk } from '../../feature/admin/adminproductSlice';
+import { UpdateProductStockThunk } from '../../feature/admin/adminproductSlice';
 
 export const ClientHome = () => {
     const dispatch = useDispatch();
@@ -68,7 +69,7 @@ export const ClientHome = () => {
                 producttotalprice: producttotalprice,
             }
             dispatch(InsertBuyDataThunk({ buyDataTemp }));
-            dispatch(UpdateProductDataThunk({ productID, producttotalstock }));
+            dispatch(UpdateProductStockThunk({ productID, producttotalstock }));
             
         });
     };
