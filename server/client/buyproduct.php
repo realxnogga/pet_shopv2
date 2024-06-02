@@ -30,8 +30,10 @@ if (isset($_GET['action'])) {
             $productsize = $data['productsize'];
             $productquantity = $data['productquantity'];
             $producttotalprice = $data['producttotalprice'];
+            $clientaddress = $data['clientaddress'];
+            
 
-            $sql = "INSERT INTO buyproduct (clientID, clientusername, productname, productsize, productquantity, producttotalprice) VALUES ('$clientID', '$clientusername', '$productname', '$productsize', '$productquantity', '$producttotalprice')";
+            $sql = "INSERT INTO buyproduct (clientID, clientusername, productname, productsize, productquantity, producttotalprice, clientaddress) VALUES ('$clientID', '$clientusername', '$productname', '$productsize', '$productquantity', '$producttotalprice', '$clientaddress')";
 
             $conn->query($sql);
 

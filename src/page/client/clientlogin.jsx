@@ -27,11 +27,24 @@ export const ClientLogin = () => {
     };
 
     const handleLoginDataSubmitFunc = () => {
-        const loginDataTemp = {
-            userloginusername: userLoginCredential.userloginusername,
-            userloginpassword: userLoginCredential.userloginpassword,
+        if (userLoginCredential.userloginusername === '') {
+            ShowToast('username must not be empty', 'warning');
         }
-        dispatch(InsertLoginDataThunk({ loginDataTemp }));
+        else if (userLoginCredential.userloginpassword === '') {
+            ShowToast('password must not be empty', 'warning');
+        }
+        else if (userLoginCredential.userloginusername === '' === '' && userLoginCredential.userloginpassword === '') {
+            ShowToast('username and password must not be empty', 'warning');
+        }
+        else if (userLoginCredential.userloginusername != '' || userLoginCredential.userloginpassword != '') {
+            const loginDataTemp = {
+                userloginusername: userLoginCredential.userloginusername,
+                userloginpassword: userLoginCredential.userloginpassword,
+            }
+            dispatch(InsertLoginDataThunk({ loginDataTemp }));
+        }
+
+      
     }
 
     const isClientLoggedIn = useSelector(isClientLoggedInTemp);

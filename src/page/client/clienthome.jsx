@@ -27,6 +27,7 @@ export const ClientHome = () => {
         var clientID = userdata.clientID;
         var clientusername = userdata.clientusername;
         var clientprofile = userdata.clientprofile;
+        var clientaddress = userdata.clientaddress;
     }
 
     // dispatch get product data whenever the admin add a new product
@@ -67,6 +68,7 @@ export const ClientHome = () => {
                 productsize: productsize,
                 productquantity: productquantity,
                 producttotalprice: producttotalprice,
+                clientaddress: clientaddress,
             }
             dispatch(InsertBuyDataThunk({ buyDataTemp }));
             dispatch(UpdateProductStockThunk({ productID, producttotalstock }));

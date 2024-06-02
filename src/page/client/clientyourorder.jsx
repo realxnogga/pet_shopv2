@@ -59,6 +59,7 @@ export const ClientYourOrder = () => {
                             <td className="border font-semibold text-left p-[.6rem]">Product Quantity</td>
                             <td className="border font-semibold text-left p-[.6rem]">Product Total Price</td>
                             <td className="border font-semibold text-left p-[.6rem]">Order Date</td>
+                            <td className="border font-semibold text-left p-[.6rem]">Your Address</td>
                             <td className="border font-semibold text-left p-[.6rem]">Order Status</td>
                         </tr>
 
@@ -69,6 +70,7 @@ export const ClientYourOrder = () => {
                                 <td className="border px-2">{item.productquantity}</td>
                                 <td className="border px-2">{item.producttotalprice}</td>
                                 <td className="border px-2">{item.orderdate}</td>
+                                <td className="border px-2">{item.clientaddress}</td>
                                 <td className="border flex items-center justify-center p-2">
                                     {
                                         item.orderstatus === 'not recieve' ?
