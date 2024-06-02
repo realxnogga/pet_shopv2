@@ -169,7 +169,7 @@ export const ClientHome = () => {
                                             <div className={`h-[12rem] w-full bg-cover bg-center bg-[url('../../asset/admin/productimage/${item.productimage}')]`}>
 
                                             </div>
-                                            <div className='h-fit w-full font-semibold p-4'>
+                                            <div className='bg-blue-100 h-fit w-full font-semibold p-4'>
                                                 <p className='text-xl font-semibold'>{item.productname}</p>
                                                 <p className='text-blue-500'>₱{item.productprice}</p>
                                                 <p className='text-sm text-gray-400'>Stock:{item.productstock}</p>
