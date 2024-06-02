@@ -17,8 +17,6 @@ import { ShowToast } from '../../component/admin/toaster';
 import { GetBuyDataThunk } from '../../feature/client/clientbuySlice';
 import { GetAllBuyDataThunk } from '../../feature/client/clientbuySlice';
 import { UpdateProductDataThunk } from '../../feature/admin/adminproductSlice';
-import { clearIsProductDataUpdated } from '../../feature/admin/adminproductSlice';
-import { isProductUpdatedTemp } from '../../feature/admin/adminproductSlice';
 
 export const ClientHome = () => {
     const dispatch = useDispatch();
@@ -50,27 +48,6 @@ export const ClientHome = () => {
     }
     const [quantity, setQuantity] = useState(1);
 
-    // for add to cart button
-    const handleAddToCartFunc = () => {
-        selectedProduct.map(item => {
-            const productID = item.productID;
-            const productname = item.productname;
-            const productsize = item.productsize;
-            const producttotalstock = item.productstock - quantity;
-            const productquantity = quantity;
-            const producttotalprice = item.productprice * quantity;
-
-            const checkoutDataTemp = {
-                clientID: clientID,
-                clientusername: clientusername,
-                productname: productname,
-                productsize: productsize,
-                productquantity: productquantity,
-                producttotalprice: producttotalprice,
-            }
-            dispatch(InsertBuyDataThunk({ checkoutDataTemp }));
-        });
-    }
      
     // for checkout button
     const handleCheckoutFunc = () => {
@@ -91,9 +68,8 @@ export const ClientHome = () => {
                 producttotalprice: producttotalprice,
             }
             dispatch(InsertBuyDataThunk({ buyDataTemp }));
-            dispatch(GetBuyDataThunk(clientusername));
             dispatch(UpdateProductDataThunk({ productID, producttotalstock }));
-
+            
         });
     };
 
@@ -106,6 +82,7 @@ export const ClientHome = () => {
 
             dispatch(GetAllBuyDataThunk());
             dispatch(GetProductDataThunk()); //get all updated product after clicking the checkout btn
+            dispatch(GetBuyDataThunk(clientusername));
             
         }
         if (isBuyDataInserted === false) {
@@ -240,7 +217,7 @@ export const ClientHome = () => {
 
                                 <div className='flex gap-x-3'>
                                     <button onClick={handleCheckoutFunc} className='p-2 bg-blue-500 hover:bg-blue-400 duration-700 text-white'>Checkout</button>
-                                    <button onClick={handleAddToCartFunc} className='p-2 bg-green-500 hover:bg-green-400 duration-700 text-white'>Add To Cart</button>
+                                    <button className='p-2 bg-green-500 hover:bg-green-400 duration-700 text-white'>Add To Cart</button>
                                 </div>
 
 

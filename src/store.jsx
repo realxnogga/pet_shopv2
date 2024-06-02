@@ -12,6 +12,7 @@ import { ClientSidebarSliceReducer } from './feature/client/clientsidebarSlice';
 import { AdminCustomerSliceReducer } from './feature/admin/admincustomerSlice';
 import { ClientBuySliceReducer } from './feature/client/clientbuySlice';
 
+
 const persistConfig = {
   key: 'root',
   storage: storageSession, // Use sessionStorage
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     ClientSidebarSliceName: ClientSidebarSliceReducer,
     AdminCustomerSliceName: AdminCustomerSliceReducer,
     ClientBuySliceName: ClientBuySliceReducer,
+
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

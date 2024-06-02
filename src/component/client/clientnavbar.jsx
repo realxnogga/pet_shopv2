@@ -57,7 +57,7 @@ export const ClientNavbar = () => {
             </div>
 
             <div className="flex items-center justify-center gap-x-3">
-               <MdRefresh data-type="info" data-tip="Refresh" onClick={handleRefreshFunc} className={`${spin ? 'animate-spin' : ''} outline-none text-xl text-3xl text-white`} />
+               <MdRefresh data-type="info" data-tip="Refresh" onClick={handleRefreshFunc} className={`${spin ? 'animate-spin' : ''} outline-none text-3xl text-white`} />
                <ReactTooltip />
                 <div className={`relative`}>
                     <img onClick={() => { setShowDropdown(!showDropdown) }} className="h-[2.8rem] w-[2.8rem] mobile:h-[1.9rem] mobile:w-[1.9rem] rounded-[50%]" src={`../../asset/client/clientprofile/${clientprofile}`} alt="" />

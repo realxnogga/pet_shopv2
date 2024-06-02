@@ -104,7 +104,6 @@ export const AdminInventory = () => {
                 <dialog id="addProductModal" className="modal">
 
                     <div className="modal-box h-fit w-[25rem] flex flex-col gap-y-4 rounded-lg p-4 noScrollbar">
-                        <h3 className="text-2xl text-center sticky top-0">Add Product</h3>
 
                         <div className="w-full">
                             <label className={`text-lg text-black`}>Enter product name<span className='text-red-500'>*</span></label>
@@ -215,7 +214,10 @@ export const AdminInventory = () => {
                             <tr key={item.productID}>
                                 <td className="border px-2">{item.productID}</td>
                                 <td className="border flex items-center justify-center">
+
                                     <img src={`../../asset/admin/productimage/${item.productimage}`} alt="" className="h-[5rem]" />
+
+
                                 </td>
                                 <td className="border px-2">{item.productname}</td>
                                 <td className="border px-2">{item.productsize}</td>

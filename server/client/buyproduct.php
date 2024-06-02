@@ -74,6 +74,22 @@ if (isset($_GET['action'])) {
             
                 $conn->close();
                 break;
+
+                case 'updateBuyDataStatus':
+
+                    $buyproductID = json_decode(file_get_contents("php://input"), true);
+        
+                    $sql = "UPDATE `buyproduct` SET `orderstatus` = 'recieve' WHERE `buyproductID` = '$buyproductID'";
+                    $conn->query($sql);
+
+                    if ($conn->affected_rows > 0) {
+                        echo json_encode(true);
+                    } else {
+                        echo json_encode(false);
+                    }
+        
+                    $conn->close();
+                    break;
     }
 }
 

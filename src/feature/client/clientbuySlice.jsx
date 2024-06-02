@@ -9,10 +9,14 @@ export const ClientBuySlice = createSlice({
        isBuyDataInserted: null,
        buyProductData: [],
        allBuyProductData: [],
+       isBuyDataStatusUpdated: null,
     },
     reducers: {
         clearIsBuyDataInserted: (state) => {
             state.isBuyDataInserted = null;
+        },
+        clearIsBuyDataStatusUpdated: (state) => {
+            state.isBuyDataStatusUpdated = null;
         },
     },
     extraReducers: builder => {
@@ -26,15 +30,37 @@ export const ClientBuySlice = createSlice({
         .addCase(GetAllBuyDataThunk.fulfilled, (state, action) => {
             state.allBuyProductData = action.payload;
         })
+        .addCase(UpdateBuyDataStatusThunk.fulfilled, (state, action) => {
+            state.isBuyDataStatusUpdated = action.payload;
+        })
     }
 })
 
-export const { clearIsBuyDataInserted } = ClientBuySlice.actions;
+export const isBuyDataStatusUpdatedTemp = state => state.ClientBuySliceName.isBuyDataStatusUpdated;
+export const { clearIsBuyDataInserted, clearIsBuyDataStatusUpdated } = ClientBuySlice.actions;
 export const isBuyDataInsertedTemp = state => state.ClientBuySliceName.isBuyDataInserted;
 export const buyProductDataTemp = state => state.ClientBuySliceName.buyProductData;
 export const allBuyProductDataTemp = state => state.ClientBuySliceName.allBuyProductData;
 export const ClientBuySliceReducer = ClientBuySlice.reducer;
 
+
+export const UpdateBuyDataStatusThunk = createAsyncThunk(
+    "ClientBuySliceName/UpdateBuyDataStatusThunk",
+    async ( buyproductID ) => {
+        try {   
+            const res = await fetch("http://localhost/petshop/server/client/buyproduct.php?action=updateBuyDataStatus", {    
+                method: 'POST',
+                headers: {'Content-Type' : 'application/json'},
+                body: JSON.stringify(buyproductID)
+            });
+            const data = await res.json();
+            return data;
+        } catch (error) {
+            console.log('Error', error);
+        }
+
+    }
+)
 
 export const GetAllBuyDataThunk = createAsyncThunk(
     "ClientBuySliceName/GetAllBuyDataThunk",
