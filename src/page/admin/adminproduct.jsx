@@ -273,7 +273,7 @@ export const AdminInventory = () => {
 
                     <div>
                         <label className={`text-lg text-black`}>Enter product image<span className='text-red-500'>*</span></label>
-                        <input onChange={handleProductPicChange} id="fileInput" type="file" className={`p-2 border border-gray-400 rounded-sm w-full outline-none text-black text-md`} />
+                        <input onChange={handleProductPicChange} type="file" className={`p-2 border border-gray-400 rounded-sm w-full outline-none text-black text-md`} />
                     </div>
 
                     <div className="w-full flex gap-x-3">

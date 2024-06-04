@@ -16,8 +16,8 @@ import { isBuyDataInsertedTemp } from '../../feature/client/clientbuySlice';
 import { ShowToast } from '../../component/admin/toaster';
 import { GetBuyDataThunk } from '../../feature/client/clientbuySlice';
 import { GetAllBuyDataThunk } from '../../feature/client/clientbuySlice';
-import { UpdateProductDataThunk } from '../../feature/admin/adminproductSlice';
 import { UpdateProductStockThunk } from '../../feature/admin/adminproductSlice';
+import { whatIsClickedInClientSidebarState } from '../../feature/client/clientsidebarSlice';
 
 export const ClientHome = () => {
     const dispatch = useDispatch();
@@ -79,13 +79,16 @@ export const ClientHome = () => {
     const isBuyDataInserted = useSelector(isBuyDataInsertedTemp);
     useEffect(() => {
         if (isBuyDataInserted === true) {
-            ShowToast('you can now check your checkedout product at your order tab.', 'success');
+            ShowToast('checkout success', 'success');
             document.getElementById('viewProductModal').close();
             dispatch(clearIsBuyDataInserted());
 
             dispatch(GetAllBuyDataThunk());
             dispatch(GetProductDataThunk()); //get all updated product after clicking the checkout btn
             dispatch(GetBuyDataThunk(clientusername));
+
+            //if the checkout is sucesfull, it gonna navigate to "your order" tab
+            dispatch(whatIsClickedInClientSidebarState('yourorder'))
             
         }
         if (isBuyDataInserted === false) {
@@ -190,7 +193,7 @@ export const ClientHome = () => {
             {/* View product modal */}
 
             <dialog id="viewProductModal" className="modal">
-                <div className="modal-box w-full max-w-full h-full max-h-full rounded-none p-0 flex items-center justify-center">
+                <div className="modal-box h-fit w-fit max-h-full max-w-full rounded-none p-5 flex items-center justify-center rounded-xl">
 
                     <IoCloseSharp onClick={() => { document.getElementById('viewProductModal').close(); }}
                         className='absolute top-4 right-4 text-2xl hover:bg-red-500 hover:text-white' />
@@ -201,7 +204,7 @@ export const ClientHome = () => {
                             <div className={`h-full w-[30rem] bg-cover bg-center flex items-center justify-center overflow-hidden bg-[url('../../asset/admin/productimage/${item.productimage}')]`}>
                             </div>
 
-                            <div className='h-full w-[30rem] flex flex-col gap-y-5 p-8'>
+                            <div className='h-full w-[30rem] flex flex-col justify-evenly gap-y-5 p-8'>
                                 <p className='text-5xl font-bold '>{item.productname}</p>
                                 <p className='text-2xl'>Size: {item.productsize}</p>
                                 <p className='text-2xl'>Available Stock: {item.productstock - quantity}</p>
