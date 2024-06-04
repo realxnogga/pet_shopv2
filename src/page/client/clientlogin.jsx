@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { GetLoginDataThunk } from "../../feature/client/clientloginSlice";
 import { GetProductDataThunk } from "../../feature/admin/adminproductSlice";
 import { GetBuyDataThunk } from "../../feature/client/clientbuySlice";
+import { GetAddToCartDataThunk } from "../../feature/client/addtocartSlice";
+
 
 export const ClientLogin = () => {
 
@@ -63,7 +65,7 @@ export const ClientLogin = () => {
 
             dispatch(GetProductDataThunk());
             dispatch(GetBuyDataThunk(userLoginCredential.userloginusername));
-                   
+            dispatch(GetAddToCartDataThunk(userLoginCredential.userloginusername));          
         }
         if (isClientLoggedIn === false) {
             ShowToast('login failed', 'error');

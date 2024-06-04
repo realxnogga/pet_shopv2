@@ -18,6 +18,10 @@ import { GetBuyDataThunk } from '../../feature/client/clientbuySlice';
 import { GetAllBuyDataThunk } from '../../feature/client/clientbuySlice';
 import { UpdateProductStockThunk } from '../../feature/admin/adminproductSlice';
 import { whatIsClickedInClientSidebarState } from '../../feature/client/clientsidebarSlice';
+import { InsertAddToCartDataThunk } from '../../feature/client/addtocartSlice';
+import { isAddToCartDataInsertedTemp } from '../../feature/client/addtocartSlice';
+import { clearIsAddToCartDataInserted } from '../../feature/client/addtocartSlice';
+import { GetAddToCartDataThunk } from '../../feature/client/addtocartSlice';
 
 export const ClientHome = () => {
     const dispatch = useDispatch();
@@ -50,7 +54,53 @@ export const ClientHome = () => {
     }
     const [quantity, setQuantity] = useState(1);
 
-     
+
+    const handleAddToCartFunc = () => {
+        selectedProduct.map(item => {
+            const productID = item.productID;
+            const productname = item.productname;
+            const productsize = item.productsize;
+            const producttotalstock = item.productstock - quantity;
+            const productquantity = quantity;
+            const producttotalprice = item.productprice * quantity;
+
+            const addToCartDataTemp = {
+                clientID: clientID,
+                clientusername: clientusername,
+                productname: productname,
+                productsize: productsize,
+                productquantity: productquantity,
+                producttotalprice: producttotalprice,
+                clientaddress: clientaddress,
+            }
+
+            console.log(addToCartDataTemp);
+
+            dispatch(InsertAddToCartDataThunk({ addToCartDataTemp }));
+            // dispatch(UpdateProductStockThunk({ productID, producttotalstock }));
+
+        });
+    }
+
+    const isAddToCartDataInserted = useSelector(isAddToCartDataInsertedTemp);
+    useEffect(() => {
+        if (isAddToCartDataInserted === true) {
+            ShowToast('add to cart success', 'success');
+            document.getElementById('viewProductModal').close();
+            dispatch(clearIsAddToCartDataInserted());
+
+            dispatch(GetAddToCartDataThunk(clientusername));
+            //if the checkout is sucesfull, it gonna navigate to "cart" tab
+            dispatch(whatIsClickedInClientSidebarState('cart'));
+
+        }
+
+    }, [isAddToCartDataInserted])
+
+
+
+
+
     // for checkout button
     const handleCheckoutFunc = () => {
         selectedProduct.map(item => {
@@ -72,7 +122,7 @@ export const ClientHome = () => {
             }
             dispatch(InsertBuyDataThunk({ buyDataTemp }));
             dispatch(UpdateProductStockThunk({ productID, producttotalstock }));
-            
+
         });
     };
 
@@ -88,8 +138,8 @@ export const ClientHome = () => {
             dispatch(GetBuyDataThunk(clientusername));
 
             //if the checkout is sucesfull, it gonna navigate to "your order" tab
-            dispatch(whatIsClickedInClientSidebarState('yourorder'))
-            
+            dispatch(whatIsClickedInClientSidebarState('yourorder'));
+
         }
         if (isBuyDataInserted === false) {
             ShowToast('operation failed.', 'error');
@@ -223,7 +273,7 @@ export const ClientHome = () => {
 
                                 <div className='flex gap-x-3'>
                                     <button onClick={handleCheckoutFunc} className='p-2 bg-blue-500 hover:bg-blue-400 duration-700 text-white'>Checkout</button>
-                                    <button className='p-2 bg-green-500 hover:bg-green-400 duration-700 text-white'>Add To Cart</button>
+                                    <button onClick={handleAddToCartFunc} className='p-2 bg-green-500 hover:bg-green-400 duration-700 text-white'>Add To Cart</button>
                                 </div>
 
 

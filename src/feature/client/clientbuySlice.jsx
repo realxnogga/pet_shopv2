@@ -2,7 +2,6 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-
 export const ClientBuySlice = createSlice({
     name: 'ClientBuySliceName',
     initialState: {

@@ -11,7 +11,7 @@ import { ClientLoginSliceReducer } from './feature/client/clientloginSlice';
 import { ClientSidebarSliceReducer } from './feature/client/clientsidebarSlice';
 import { AdminCustomerSliceReducer } from './feature/admin/admincustomerSlice';
 import { ClientBuySliceReducer } from './feature/client/clientbuySlice';
-
+import { AddToCartSliceReducer } from './feature/client/addtocartSlice';
 
 const persistConfig = {
   key: 'root',
@@ -27,7 +27,7 @@ const rootReducer = combineReducers({
     ClientSidebarSliceName: ClientSidebarSliceReducer,
     AdminCustomerSliceName: AdminCustomerSliceReducer,
     ClientBuySliceName: ClientBuySliceReducer,
-
+    AddToCartSliceName: AddToCartSliceReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
