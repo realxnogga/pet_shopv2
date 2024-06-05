@@ -66,6 +66,7 @@ export const ClientViewProductModal = ({ selectedProduct }) => {
             const producttotalstock = item.productstock - quantity;
 
             const buyDataTemp = {
+                productID: productID,
                 clientID: clientID,
                 clientusername: clientusername,
                 productname: item.productname,

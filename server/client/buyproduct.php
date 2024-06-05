@@ -23,7 +23,7 @@ if (isset($_GET['action'])) {
         case 'insertBuyProductData':
         
             $data = json_decode($_POST['buyDataTemp'], true);
-
+            $productID = $data['productID'];
             $clientID = $data['clientID'];
             $clientusername = $data['clientusername'];
             $productname = $data['productname'];
@@ -33,7 +33,7 @@ if (isset($_GET['action'])) {
             $clientaddress = $data['clientaddress'];
             
 
-            $sql = "INSERT INTO buyproduct (clientID, clientusername, productname, productsize, productquantity, producttotalprice, clientaddress) VALUES ('$clientID', '$clientusername', '$productname', '$productsize', '$productquantity', '$producttotalprice', '$clientaddress')";
+            $sql = "INSERT INTO buyproduct (buyproductID, clientID, clientusername, productname, productsize, productquantity, producttotalprice, clientaddress) VALUES ('$productID', '$clientID', '$clientusername', '$productname', '$productsize', '$productquantity', '$producttotalprice', '$clientaddress')";
 
             $conn->query($sql);
 
@@ -79,9 +79,9 @@ if (isset($_GET['action'])) {
 
                 case 'updateBuyDataStatus':
 
-                    $buyproductID = json_decode(file_get_contents("php://input"), true);
+                    $buyproductprimarykey = json_decode(file_get_contents("php://input"), true);
         
-                    $sql = "UPDATE `buyproduct` SET `orderstatus` = 'recieve' WHERE `buyproductID` = '$buyproductID'";
+                    $sql = "UPDATE `buyproduct` SET `orderstatus` = 'recieve' WHERE `buyproductprimarykey` = '$buyproductprimarykey'";
                     $conn->query($sql);
 
                     if ($conn->affected_rows > 0) {

@@ -45,12 +45,12 @@ export const ClientBuySliceReducer = ClientBuySlice.reducer;
 
 export const UpdateBuyDataStatusThunk = createAsyncThunk(
     "ClientBuySliceName/UpdateBuyDataStatusThunk",
-    async ( buyproductID ) => {
+    async ( buyproductprimarykey ) => {
         try {   
             const res = await fetch("http://localhost/petshop/server/client/buyproduct.php?action=updateBuyDataStatus", {    
                 method: 'POST',
                 headers: {'Content-Type' : 'application/json'},
-                body: JSON.stringify(buyproductID)
+                body: JSON.stringify(buyproductprimarykey)
             });
             const data = await res.json();
             return data;

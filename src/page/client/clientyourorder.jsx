@@ -75,7 +75,7 @@ export const ClientYourOrder = () => {
                                     {
                                         item.orderstatus === 'not recieve' ?
                                             (
-                                                <button onClick={() => { setIdToRecieve(item.buyproductID); document.getElementById('confirmRecieveModal').showModal(); }} className={`bg-gray-400 px-3 py-1 text-white`}>To Recieve</button>
+                                                <button onClick={() => { setIdToRecieve(item.buyproductprimarykey); document.getElementById('confirmRecieveModal').showModal(); }} className={`bg-gray-400 px-3 py-1 text-white`}>To Recieve</button>
                                             )
                                             :
                                             (
