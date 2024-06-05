@@ -12,6 +12,9 @@ export const AdminSidebarSlice = createSlice({
 
     },
     reducers: {
+        clearIsAdminSidebarOpen: (state) => {
+            state.isAdminSidebarOpen = false;
+        },
         isAdminSidebarOpenState: (state) => {
             state.isAdminSidebarOpen = !state.isAdminSidebarOpen;
         },
@@ -21,7 +24,7 @@ export const AdminSidebarSlice = createSlice({
     },
 })
 
-export const { whatIsClickedInAdminSidebarState, isAdminSidebarOpenState } = AdminSidebarSlice.actions;
+export const { whatIsClickedInAdminSidebarState, isAdminSidebarOpenState, clearIsAdminSidebarOpen } = AdminSidebarSlice.actions;
 export const isAdminSidebarOpenTemp = state => state.AdminSidebarSliceName.isAdminSidebarOpen;
 export const whatIsClickedInAdminSidebarTemp = state => state.AdminSidebarSliceName.whatIsClickedInAdminSidebar;
 export const AdminSidebarSliceReducer = AdminSidebarSlice.reducer;

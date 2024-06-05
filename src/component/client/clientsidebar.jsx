@@ -14,6 +14,7 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { isClientSidebarOpenState } from "../../feature/client/clientsidebarSlice";
 import { isClientSidebarOpenTemp } from "../../feature/client/clientsidebarSlice";
+import { clearIsClientSidebarOpen } from "../../feature/client/clientsidebarSlice";
 
 
 export const ClientSidebar = () => {
@@ -23,7 +24,7 @@ export const ClientSidebar = () => {
     const whatIsClickedInClientSidebar = useSelector(whatIsClickedInClientSidebarTemp);
 
     return (
-        <aside className={`${isClientSidebarOpen ? 'w-[15rem] p-2 border border-r-gray-300' : 'w-0 p-0 border-none'} absolute left-0 z-10 bg-white shadow-xl h-screen top-[4rem] text-nowrap overflow-hidden`}>
+        <aside onMouseLeave={() => dispatch(clearIsClientSidebarOpen())} className={`${isClientSidebarOpen ? 'w-fit p-2 border border-r-gray-300' : 'w-0 p-0 border-none'} absolute left-0 z-10 bg-white shadow-xl h-screen top-[4rem] text-nowrap overflow-hidden`}>
   
             <ul>
                 <li className="p-2 text-right flex justify-end ">

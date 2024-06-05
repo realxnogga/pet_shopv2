@@ -26,15 +26,18 @@ if (isset($_GET['action'])) {
 
             $data = json_decode($_POST['addToCartDataTemp'], true);
 
+            $productID = $data['productID'];
             $clientID = $data['clientID'];
             $clientusername = $data['clientusername'];
             $productname = $data['productname'];
             $productsize = $data['productsize'];
-            $productquantity = $data['productquantity'];
-            $producttotalprice = $data['producttotalprice'];
-            $clientaddress = $data['clientaddress'];
+            $productstock = $data['productstock'];
+            $productprice = $data['productprice'];
+            $productdescription = $data['productdescription'];
+            $productcategory = $data['productcategory'];
+            $productimage = $data['productimage'];
 
-            $sql = "INSERT INTO addtocartproduct (clientID, clientusername, addtocartproductname, addtocartproductsize, addtocartproductquantity, addtocartproducttotalprice, clientaddress) VALUES ('$clientID', '$clientusername', '$productname', '$productsize', '$productquantity', '$producttotalprice', '$clientaddress')";
+            $sql = "INSERT INTO addtocartproduct (addtocartproductID, clientID, clientusername, addtocartproductname, addtocartproductsize, addtocartproductstock, addtocartproductprice, addtocartproductdescription, addtocartproductcategory, addtocartproductimage) VALUES ('$productID', '$clientID', '$clientusername', '$productname', '$productsize', '$productstock', '$productprice', '$productdescription', '$productcategory', '$productimage')";
 
             $conn->query($sql);
 
@@ -47,23 +50,21 @@ if (isset($_GET['action'])) {
             $conn->close();
             break;
 
-            case 'getAddToCartProductData':
+        case 'getAddToCartProductData':
 
-                $clientusername = json_decode($_POST['clientusername'], true);
-    
-                $sql = "select*from addtocartproduct where clientusername = '$clientusername'";
-    
-                $result = $conn->query($sql);
-    
-                $data = [];
-                while ($row = $result->fetch_assoc()) {
-                    $data[] = $row;
-                }
-                echo json_encode($data);
-            
-                $conn->close();
-                break;   
+            $clientusername = json_decode($_POST['clientusername'], true);
 
+            $sql = "select*from addtocartproduct where clientusername = '$clientusername'";
+            $result = $conn->query($sql);
+
+            $data = [];
+            while ($row = $result->fetch_assoc()) {
+                $data[] = $row;
+            }
+            echo json_encode($data);
+
+            $conn->close();
+            break;
     }
 }
 
