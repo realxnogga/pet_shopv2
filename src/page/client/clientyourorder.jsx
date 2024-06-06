@@ -8,10 +8,13 @@ import { GetBuyDataThunk } from "../../feature/client/clientbuySlice";
 import { userDataTemp } from "../../feature/client/clientloginSlice";
 import { clearIsBuyDataStatusUpdated } from "../../feature/client/clientbuySlice";
 import { FaCheck } from "react-icons/fa6";
-import { GiConfirmed } from "react-icons/gi";
 import { IoCloseSharp } from "react-icons/io5";
 import { MdCheckCircleOutline } from "react-icons/md";
-
+import { InsertRatingDataThunk } from "../../feature/client/ratingSlice";
+import { clearIsRatingDataInserted } from "../../feature/client/ratingSlice";
+import { isRatingDataInsertedTemp } from "../../feature/client/ratingSlice";
+import { ShowToast } from "../../component/admin/toaster";
+import { GetAllRatingDataThunk } from "../../feature/client/ratingSlice";
 
 export const ClientYourOrder = () => {
     const dispatch = useDispatch();
@@ -26,10 +29,8 @@ export const ClientYourOrder = () => {
     const [idToRecieve, setIdToRecieve] = useState(0);
 
     const handleRecieveFunc = () => {
-        dispatch(UpdateBuyDataStatusThunk(idToRecieve));     
+        dispatch(UpdateBuyDataStatusThunk(idToRecieve));
     }
-
-    console.log(idToRecieve);
 
     const isBuyDataStatusUpdated = useSelector(isBuyDataStatusUpdatedTemp);
 
@@ -42,7 +43,59 @@ export const ClientYourOrder = () => {
             dispatch(clearIsBuyDataStatusUpdated());
         }
     }, [isBuyDataStatusUpdated])
+    //-----------------------------------------------
 
+    const [productIDRating, setProductIDRating] = useState(0);
+    const [rating, setRating] = useState({
+        star: 1,
+        comment: '',
+    })
+    const handleRatingDataChangeFunc = (e) => {
+        const { name, value } = e.target;
+        setRating({ ...rating, [name]: value });
+    };
+
+    const handleRatingSubmitFunc = () => {
+        const foundObject = buyProductData.find(item => item.buyproductID === productIDRating); 
+        const buyproductID = foundObject.buyproductID;
+        const productname = foundObject.productname;
+        const productsize = foundObject.productsize;
+        const commenter = foundObject.clientusername;
+       
+        const ratingDataTemp = {
+            ratingproductID: buyproductID,
+            productname: productname,
+            productsize: productsize,
+            commenter: commenter,
+            star: rating.star,
+            comment: rating.comment,
+        }
+        dispatch(InsertRatingDataThunk({ ratingDataTemp }));
+    }
+
+    const isRatingDataInserted = useSelector(isRatingDataInsertedTemp);
+    useEffect(() => {
+        if (isRatingDataInserted === true) {
+            ShowToast('your rating has been added successfully', 'success');
+            setRating({
+                star: 1,
+                comment: '', 
+            })
+            dispatch(GetAllRatingDataThunk());
+            document.getElementById('AddRatingModal').close();
+            dispatch(clearIsRatingDataInserted());
+        }
+        if (isRatingDataInserted === false) {
+            ShowToast('failed to add your rating', 'error');    
+            setRating({
+                star: 1,
+                comment: '', 
+            })
+            dispatch(clearIsRatingDataInserted());
+        }
+
+    }, [isRatingDataInserted])
+  
 
     return (
         <section className={`relative bg-gray-200 mt-[4rem] h-screen w-screen flex items-center justify-center`}>
@@ -64,7 +117,7 @@ export const ClientYourOrder = () => {
                         </tr>
 
                         {buyProductData.map(item => (
-                            <tr key={item.clientID}>
+                            <tr key={item.buyproductprimarykey}>
                                 <td className="border px-2">{item.productname}</td>
                                 <td className="border px-2">{item.productsize}</td>
                                 <td className="border px-2">{item.productquantity}</td>
@@ -79,7 +132,11 @@ export const ClientYourOrder = () => {
                                             )
                                             :
                                             (
-                                                <button className={`bg-green-400 px-3 py-1 text-white flex items-center gap-x-1`}>Recieved<FaCheck /></button>
+                                                <div className="flex gap-x-2">
+                                                    <button onClick={() => { setIdToRecieve(item.buyproductprimarykey); document.getElementById('AddRatingModal').showModal(); setProductIDRating(item.buyproductID) }} className={`bg-blue-400 px-3 py-1 text-white flex items-center gap-x-1`}>Rate</button>
+
+                                                    <button className={`bg-green-400 px-3 py-1 text-white flex items-center gap-x-1`}>Recieved<FaCheck /></button>
+                                                </div>
                                             )
                                     }
                                 </td>
@@ -89,18 +146,52 @@ export const ClientYourOrder = () => {
 
                 </div>
             </div>
+            {/* rating modal */}
+            <dialog id="AddRatingModal" className="modal">
+                <div className="modal-box w-full rounded-none p-0 flex flex-col gap-y-4 items-center justify-center p-5 rounded-xl">
+                    <IoCloseSharp onClick={() => { document.getElementById('AddRatingModal').close(); }} className="absolute top-4 right-4 text-2xl hover:bg-red-500" />
 
+                    <div className="w-full">
+                        <label className={`text-lg text-black`}>Rate<span className='text-red-500'>*</span></label>
+                        <select
+                            name="star"
+                            onChange={handleRatingDataChangeFunc}
+                            value={rating.star}
+                            className={`border border-gray-400 rounded-sm w-full outline-none p-2 text-black text-md`}>
+                            <option value="1">⭐</option>
+                            <option value="2">⭐⭐</option>
+                            <option value="3">⭐⭐⭐</option>
+                            <option value="4">⭐⭐⭐⭐</option>
+                            <option value="5">⭐⭐⭐⭐⭐</option>
+                        </select>
+                    </div>
+                    <div className="w-full">
+                        <label>Comment<span className='text-red-500'>*</span></label>
+                        <textarea
+                            name="comment"
+                            onChange={handleRatingDataChangeFunc}
+                            value={rating.comment}
+                            className={`border border-gray-400 rounded-sm w-full outline-none p-2 text-black text-md`}>
+                        </textarea>
+                    </div>
+                    <button onClick={handleRatingSubmitFunc} className="bg-blue-500 px-7 py-2 rounded-lg hover:bg-blue-400 text-xl font-semibold text-white">Submit Review</button>
+                </div>
+            </dialog>
+
+
+
+            {/* recieve modal */}
             <dialog id="confirmRecieveModal" className="modal">
                 <div className="modal-box w-full rounded-none p-0 flex flex-col gap-y-4 items-center justify-center p-5 rounded-xl">
-                <IoCloseSharp onClick={() => {document.getElementById('confirmRecieveModal').close();}} className="absolute top-4 right-4 text-2xl hover:bg-red-500"/>
-                    <MdCheckCircleOutline className="text-[10rem]"/>
+                    <IoCloseSharp onClick={() => { document.getElementById('confirmRecieveModal').close(); }} className="absolute top-4 right-4 text-2xl hover:bg-red-500" />
+                    <MdCheckCircleOutline className="text-[10rem]" />
                     <p className="text-4xl font-bold">Confirm</p>
                     <button
-                    className="bg-blue-500 px-7 py-2 rounded-lg hover:bg-blue-400 text-xl font-semibold text-white"
-                     onClick={() => {
-                        handleRecieveFunc();
-                        document.getElementById('confirmRecieveModal').close();
-                    }}>
+                        className="bg-blue-500 px-7 py-2 rounded-lg hover:bg-blue-400 text-xl font-semibold text-white"
+                        onClick={() => {
+                            handleRecieveFunc();
+                            document.getElementById('confirmRecieveModal').close();
+                        }}>
                         Yes
                     </button>
                 </div>

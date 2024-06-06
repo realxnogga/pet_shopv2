@@ -131,11 +131,6 @@ export const ClientRegister = () => {
                 </div>
 
                 <div className="flex flex-col">
-                    <label>Choose Profile<span className='text-red-500'>*</span></label>
-                    <input id="fileInput" onChange={handleUserProfileUploadChange} type="file" className="border h-[2.5rem] p-1 border border-gray-400 " />
-                </div>
-
-                <div className="flex flex-col">
                     <label>Enter Address<span className='text-red-500'>*</span></label>
                     <textarea
                         value={userRegisterCredential.userregisteraddress}
@@ -145,6 +140,11 @@ export const ClientRegister = () => {
 
                     </textarea>
                 </div>
+
+                <div className="flex flex-col">
+                    <label>Choose Profile<span className='text-red-500'>*</span></label>
+                    <input id="fileInput" onChange={handleUserProfileUploadChange} type="file" className="border h-[2.5rem] p-1 border border-gray-400 " />
+                </div>     
 
                 <button onClick={handleRegisterDataSubmitFunc} className="w-full bg-blue-500 hover:bg-blue-400 rounded-[10rem] text-xl p-2 font-semibold text-white">Register</button>
 

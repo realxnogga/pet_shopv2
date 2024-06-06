@@ -12,7 +12,7 @@ import { GetLoginDataThunk } from "../../feature/client/clientloginSlice";
 import { GetProductDataThunk } from "../../feature/admin/adminproductSlice";
 import { GetBuyDataThunk } from "../../feature/client/clientbuySlice";
 import { GetAddToCartDataThunk } from "../../feature/client/addtocartSlice";
-
+import { GetAllRatingDataThunk } from "../../feature/client/ratingSlice";
 
 export const ClientLogin = () => {
 
@@ -62,10 +62,10 @@ export const ClientLogin = () => {
                 userloginpassword: userLoginCredential.userloginpassword,
             }
             dispatch(GetLoginDataThunk({ loginDataTemp }));
-
             dispatch(GetProductDataThunk());
             dispatch(GetBuyDataThunk(userLoginCredential.userloginusername));
-            dispatch(GetAddToCartDataThunk(userLoginCredential.userloginusername));          
+            dispatch(GetAddToCartDataThunk(userLoginCredential.userloginusername));  
+            dispatch(GetAllRatingDataThunk());        
         }
         if (isClientLoggedIn === false) {
             ShowToast('login failed', 'error');
