@@ -50,7 +50,6 @@ export const GetAddToCartDataThunk = createAsyncThunk(
     }
 )
 
-
 export const InsertAddToCartDataThunk = createAsyncThunk(
     "AddToCartSliceName/InsertAddToCartDataThunk",
     async ({ addToCartDataTemp }) => {

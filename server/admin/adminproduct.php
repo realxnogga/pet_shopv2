@@ -78,6 +78,10 @@ if (isset($_GET['action'])) {
 
             if ($conn->affected_rows > 0) {
 
+                // delete the add to cart data also
+                $sql = "delete from addtocartproduct where addtocartproductID = '$productID'";
+                $conn->query($sql);
+
                 $productImagePath = "../../public/asset/admin/productimage/" . $productimage;
                 if (file_exists($productImagePath)) {
                     unlink($productImagePath);
@@ -131,63 +135,53 @@ if (isset($_GET['action'])) {
 
 
 
-            case 'updateProduct':
-                // Decode the JSON data from the POST request
-                $data = json_decode($_POST['selectedProduct'], true);
-            
-                // Retrieve product details from decoded JSON
-                $productID = $data['productID'];
-                $productname = $data['productname'];
-                $productsize = $data['productsize'];
-                $productstock = $data['productstock'];
-                $productprice = $data['productprice'];
-                $productdescription = $data['productdescription'];
-                $productcategory = $data['productcategory'];
-                $productimagetobereplace = $data['productimage'];
-            
-                // Handle the uploaded file
-                $file = $_FILES['productPic'];
-            
-                if ($file && $file['error'] == 0) {
-                    // Generate a unique name for the uploaded file
-                    $productPicName = $file['name'];
-                    $uniqueProductPicName = $productPicName . "_" . date("YmdHis");
-                    $productPicTMP = $file['tmp_name'];
-                    $productPicDestination = '../../public/asset/admin/productimage/' . $uniqueProductPicName;
-            
-                    // SQL query with image update
-                    $sql = "UPDATE `adminproduct` SET `productname` = '$productname', `productsize` = '$productsize', `productstock` = '$productstock', `productprice` = '$productprice', `productdescription` = '$productdescription', `productcategory` = '$productcategory', `productimage` = '$uniqueProductPicName' WHERE `productID` = '$productID'";
-                } else {
-                    // SQL query without image update
-                    $sql = "UPDATE `adminproduct` SET `productname` = '$productname', `productsize` = '$productsize', `productstock` = '$productstock', `productprice` = '$productprice', `productdescription` = '$productdescription', `productcategory` = '$productcategory' WHERE `productID` = '$productID'";
-                }
-            
-                // Execute the SQL query
-                $result = $conn->query($sql);
-            
-                if ($result === TRUE) {
-                    echo json_encode(true);
-            
-                    // If a new file was uploaded, handle the file replacement
-                    if ($file && $file['error'] == 0 && is_uploaded_file($productPicTMP)) {
-                        $productPicToBeReplacePath = "../../public/asset/admin/productimage/" . $productimagetobereplace;
-            
-                        // Delete the old image file if it exists
-                        if (file_exists($productPicToBeReplacePath)) {
-                            unlink($productPicToBeReplacePath);
-                        }
-            
-                        // Move the new image file to the destination directory
-                        move_uploaded_file($productPicTMP, $productPicDestination);
+        case 'updateProduct':
+
+            $data = json_decode($_POST['selectedProduct'], true);
+
+            $productID = $data['productID'];
+            $productname = $data['productname'];
+            $productsize = $data['productsize'];
+            $productstock = $data['productstock'];
+            $productprice = $data['productprice'];
+            $productdescription = $data['productdescription'];
+            $productcategory = $data['productcategory'];
+            $productimagetobereplace = $data['productimage'];
+
+            $file = $_FILES['productPic'];
+
+            $productPicName = $file['name'];
+            $uniqueProductPicName = $productPicName . "_" . date("YmdHis");
+            $productPicTMP = $file['tmp_name'];
+            $productPicDestination = '../../public/asset/admin/productimage/' . $uniqueProductPicName;
+
+            $sql = "UPDATE `adminproduct` SET `productname` = '$productname', `productsize` = '$productsize', `productstock` = '$productstock', `productprice` = '$productprice', `productdescription` = '$productdescription', `productcategory` = '$productcategory', `productimage` = '$uniqueProductPicName' WHERE `productID` = '$productID'";
+
+            $result = $conn->query($sql);
+
+            if ($result === TRUE) {
+                echo json_encode(true);
+                
+                // update product image name in addtocart table also
+                $sql = "UPDATE addtocartproduct SET addtocartproductimage = '$uniqueProductPicName' WHERE addtocartproductID = '$productID'";
+                $conn->query($sql);
+                // -----------------------------------------------------
+
+                if ($file && $file['error'] == 0 && is_uploaded_file($productPicTMP)) {
+                    $productPicToBeReplacePath = "../../public/asset/admin/productimage/" . $productimagetobereplace;
+
+                    if (file_exists($productPicToBeReplacePath)) {
+                        unlink($productPicToBeReplacePath);
                     }
-                } else {
-                    echo json_encode(false);
+
+                    move_uploaded_file($productPicTMP, $productPicDestination);
                 }
-            
-                // Close the database connection
-                $conn->close();
-                break;
-            
+            } else {
+                echo json_encode(false);
+            }
+
+            $conn->close();
+            break;
     }
 }
 

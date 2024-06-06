@@ -12,6 +12,8 @@ import { MdRefresh } from "react-icons/md";
 import { GetProductDataThunk } from "../../feature/admin/adminproductSlice";
 import { GetAllCustomerDataThunk } from "../../feature/admin/admincustomerSlice";
 import { GetAllBuyDataThunk } from "../../feature/client/clientbuySlice";
+import { GetAddToCartDataThunk } from "../../feature/client/addtocartSlice";
+
 import ReactTooltip from 'react-tooltip';
 
 export const ClientNavbar = () => {
@@ -41,7 +43,8 @@ export const ClientNavbar = () => {
         dispatch(GetProductDataThunk());
         dispatch(GetAllCustomerDataThunk());
         dispatch(GetAllBuyDataThunk());
-     
+        dispatch(GetAddToCartDataThunk(clientusername));
+        
         setTimeout(() => {
             setSpin(false);
         }, 1000);

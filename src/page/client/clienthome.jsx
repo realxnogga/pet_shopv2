@@ -61,7 +61,7 @@ export const ClientHome = () => {
                             </div>
                         ) : (
                             filteredProductData.map(item => (
-                                <div key={item.productID} className='h-fit w-[14rem] rounded-lg overflow-hidden shadow-xl bg-white'>
+                                <div key={item.productID} className='h-fit w-[16rem] rounded-lg overflow-hidden shadow-xl bg-white'>
                                     <div className={`h-[12rem] w-full bg-cover bg-center bg-[url('../../asset/admin/productimage/${item.productimage}')]`}></div>
                                     <div className='bg-blue-100 h-fit w-full font-semibold p-4'>
                                         <p className='text-xl font-semibold'>{item.productname}</p>
