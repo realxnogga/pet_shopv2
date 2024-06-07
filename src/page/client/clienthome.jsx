@@ -7,7 +7,7 @@ import { fetchedProductDataTemp, GetProductDataThunk } from '../../feature/admin
 import { ClientViewProductModal } from '../../component/client/clientviewproductmodal';
 import { ratingDataTemp } from '../../feature/client/ratingSlice';
 import { IoCloseSharp } from "react-icons/io5";
-
+import { Empty } from '../../component/client/empty';
 
 export const ClientHome = () => {
     const dispatch = useDispatch();
@@ -82,11 +82,9 @@ export const ClientHome = () => {
                     </div>
                     <div className='h-[calc(100%-(2.5rem+1rem))] w-full mt-[1rem] flex items-start flex-wrap gap-5'>
                         {filteredProductData.length === 0 ? (
-                            <div className='h-full w-full flex flex-col items-center justify-center'>
-                                <img src="../../asset/emptyImg/emptyImg.png" alt="" className='h-[18rem]' />
-                                <h3 className={`text-gray-800 text-[2.5rem] font-bold mobile:text-[2rem]`}>Nothing to show</h3>
-                                <span className="text-gray-800">It's empty here, you can choose another product category.</span>
-                            </div>
+
+                            <Empty text1={'Nothing to show'} text2={'Its empty here, you can choose another product category.'} />
+                           
                         ) : (
                             // Assuming ratingData is available in the context or props
                             filteredProductData.map(item => {

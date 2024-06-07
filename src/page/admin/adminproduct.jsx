@@ -18,6 +18,8 @@ import { isProductDataDeletedTemp } from "../../feature/admin/adminproductSlice"
 import { UpdateProductThunk } from "../../feature/admin/adminproductSlice";
 import { isAdminProductUpdatedTemp } from "../../feature/admin/adminproductSlice";
 import { clearIsAdminProductUpdated } from "../../feature/admin/adminproductSlice";
+import { IoSearch } from "react-icons/io5";
+import { Empty } from "../../component/client/empty";
 
 export const AdminInventory = () => {
 
@@ -140,19 +142,47 @@ export const AdminInventory = () => {
     }, [isAdminProductUpdated])
 
 
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const handleSearchQueryChangeFunc = (e) => {
+        setSearchQuery(e.target.value)
+    }
+
+    const filteredProductData = fetchedProductData.filter(item => {
+        const temp = item.productname.toLowerCase().includes(searchQuery.toLowerCase()); 
+        return temp;   
+    });
+
     return (
         <section className={`relative bg-gray-200 mt-[4rem] h-screen w-screen flex items-center justify-center`}>
             <AdminHamburger />
 
             <div className="h-[90%] w-[70rem] flex flex-col gap-y-4">
+                <div className="w-full flex justify-end gap-x-5">
 
+                    <div className='flex border border-gray-400'>
+                        <IoSearch className='h-[2.5rem] w-[2.5rem] p-[.5rem] bg-white' />
+                        <input
+                            value={searchQuery}
+                            onChange={handleSearchQueryChangeFunc}
+                            type="text"
+                            placeholder='search product name'
+                            className="h-[2.5rem] rounded-sm outline-none" />
+                    </div>
 
-                <div className="w-full flex justify-end ">
-                    <button onClick={() => document.getElementById('addProductModal').showModal()} className="bg-green-500 hover:bg-green-400 p-2 rounded-sm text-white flex items-center gap-x-1"><FaPlus className="text-2xl" />add</button>
+                    <button onClick={() => document.getElementById('addProductModal').showModal()} className="bg-green-500 hover:bg-green-400 p-2 rounded-sm text-white flex items-center gap-x-1"><FaPlus className="text-2xl" />add
+                    </button>
                 </div>
 
                 <div className="h-full w-full overflow-y-scroll noScrollbar rounded-lg">
-                    <table className="w-full bg-white">
+                    {
+                     filteredProductData.length === 0 ?
+                     (
+                        <Empty design={`border border-gray-500 rounded-lg `} text1={'Nothing to show'} text2={'Its empty here, you can choose other product name.'}/> 
+                     )  
+                     :
+                     (
+                        <table className="w-full bg-white">
                         <tr className="bg-blue-400 sticky top-0">
                             <td className="border font-semibold text-left p-[.6rem]">Product ID</td>
                             <td className="border font-semibold text-left p-[.6rem]">Product Picture</td>
@@ -166,7 +196,7 @@ export const AdminInventory = () => {
                             <td className="border font-semibold text-left p-[.6rem]">Action</td>
                         </tr>
 
-                        {fetchedProductData.map(item => (
+                        {filteredProductData.map(item => (
                             <tr key={item.productID}>
                                 <td className="border px-2">{item.productID}</td>
                                 <td className="border flex items-center justify-center">
@@ -191,8 +221,10 @@ export const AdminInventory = () => {
                                 </td>
                             </tr>
                         ))}
-
                     </table>
+                     ) 
+                    }
+                   
 
                 </div>
             </div>

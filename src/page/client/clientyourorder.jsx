@@ -15,6 +15,9 @@ import { clearIsRatingDataInserted } from "../../feature/client/ratingSlice";
 import { isRatingDataInsertedTemp } from "../../feature/client/ratingSlice";
 import { ShowToast } from "../../component/admin/toaster";
 import { GetAllRatingDataThunk } from "../../feature/client/ratingSlice";
+import { IoSearch } from "react-icons/io5";
+import { Empty } from "../../component/client/empty";
+
 
 export const ClientYourOrder = () => {
     const dispatch = useDispatch();
@@ -56,12 +59,12 @@ export const ClientYourOrder = () => {
     };
 
     const handleRatingSubmitFunc = () => {
-        const foundObject = buyProductData.find(item => item.buyproductID === productIDRating); 
+        const foundObject = buyProductData.find(item => item.buyproductID === productIDRating);
         const buyproductID = foundObject.buyproductID;
         const productname = foundObject.productname;
         const productsize = foundObject.productsize;
         const commenter = foundObject.clientusername;
-       
+
         const ratingDataTemp = {
             ratingproductID: buyproductID,
             productname: productname,
@@ -79,23 +82,34 @@ export const ClientYourOrder = () => {
             ShowToast('your rating has been added successfully', 'success');
             setRating({
                 star: 1,
-                comment: '', 
+                comment: '',
             })
             dispatch(GetAllRatingDataThunk());
             document.getElementById('AddRatingModal').close();
             dispatch(clearIsRatingDataInserted());
         }
         if (isRatingDataInserted === false) {
-            ShowToast('failed to add your rating', 'error');    
+            ShowToast('failed to add your rating', 'error');
             setRating({
                 star: 1,
-                comment: '', 
+                comment: '',
             })
             dispatch(clearIsRatingDataInserted());
         }
 
     }, [isRatingDataInserted])
-  
+
+
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const handleSearchQueryChangeFunc = (e) => {
+        setSearchQuery(e.target.value)
+    }
+    const filteredProductData = buyProductData.filter(item => {
+        const temp = item.productname.toLowerCase().includes(searchQuery.toLowerCase()); 
+        return temp;   
+    });
+
 
     return (
         <section className={`relative bg-gray-200 mt-[4rem] h-screen w-screen flex items-center justify-center`}>
@@ -103,9 +117,25 @@ export const ClientYourOrder = () => {
 
             <div className="h-[90%] w-[70rem] flex flex-col gap-y-4">
 
+                <div className='flex justify-end'>
+                    <IoSearch className='h-[2.5rem] w-[2.5rem] p-[.5rem] bg-white' />
+                    <input
+                        value={searchQuery}
+                        onChange={handleSearchQueryChangeFunc}
+                        type="text"
+                        placeholder='search product name'
+                        className="h-[2.5rem] rounded-sm outline-none" />
+                </div>
 
                 <div className="h-full w-full overflow-y-scroll noScrollbar rounded-lg">
-                    <table className="w-full bg-white">
+                    {
+                       filteredProductData.length === 0 ?
+                       (
+                        <Empty design={`border border-gray-500 rounded-lg `} text1={'Nothing to show'} text2={'Its empty here, you can choose other product name.'}/>  
+                       )
+                       :
+                       (
+                        <table className="w-full bg-white">
                         <tr className="bg-blue-400 sticky top-0">
                             <td className="border font-semibold text-left p-[.6rem]">Product Name</td>
                             <td className="border font-semibold text-left p-[.6rem]">Product size</td>
@@ -116,7 +146,7 @@ export const ClientYourOrder = () => {
                             <td className="border font-semibold text-left p-[.6rem]">Order Status</td>
                         </tr>
 
-                        {buyProductData.map(item => (
+                        {filteredProductData.map(item => (
                             <tr key={item.buyproductprimarykey}>
                                 <td className="border px-2">{item.productname}</td>
                                 <td className="border px-2">{item.productsize}</td>
@@ -143,7 +173,9 @@ export const ClientYourOrder = () => {
                             </tr>
                         ))}
                     </table>
-
+                       ) 
+                    }
+                   
                 </div>
             </div>
             {/* rating modal */}
