@@ -80,7 +80,7 @@ export const ClientCart = () => {
                                     <td className="border px-2">{item.addtocartproductcategory}</td>
                                     <td className="border px-2">{item.addtocartproductcreationdate}</td>
                                     <td className="border flex items-center justify-center p-2">
-                                        <button onClick={() => { GetSelectedProductFunc(item.addtocartprimarykey); document.getElementById('viewProductModal').showModal(); }} className={`bg-green-400 px-3 py-1 text-white flex items-center gap-x-1`}>View
+                                        <button onClick={() => { GetSelectedProductFunc(item.addtocartprimarykey); document.getElementById('viewProductModal').showModal(); }} className={`bg-green-400 px-3 py-1 text-white flex items-center gap-x-1`}>View sample
                                         </button>
                                     </td>
                                 </tr>
