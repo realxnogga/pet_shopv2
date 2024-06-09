@@ -47,7 +47,7 @@ export const UpdateBuyDataStatusThunk = createAsyncThunk(
     "ClientBuySliceName/UpdateBuyDataStatusThunk",
     async ( buyproductprimarykey ) => {
         try {   
-            const res = await fetch("http://localhost/petshop/server/client/buyproduct.php?action=updateBuyDataStatus", {    
+            const res = await fetch("http://localhost/petshopv2/server/client/buyproduct.php?action=updateBuyDataStatus", {    
                 method: 'POST',
                 headers: {'Content-Type' : 'application/json'},
                 body: JSON.stringify(buyproductprimarykey)
@@ -65,7 +65,7 @@ export const GetAllBuyDataThunk = createAsyncThunk(
     "ClientBuySliceName/GetAllBuyDataThunk",
     async () => {
         try {   
-            const res = await fetch("http://localhost/petshop/server/client/buyproduct.php?action=getAllBuyProductData", {    
+            const res = await fetch("http://localhost/petshopv2/server/client/buyproduct.php?action=getAllBuyProductData", {    
                 method: 'POST',
                 headers: {'Content-Type' : 'application/json'},
             });
@@ -85,7 +85,7 @@ export const GetBuyDataThunk = createAsyncThunk(
             const formData = new FormData();
             formData.append('clientusername', JSON.stringify(clientusername));
 
-            const res = await fetch("http://localhost/petshop/server/client/buyproduct.php?action=getBuyProductData", {
+            const res = await fetch("http://localhost/petshopv2/server/client/buyproduct.php?action=getBuyProductData", {
                 method: 'POST',
                 body: formData,
             });
@@ -105,7 +105,7 @@ export const InsertBuyDataThunk = createAsyncThunk(
             const formData = new FormData();
             formData.append('buyDataTemp', JSON.stringify(buyDataTemp));
 
-            const res = await fetch("http://localhost/petshop/server/client/buyproduct.php?action=insertBuyProductData", {
+            const res = await fetch("http://localhost/petshopv2/server/client/buyproduct.php?action=insertBuyProductData", {
                 method: 'POST',
                 body: formData,
             });

@@ -34,7 +34,7 @@ export const InsertRegisterDataThunk = createAsyncThunk(
             formData.append('registerDataTemp', JSON.stringify(registerDataTemp));
             formData.append('userProfile', userProfile);
 
-            const res = await fetch("http://localhost/petshop/server/client/clientregister.php?action=putRegisterData", {
+            const res = await fetch("http://localhost/petshopv2/server/client/clientregister.php?action=putRegisterData", {
                 method: 'POST',
                 body: formData,
             });

@@ -35,7 +35,7 @@ export const DeleteCustomerDataThunk = createAsyncThunk(
     "AdminCustomerSliceName/DeleteCustomerDataThunk",
     async ({ clientID, clientprofile }) => {
         try {   
-            const res = await fetch("http://localhost/petshop/server/admin/admincustomer.php?action=deleteCustomer", {    
+            const res = await fetch("http://localhost/petshopv2/server/admin/admincustomer.php?action=deleteCustomer", {    
                 method: 'POST',
                 headers: {'Content-Type' : 'application/json'},
                 body: JSON.stringify({ clientID, clientprofile })
@@ -53,7 +53,7 @@ export const GetAllCustomerDataThunk = createAsyncThunk(
     "AdminCustomerSliceName/GetAllCustomerDataThunk",
     async () => {
         try {
-            const res = await fetch("http://localhost/petshop/server/admin/admincustomer.php?action=getAllCustomer", {
+            const res = await fetch("http://localhost/petshopv2/server/admin/admincustomer.php?action=getAllCustomer", {
                 method: 'POST',
                 headers: {'Content-Type' : 'application/json'},
             });

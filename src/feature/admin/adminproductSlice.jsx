@@ -64,7 +64,7 @@ export const UpdateProductThunk = createAsyncThunk(
             formData.append('selectedProduct', JSON.stringify(selectedProduct));
             formData.append('productPic', productPic);
       
-            const res = await fetch("http://localhost/petshop/server/admin/adminproduct.php?action=updateProduct", {    
+            const res = await fetch("http://localhost/petshopv2/server/admin/adminproduct.php?action=updateProduct", {    
                 method: 'POST',
                 body: formData,
             });
@@ -81,7 +81,7 @@ export const UpdateProductStockThunk = createAsyncThunk(
     "AdminProductSliceName/UpdateProductStockThunk",
     async ({productID, producttotalstock}) => {
         try {   
-            const res = await fetch("http://localhost/petshop/server/admin/adminproduct.php?action=updateProductStock", {    
+            const res = await fetch("http://localhost/petshopv2/server/admin/adminproduct.php?action=updateProductStock", {    
                 method: 'POST',
                 headers: {'Content-Type' : 'application/json'},
                 body: JSON.stringify({productID, producttotalstock})
@@ -99,7 +99,7 @@ export const DeleteProductDataThunk = createAsyncThunk(
     "AdminProductSliceName/DeleteProductDataThunk",
     async ({ productID, productimage }) => {
         try {   
-            const res = await fetch("http://localhost/petshop/server/admin/adminproduct.php?action=deleteProduct", {    
+            const res = await fetch("http://localhost/petshopv2/server/admin/adminproduct.php?action=deleteProduct", {    
                 method: 'POST',
                 headers: {'Content-Type' : 'application/json'},
                 body: JSON.stringify({ productID, productimage })
@@ -117,7 +117,7 @@ export const GetProductDataThunk = createAsyncThunk(
     "AdminProductSliceName/GetProductDataThunk",
     async () => {
         try {   
-            const res = await fetch("http://localhost/petshop/server/admin/adminproduct.php?action=getProduct", {    
+            const res = await fetch("http://localhost/petshopv2/server/admin/adminproduct.php?action=getProduct", {    
                 method: 'POST',
                 headers: {'Content-Type' : 'application/json'},
             });
@@ -139,7 +139,7 @@ export const InsertProductDataThunk = createAsyncThunk(
             formData.append('productDataTemp', JSON.stringify(productDataTemp));
             formData.append('productImage', productImage);
 
-            const res = await fetch("http://localhost/petshop/server/admin/adminproduct.php?action=putProduct", {
+            const res = await fetch("http://localhost/petshopv2/server/admin/adminproduct.php?action=putProduct", {
                 method: 'POST',
                 body: formData,
             });

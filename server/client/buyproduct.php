@@ -7,7 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type");
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "petshop";
+$dbname = "petshopv2";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -31,9 +31,10 @@ if (isset($_GET['action'])) {
             $productquantity = $data['productquantity'];
             $producttotalprice = $data['producttotalprice'];
             $clientaddress = $data['clientaddress'];
+            $paymentMode = $data['paymentMode'];
             
 
-            $sql = "INSERT INTO buyproduct (buyproductID, clientID, clientusername, productname, productsize, productquantity, producttotalprice, clientaddress) VALUES ('$productID', '$clientID', '$clientusername', '$productname', '$productsize', '$productquantity', '$producttotalprice', '$clientaddress')";
+            $sql = "INSERT INTO buyproduct (buyproductID, clientID, clientusername, productname, productsize, productquantity, producttotalprice, clientaddress, paymentmethod) VALUES ('$productID', '$clientID', '$clientusername', '$productname', '$productsize', '$productquantity', '$producttotalprice', '$clientaddress', '$paymentMode')";
 
             $conn->query($sql);
 

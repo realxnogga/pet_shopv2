@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 07, 2024 at 11:10 AM
+-- Generation Time: Jun 09, 2024 at 08:42 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `petshop`
+-- Database: `petshopv2`
 --
 
 -- --------------------------------------------------------
@@ -52,7 +52,9 @@ INSERT INTO `addtocartproduct` (`addtocartprimarykey`, `addtocartproductID`, `cl
 (11, 42, 12, 'warren', 'Pedegree', 'XL', 181, 200, 'sample', 'Dog Food', '2024-06-06', 'pedegree.jpg_20240606105216'),
 (12, 49, 14, 'manolo', 'Ascorbic Acid', 'L', 210, 90, 'sample description', 'Vitamins/Supplements', '2024-06-06', 'ascorbicacid.jpg_20240606105819'),
 (13, 47, 12, 'warren', 'Alpo', 'M', 239, 240, 'sample description', 'Dog Food', '2024-06-06', 'alpo.webp_20240606105312'),
-(14, 36, 12, 'warren', 'Tick Free', 'L', 124, 100, 'sample description', 'Flea/Tick Control', '2024-06-07', 'tickfree.jpg_20240604091348');
+(14, 36, 12, 'warren', 'Tick Free', 'L', 124, 100, 'sample description', 'Flea/Tick Control', '2024-06-07', 'tickfree.jpg_20240604091348'),
+(15, 42, 12, 'warren', 'Pedegree', 'XL', 177, 200, 'sample', 'Dog Food', '2024-06-09', 'pedegree.jpg_20240606105216'),
+(16, 47, 12, 'warren', 'Alpo', 'M', 237, 240, 'sample description', 'Dog Food', '2024-06-09', 'alpo.webp_20240606105312');
 
 -- --------------------------------------------------------
 
@@ -96,11 +98,11 @@ CREATE TABLE `adminproduct` (
 --
 
 INSERT INTO `adminproduct` (`productID`, `productname`, `productsize`, `productstock`, `productprice`, `productdescription`, `productcategory`, `creationdate`, `productimage`) VALUES
-(36, 'Tick Free', 'L', 122, 100, 'sample description', 'Flea/Tick Control', '2024-06-04', 'tickfree.jpg_20240604091348'),
-(42, 'Pedegree', 'XL', 179, 200, 'sample', 'Dog Food', '2024-06-05', 'pedegree.jpg_20240606105216'),
-(47, 'Alpo', 'M', 237, 240, 'sample description', 'Dog Food', '2024-06-06', 'alpo.webp_20240606105312'),
+(36, 'Tick Free', 'L', 128, 100, 'sample description', 'Flea/Tick Control', '2024-06-04', 'tickfree.jpg_20240604091348'),
+(42, 'Pedegree', 'XL', 183, 200, 'sample', 'Dog Food', '2024-06-05', 'pedegree.jpg_20240606105216'),
+(47, 'Alpo', 'M', 235, 240, 'sample description', 'Dog Food', '2024-06-06', 'alpo.webp_20240606105312'),
 (48, 'Bearing', 'M', 200, 210, 'sample description', 'Flea/Tick Control', '2024-06-06', 'bearing.jpg_20240606105634'),
-(49, 'Ascorbic Acid', 'L', 207, 90, 'sample description', 'Vitamins/Supplements', '2024-06-06', 'ascorbicacid.jpg_20240606105819');
+(49, 'Ascorbic Acid', 'L', 202, 90, 'sample description', 'Vitamins/Supplements', '2024-06-06', 'ascorbicacid.jpg_20240606105819');
 
 -- --------------------------------------------------------
 
@@ -118,6 +120,7 @@ CREATE TABLE `buyproduct` (
   `productquantity` int(11) NOT NULL,
   `producttotalprice` int(11) NOT NULL,
   `clientaddress` varchar(225) NOT NULL,
+  `paymentmethod` text NOT NULL,
   `orderdate` date NOT NULL DEFAULT current_timestamp(),
   `orderstatus` text NOT NULL DEFAULT 'not recieve'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -126,20 +129,36 @@ CREATE TABLE `buyproduct` (
 -- Dumping data for table `buyproduct`
 --
 
-INSERT INTO `buyproduct` (`buyproductprimarykey`, `buyproductID`, `clientID`, `clientusername`, `productname`, `productsize`, `productquantity`, `producttotalprice`, `clientaddress`, `orderdate`, `orderstatus`) VALUES
-(1, 36, 12, 'warren', 'Tick Free', 'L', 1, 100, 'brgy san isidro', '2024-06-05', 'recieve'),
-(2, 42, 12, 'warren', 'Pedegree', 'XL', 5, 1000, 'brgy san isidro', '2024-06-05', 'recieve'),
-(3, 42, 12, 'warren', 'Pedegree', 'XL', 2, 400, 'brgy san isidro', '2024-06-05', 'recieve'),
-(5, 42, 12, 'warren', 'Pedegree', 'XL', 1, 200, 'brgy san isidro', '2024-06-06', 'not recieve'),
-(6, 36, 12, 'warren', 'Tick Free', 'L', 1, 100, 'brgy san isidro', '2024-06-06', 'not recieve'),
-(7, 49, 14, 'manolo', 'Ascorbic Acid', 'L', 3, 270, 'brgy maitim', '2024-06-06', 'recieve'),
-(8, 49, 14, 'manolo', 'Ascorbic Acid', 'L', 1, 90, 'brgy maitim', '2024-06-06', 'not recieve'),
-(9, 49, 14, 'manolo', 'Ascorbic Acid', 'L', 2, 180, 'brgy maitim', '2024-06-06', 'not recieve'),
-(13, 42, 12, 'warren', 'Pedegree', 'XL', 1, 200, 'brgy san isidro', '2024-06-06', 'not recieve'),
-(14, 47, 12, 'warren', 'Alpo', 'M', 1, 240, 'brgy san isidro', '2024-06-06', 'recieve'),
-(15, 47, 12, 'warren', 'Alpo', 'M', 2, 480, 'brgy san isidro', '2024-06-06', 'recieve'),
-(16, 36, 12, 'warren', 'Tick Free', 'L', 1, 100, 'brgy san isidro', '2024-06-07', 'not recieve'),
-(17, 36, 12, 'warren', 'Tick Free', 'L', 2, 200, 'brgy san isidro', '2024-06-07', 'not recieve');
+INSERT INTO `buyproduct` (`buyproductprimarykey`, `buyproductID`, `clientID`, `clientusername`, `productname`, `productsize`, `productquantity`, `producttotalprice`, `clientaddress`, `paymentmethod`, `orderdate`, `orderstatus`) VALUES
+(1, 36, 12, 'warren', 'Tick Free', 'L', 1, 100, 'brgy san isidro', '', '2024-06-05', 'recieve'),
+(2, 42, 12, 'warren', 'Pedegree', 'XL', 5, 1000, 'brgy san isidro', '', '2024-06-05', 'recieve'),
+(3, 42, 12, 'warren', 'Pedegree', 'XL', 2, 400, 'brgy san isidro', '', '2024-06-05', 'recieve'),
+(5, 42, 12, 'warren', 'Pedegree', 'XL', 1, 200, 'brgy san isidro', '', '2024-06-06', 'not recieve'),
+(6, 36, 12, 'warren', 'Tick Free', 'L', 1, 100, 'brgy san isidro', '', '2024-06-06', 'not recieve'),
+(7, 49, 14, 'manolo', 'Ascorbic Acid', 'L', 3, 270, 'brgy maitim', '', '2024-06-06', 'recieve'),
+(8, 49, 14, 'manolo', 'Ascorbic Acid', 'L', 1, 90, 'brgy maitim', '', '2024-06-06', 'not recieve'),
+(9, 49, 14, 'manolo', 'Ascorbic Acid', 'L', 2, 180, 'brgy maitim', '', '2024-06-06', 'not recieve'),
+(13, 42, 12, 'warren', 'Pedegree', 'XL', 1, 200, 'brgy san isidro', '', '2024-06-06', 'not recieve'),
+(14, 47, 12, 'warren', 'Alpo', 'M', 1, 240, 'brgy san isidro', '', '2024-06-06', 'recieve'),
+(15, 47, 12, 'warren', 'Alpo', 'M', 2, 480, 'brgy san isidro', '', '2024-06-06', 'recieve'),
+(16, 36, 12, 'warren', 'Tick Free', 'L', 1, 100, 'brgy san isidro', '', '2024-06-07', 'not recieve'),
+(17, 36, 12, 'warren', 'Tick Free', 'L', 2, 200, 'brgy san isidro', '', '2024-06-07', 'not recieve'),
+(18, 36, 12, 'warren', 'Tick Free', 'L', 1, 100, 'brgy san isidro', '', '2024-06-09', 'not recieve'),
+(19, 49, 12, 'warren', 'Ascorbic Acid', 'L', 3, 270, 'brgy san isidro', '', '2024-06-09', 'not recieve'),
+(20, 49, 12, 'warren', 'Ascorbic Acid', 'L', 2, 180, 'brgy san isidro', '', '2024-06-09', 'recieve'),
+(21, 36, 12, 'warren', 'Tick Free', 'L', 1, 100, 'brgy san isidro', '', '2024-06-09', 'not recieve'),
+(22, 36, 12, 'warren', 'Tick Free', 'L', 1, 100, 'brgy san isidro', '', '2024-06-09', 'not recieve'),
+(23, 36, 12, 'warren', 'Tick Free', 'L', 2, 200, 'brgy san isidro', '', '2024-06-09', 'not recieve'),
+(24, 42, 12, 'warren', 'Pedegree', 'XL', 1, 200, 'brgy san isidro', 'gcash', '2024-06-09', 'not recieve'),
+(25, 42, 12, 'warren', 'Pedegree', 'XL', 1, 200, 'brgy san isidro', 'cod', '2024-06-09', 'recieve'),
+(26, 36, 12, 'warren', 'Tick Free', 'L', 2, 200, 'brgy san isidro', 'gcash', '2024-06-09', 'not recieve'),
+(27, 47, 12, 'warren', 'Alpo', 'M', 3, 720, 'brgy san isidro', 'cod', '2024-06-09', 'not recieve'),
+(28, 42, 12, 'warren', 'Pedegree', 'XL', 1, 200, 'brgy san isidro', 'gcash', '2024-06-09', 'recieve'),
+(29, 47, 12, 'warren', 'Alpo', 'M', 2, 480, 'brgy san isidro', 'cod', '2024-06-09', 'recieve'),
+(30, 42, 12, 'warren', 'Pedegree', 'XL', 4, 800, 'brgy san isidro', '', '2024-06-09', 'not recieve'),
+(31, 42, 12, 'warren', 'Pedegree', 'XL', 2, 400, 'brgy san isidro', 'cod', '2024-06-09', 'not recieve'),
+(32, 47, 12, 'warren', 'Alpo', 'M', 2, 480, 'brgy san isidro', 'gcash', '2024-06-09', 'not recieve'),
+(33, 42, 12, 'warren', 'Pedegree', 'XL', 1, 200, 'brgy san isidro', '', '2024-06-09', 'not recieve');
 
 -- --------------------------------------------------------
 
@@ -161,8 +180,7 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`clientID`, `clientusername`, `clientpassword`, `clientaddress`, `joindate`, `clientprofile`) VALUES
-(12, 'warren', 'warren123', 'brgy san isidro', '2024-06-05', 'drink.jpg_20240605125149'),
-(14, 'manolo', 'manolo123', 'brgy maitim', '2024-06-06', 'drink2.jpg_20240606123542');
+(12, 'warren', 'warren123', 'brgy san isidro', '2024-06-05', 'drink.jpg_20240605125149');
 
 -- --------------------------------------------------------
 
@@ -247,7 +265,7 @@ ALTER TABLE `rating`
 -- AUTO_INCREMENT for table `addtocartproduct`
 --
 ALTER TABLE `addtocartproduct`
-  MODIFY `addtocartprimarykey` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `addtocartprimarykey` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `admin`
@@ -265,7 +283,7 @@ ALTER TABLE `adminproduct`
 -- AUTO_INCREMENT for table `buyproduct`
 --
 ALTER TABLE `buyproduct`
-  MODIFY `buyproductprimarykey` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `buyproductprimarykey` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `client`

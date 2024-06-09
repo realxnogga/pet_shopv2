@@ -37,7 +37,7 @@ export const GetAddToCartDataThunk = createAsyncThunk(
             const formData = new FormData();
             formData.append('clientusername', JSON.stringify(clientusername));
 
-            const res = await fetch("http://localhost/petshop/server/client/addtocartproduct.php?action=getAddToCartProductData", {
+            const res = await fetch("http://localhost/petshopv2/server/client/addtocartproduct.php?action=getAddToCartProductData", {
                 method: 'POST',
                 body: formData,
             });
@@ -57,7 +57,7 @@ export const InsertAddToCartDataThunk = createAsyncThunk(
             const formData = new FormData();
             formData.append('addToCartDataTemp', JSON.stringify(addToCartDataTemp));
 
-            const res = await fetch("http://localhost/petshop/server/client/addtocartproduct.php?action=insertAddToCartProductData", {
+            const res = await fetch("http://localhost/petshopv2/server/client/addtocartproduct.php?action=insertAddToCartProductData", {
                 method: 'POST',
                 body: formData,
             });
