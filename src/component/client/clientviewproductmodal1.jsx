@@ -135,8 +135,8 @@ export const ClientViewProductModal1 = ({ selectedProduct }) => {
                       </div>
 
                       <div className='flex w-[50%] gap-x-2'>
-                          <input onChange={(e) => setPaymentMode(e.target.value)} value={'gcash'} type="radio" name='paymentmethod'/>
-                          <img src="../../asset/paymentmethodImg/gcash.png" alt="" className='h-[3rem] grayscale' />
+                          <input onClick={() => {document.getElementById('qrModal').showModal();}} onChange={(e) => setPaymentMode(e.target.value)} value={'gcash'} type="radio" name='paymentmethod'/>
+                          <img src="../../asset/paymentmethodImg/gcash.png" alt="" className='h-[3rem]' />
                       </div>
 
                   </div>
@@ -149,6 +149,26 @@ export const ClientViewProductModal1 = ({ selectedProduct }) => {
               </section>
           </div>
       </dialog>
+
+       {/* qr modal */}
+       <dialog id="qrModal" className="modal">
+                <div className="modal-box bg-blue-500 w-fit rounded-none p-0 flex items-center justify-center p-5 rounded-xl">
+                    <IoCloseSharp onClick={() => { document.getElementById('qrModal').close(); }} className="absolute top-4 right-4 text-2xl hover:bg-red-500" />
+                  
+                  <section className='flex flex-col items-center'>
+                    <img src="../../asset/qrImg/gcashmahaba.png" alt="" className='h-[4rem]'/>
+                    <h3 className='text-white text-2xl'>SCAN TO PAY HERE</h3>
+                    <div className='border h-full w-full bg-white rounded-xl flex flex-col items-center p-3 gap-y-1'>
+                        <p className='font-semibold text-lg'>Petshop Admin</p>
+                        <p className='font-semibold text-lg'>09123456789</p>
+
+                        <img src="../../asset/qrImg/qr.png" alt="" />
+                    </div>
+                  </section>
+                    
+
+                </div>
+            </dialog>
         </>
         
     );
