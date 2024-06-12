@@ -36,7 +36,7 @@ export const ClientCart = () => {
         <section className={`relative bg-gray-200 mt-[4rem] h-screen w-screen flex items-center justify-center`}>
             <ClientHamburger />
 
-            <div className="h-[90%] w-[70rem] flex flex-col gap-y-4">
+            <div className="h-[95%] w-[70rem] max-w-[95%] flex flex-col gap-y-4">
 
                 <div className='flex justify-end'>
                     <IoSearch className='h-[2.5rem] w-[2.5rem] p-[.5rem] bg-white' />

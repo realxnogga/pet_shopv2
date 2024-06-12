@@ -34,19 +34,19 @@ export const AdminNavbar = () => {
 
 
     return (
-        <nav className={`bg-blue-400 h-[4rem] px-12 mobile:px-4 w-screen backdrop-blur absolute top-0  z-10 backdrop-brightness-75 flex items-center justify-between `}>
+        <nav className={`bg-blue-400 h-[4rem] px-12 mo:px-4 w-screen backdrop-blur absolute top-0  z-10 backdrop-brightness-75 flex items-center justify-between `}>
             <div className="flex items-center gap-x-3">
                 <img src="../../asset/favicon/petshoplogo.jpg" alt="fav icon"
                     className="h-[2.5rem] w-[2.5rem] rounded-[10rem] " />
 
-                <p className="font-bold text-2xl text-white">Welcome, Admin</p>
+                <p className="font-bold text-2xl text-white mo:hidden">Welcome, Admin</p>
             </div>
 
             <div className="flex items-center justify-center">
-                <MdRefresh data-type="info" data-tip="Refresh" onClick={handleRefreshFunc} className={`${spin ? 'animate-spin' : ''} outline-none text-2xl text-3xl text-white`} />
+                <MdRefresh data-type="info" data-tip="Refresh" onClick={handleRefreshFunc} className={`${spin ? 'animate-spin' : ''} outline-none text-3xl text-white`} />
                 <ReactTooltip />
                  <hr className="h-[2px] bg-white w-[2.5rem] rotate-90 "/>
-                <button onClick={handleLogoutFunc} className="py-2 px-3 rounded-lg font-semibold hover:bg-blue-500 duration-500 text-white flex items-center gap-x-1 ">Sign Out</button>
+                <button onClick={handleLogoutFunc} className="py-2 px-3 rounded-lg font-semibold hover:bg-blue-500 duration-500 text-white flex items-center">Sign Out</button>
             </div>
 
         </nav>

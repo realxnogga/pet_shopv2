@@ -89,7 +89,7 @@ export const ClientLogin = () => {
     
     
                 {/* Login Form */}
-                <div className="z-10 h-fit w-[23rem] bg-white shadow-xl rounded-lg px-4 py-6 flex flex-col justify-center gap-y-5">
+                <div className="z-10 h-fit w-[23rem] max-w-[95%] bg-white shadow-xl rounded-lg px-4 py-6 flex flex-col justify-center gap-y-5 ">
                     <div className="flex items-center flex-col  ">
                         <img src="../../asset/favicon/petshoplogo.jpg" alt="" className="h-[5rem] w-[5rem] rounded-[50%] " />
                         <h3 className="text-2xl text-gray-800 font-semibold">North Star Petshop</h3>

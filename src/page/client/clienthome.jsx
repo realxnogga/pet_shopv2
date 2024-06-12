@@ -56,7 +56,7 @@ export const ClientHome = () => {
     return (
         <section className={`relative bg-gray-200 mt-[4rem] h-screen w-screen flex items-center justify-center`}>
             <ClientHamburger />
-            <div className="h-[95%] w-[68rem] flex flex-col gap-y-4">
+             <div className="h-[95%] w-[70rem] max-w-[95%] flex flex-col gap-y-4">
                 <div className="w-full flex justify-end">
                     <div className='flex border border-gray-400'>
                         <IoSearch className='h-[2.5rem] w-[2.5rem] p-[.5rem] bg-white' />
@@ -80,7 +80,7 @@ export const ClientHome = () => {
                             <li onClick={() => setProductFilter('Grooming Supplies')} className={`relative h-full w-full px-5 hover:border-b-4 border-blue-500 cursor-pointer flex items-center justify-center`}>Grooming Supplies</li>
                         </ul>
                     </div>
-                    <div className='h-[calc(100%-(2.5rem+1rem))] w-full mt-[1rem] flex items-start flex-wrap gap-5'>
+                    <div className='h-fit w-full mt-[1rem] flex items-start flex-wrap gap-5 mo:justify-center mo:gap-2'>
                         {filteredProductData.length === 0 ? (
 
                             <Empty text1={'Nothing to show'} text2={'Its empty here, you can choose another product category.'} />
@@ -101,21 +101,19 @@ export const ClientHome = () => {
                                 }
 
                                 return (
-                                    <div key={item.productID} className='h-fit w-[16rem] rounded-lg overflow-hidden shadow-xl bg-white'>
-                                        <div className={`h-[12rem] w-full bg-cover bg-center bg-[url('../../asset/admin/productimage/${item.productimage}')]`}></div>
-                                        <div className='bg-blue-100 h-fit w-full font-semibold p-4'>
+                                    <div key={item.productID} className='h-fit w-[16rem] mo:w-[48%] rounded-lg overflow-hidden shadow-xl bg-white'>
+                                        <div className={`h-[12rem] mo:h-[8rem] w-full bg-cover bg-center bg-[url('../../asset/admin/productimage/${item.productimage}')]`}></div>
+                                        <div className='bg-blue-100 h-fit w-full font-semibold p-4 mo:p-2'>
 
-                                            <div className='flex items-center justify-between '>
-                                                <p className='text-sm'>{averageStar === 0 ? <p className='text-gray-400 italic font-thin'>No Ratings Yet</p> : element}</p>
+                                            <div className='flex flex-wrap items-center justify-between '>
+                                                <p className='text-sm mo:text-xs'>{averageStar === 0 ? <p className='text-gray-400 italic font-thin'>No Ratings Yet</p> : element}</p>
 
-                                                <p onClick={() => handleViewRatingFunc(item.productID)} className='text-sm cursor-pointer hover:text-blue-500'>View Review</p>
+                                                <p onClick={() => handleViewRatingFunc(item.productID)} className='text-sm mo:text-xs cursor-pointer hover:text-blue-500'>See Review</p>
                                             </div>
 
-
-
                                             <p className='text-xl font-semibold'>{item.productname}</p>
-                                            <p className='text-blue-500'>₱{item.productprice}</p>
-                                            <p className='text-sm text-gray-400'>Stock:{item.productstock}</p>
+                                            <p className='text-blue-500 mo:hidden'>₱{item.productprice}</p>
+                                            <p className='text-sm text-gray-400 mo:hidden'>Stock:{item.productstock}</p>
                                             <button
                                                 onClick={() => {
                                                     GetSelectedProductFunc(item.productID);

@@ -49,6 +49,9 @@ export const ClientRegister = () => {
         else if (userRegisterCredential.userregisterusername === '' || userRegisterCredential.userregisterpassword === '' || userRegisterCredential.userregisteraddress === '') {
             ShowToast('fields must not be empty', 'warning');
         }
+        else if (userRegisterCredential.userregisterpassword.length < 8) {
+            ShowToast('password length must be 8 and above', 'warning');
+        }
         else if (userRegisterCredential.userregisterusername != '' || userRegisterCredential.userregisterpassword != '' || userRegisterCredential.userregisteraddress != '') {
             const registerDataTemp = {
                 userregisterusername: userRegisterCredential.userregisterusername,

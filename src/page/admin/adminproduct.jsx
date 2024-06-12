@@ -157,8 +157,8 @@ export const AdminInventory = () => {
         <section className={`relative bg-gray-200 mt-[4rem] h-screen w-screen flex items-center justify-center`}>
             <AdminHamburger />
 
-            <div className="h-[90%] w-[70rem] flex flex-col gap-y-4">
-                <div className="w-full flex justify-end gap-x-5">
+            <div className="h-[95%] w-[70rem] max-w-[95%] flex flex-col gap-y-4">
+                <div className="w-full flex justify-end gap-x-5 mo:gap-x-2">
 
                     <div className='flex border border-gray-400'>
                         <IoSearch className='h-[2.5rem] w-[2.5rem] p-[.5rem] bg-white' />
@@ -232,7 +232,7 @@ export const AdminInventory = () => {
             {/* edit product modal */}
             <dialog id="editProductModal" className="modal">
 
-                <div className="modal-box h-fit w-[25rem] flex flex-col gap-y-4 rounded-lg p-4 noScrollbar">
+                <div className="modal-box h-fit w-[25rem] max-w-[95%] flex flex-col gap-y-4 rounded-lg p-4 noScrollbar">
 
                     <div className="w-full">
                         <label className={`text-lg text-black`}>Enter product name<span className='text-red-500'>*</span></label>
@@ -322,7 +322,7 @@ export const AdminInventory = () => {
             {/* add product modal */}
             <dialog id="addProductModal" className="modal">
 
-                <div className="modal-box h-fit w-[25rem] flex flex-col gap-y-4 rounded-lg p-4 noScrollbar">
+                <div className="modal-box h-fit w-[25rem] max-w-[95%] flex flex-col gap-y-4 rounded-lg p-4 noScrollbar">
 
                     <div className="w-full">
                         <label className={`text-lg text-black`}>Enter product name<span className='text-red-500'>*</span></label>
@@ -348,7 +348,7 @@ export const AdminInventory = () => {
                         </select>
                     </div>
 
-                    <div className="w-full flex gap-x-4">
+                     <div className="w-full flex gap-x-4">
                         <div>
                             <label className={`text-lg text-black`}>Enter product stock<span className='text-red-500'>*</span></label>
                             <input

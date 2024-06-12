@@ -32,7 +32,7 @@ export const AdminOrder = () => {
         <section className={`relative bg-gray-200 mt-[4rem] h-screen w-screen flex items-center justify-center`}>
             <AdminHamburger />
 
-            <div className="h-[90%] w-[70rem] flex flex-col gap-y-4">
+            <div className="h-[95%] w-[70rem] max-w-[95%] flex flex-col gap-y-4">
 
                 <div className="w-full flex justify-end">
                     <input className="p-2" value={dateValue} onChange={handleDateChangeFunc} type="date" />

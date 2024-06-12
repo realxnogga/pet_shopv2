@@ -52,11 +52,11 @@ export const ClientNavbar = () => {
     }
 
     return (
-        <nav className={`bg-blue-400 h-[4rem] px-12 mobile:px-4 w-screen backdrop-blur absolute top-0  z-10 backdrop-brightness-75 flex items-center justify-between `}>
+        <nav className={`bg-blue-400 h-[4rem] px-12 mo:px-4 w-screen backdrop-blur absolute top-0 z-10 backdrop-brightness-75 flex items-center justify-between `}>
             <div className="flex items-center gap-x-2">
                 <img src="../../asset/favicon/petshoplogo.jpg" alt="fav icon"
                     className="h-[2.5rem] w-[2.5rem] rounded-[10rem] " />
-                <p className="font-bold text-2xl text-white">North Star Petshop</p>
+                <p className="font-bold text-2xl text-white mo:text-lg">North Star Petshop</p>
             </div>
 
             <div className="flex items-center justify-center gap-x-3">

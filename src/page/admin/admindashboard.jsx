@@ -26,7 +26,7 @@ export const AdminDashboard = () => {
     const dateNow = `${year}-${month}-${day}`;
 
     const [dateValue, setDateValue] = useState(dateNow);
-    const [rangeType, setRangeType] = useState('today'); // State for range type
+    const [rangeType, setRangeType] = useState('alltime'); // State for range type
     const [filteredFetchedProductData, setFilteredFetchedProductData] = useState([]);
     const [filteredAllClientData, setFilteredAllClientData] = useState([]);
     const [filteredAllBuyProductData, setFilteredAllBuyProductData] = useState([]);
@@ -44,8 +44,10 @@ export const AdminDashboard = () => {
             const currentDate = new Date(dateValue);
             let startDate, endDate;
 
-            if (rangeType === 'week') {
-
+            if (rangeType === 'alltime') {   
+                return data; 
+            }
+            else if (rangeType === 'week') {
                 const dayOfWeek = currentDate.getDay();
                 const firstDayOfWeek = new Date(currentDate);
                 firstDayOfWeek.setDate(currentDate.getDate() - dayOfWeek + 1);
@@ -54,11 +56,10 @@ export const AdminDashboard = () => {
                 endDate.setDate(firstDayOfWeek.getDate() + 6);
 
             } else if (rangeType === 'month') {
-
                 startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
                 endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-
-            } else {
+            }
+            else {
 
                 startDate = currentDate;
                 endDate = currentDate;
@@ -148,6 +149,7 @@ export const AdminDashboard = () => {
                         value={rangeType}
                         onChange={handleRangeTypeChangeFunc}
                         className="p-2 outline-none">
+                        <option value="alltime">All Time</option>
                         <option value="today">Today</option>
                         <option value="week">This Week</option>
                         <option value="month">This Month</option>

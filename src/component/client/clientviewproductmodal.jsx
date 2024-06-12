@@ -108,14 +108,14 @@ export const ClientViewProductModal = ({ selectedProduct }) => {
         <>
             {/* view product modal */}
             <dialog id="viewProductModal" className="modal">
-                <div className="modal-box h-fit w-fit max-h-full max-w-full rounded-none p-5 flex items-center justify-center rounded-xl">
+                <div className="modal-box h-fit w-fit max-h-full max-w-full mo:h-full mo:w-full mo:rounded-none rounded-none p-5 flex items-center justify-center mo:items-start rounded-xl">
                     <IoCloseSharp onClick={() => { document.getElementById('viewProductModal').close(); }}
                         className='absolute top-4 right-4 text-2xl hover:bg-red-500 hover:text-white' />
                     {selectedProduct.map((item) => (
-                        <section key={item.productID} className='h-[30rem] w-[60rem] flex'>
+                        <section key={item.productID} className='h-[30rem] w-[60rem] max-w-full flex flex-wrap '>
                             <div className={`h-full w-[30rem] bg-cover bg-center flex items-center justify-center overflow-hidden bg-[url('../../asset/admin/productimage/${item.productimage}')]`}>
                             </div>
-                            <div className='h-full w-[30rem] flex flex-col justify-evenly gap-y-5 p-8'>
+                            <div className='h-full w-[30rem] flex flex-col justify-evenly gap-y-5 p-8 mo:gap-y-2 mo:p-4'>
                                 <p className='text-5xl font-bold '>{item.productname}</p>
                                 <p className='text-2xl'>Size: {item.productsize}</p>
                                 <p className='text-2xl'>Available Stock: {item.productstock - quantity}</p>
