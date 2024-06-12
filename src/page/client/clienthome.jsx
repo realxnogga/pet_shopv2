@@ -80,7 +80,7 @@ export const ClientHome = () => {
                             <li onClick={() => setProductFilter('Grooming Supplies')} className={`relative h-full w-full px-5 hover:border-b-4 border-blue-500 cursor-pointer flex items-center justify-center`}>Grooming Supplies</li>
                         </ul>
                     </div>
-                    <div className='h-fit w-full mt-[1rem] flex items-start flex-wrap gap-5 mo:justify-center mo:gap-2'>
+                    <div className='h-fit w-full mt-[1rem] flex items-start flex-wrap gap-4 mo:justify-center mo:gap-2'>
                         {filteredProductData.length === 0 ? (
 
                             <Empty text1={'Nothing to show'} text2={'Its empty here, you can choose another product category.'} />
@@ -101,8 +101,8 @@ export const ClientHome = () => {
                                 }
 
                                 return (
-                                    <div key={item.productID} className='h-fit w-[16rem] mo:w-[48%] rounded-lg overflow-hidden shadow-xl bg-white'>
-                                        <div className={`h-[12rem] mo:h-[8rem] w-full bg-cover bg-center bg-[url('../../asset/admin/productimage/${item.productimage}')]`}></div>
+                                    <div key={item.productID} className='h-fit w-[13.2rem] mo:w-[48%] rounded-lg overflow-hidden shadow-xl bg-white'>
+                                        <div className={`h-[10rem] mo:h-[8rem] w-full bg-cover bg-center bg-[url('../../asset/admin/productimage/${item.productimage}')]`}></div>
                                         <div className='bg-blue-100 h-fit w-full font-semibold p-4 mo:p-2'>
 
                                             <div className='flex flex-wrap items-center justify-between '>
@@ -113,7 +113,6 @@ export const ClientHome = () => {
 
                                             <p className='text-xl font-semibold'>{item.productname}</p>
                                             <p className='text-blue-500 mo:hidden'>₱{item.productprice}</p>
-                                            <p className='text-sm text-gray-400 mo:hidden'>Stock:{item.productstock}</p>
                                             <button
                                                 onClick={() => {
                                                     GetSelectedProductFunc(item.productID);
@@ -138,9 +137,9 @@ export const ClientHome = () => {
                 <div className="modal-box bg-gray-200 h-full w-full max-h-full max-w-full rounded-none p-0 flex flex-col gap-y-4 items-center justify-start pt-[3rem]">
                     <IoCloseSharp onClick={() => { document.getElementById('viewRatingModal').close(); }} className="absolute top-4 right-4 text-2xl hover:bg-red-500" />
 
-                    <div className='bg-white rounded-lg shadow-xl w-[60rem] h-[4rem] flex items-center justify-around'>
+                    <div className='bg-white rounded-lg shadow-xl w-[60rem] h-[4rem] mo:max-w-[95%] flex items-center justify-around'>
 
-                        <div className='flex items-end'>
+                        <div className='flex flex-wrap items-end'>
                             <p className='text-3xl font-bold text-gray-800'>{aveStar}/5</p>
                             <p>({ratingProduct.length}ratings)</p>
                         </div>
@@ -150,7 +149,7 @@ export const ClientHome = () => {
 
                     </div>
 
-                    <div className='bg-white rounded-lg shadow-xl w-[60rem] h-fit max-h-[30rem] overflow-y-scroll noScrollbar'>
+                    <div className='bg-white rounded-lg shadow-xl w-[60rem] mo:max-w-[95%] h-fit max-h-[30rem] overflow-y-scroll noScrollbar'>
                         {
                             ratingProduct.map(item => {
 
