@@ -113,33 +113,33 @@ export const AdminDashboard = () => {
         <section className={`relative bg-gray-200 mt-[4rem] h-screen w-screen flex flex-col items-center justify-start`}>
             <AdminHamburger />
 
-            <div className="h-[94%] w-[60rem] mt-5 flex flex-col gap-y-5 overflow-y-scroll noScrollbar">
-                <div className="flex justify-between">
-                    <div className="bg-white h-[12rem] w-[14rem] flex flex-col justify-center gap-y-2 p-3 rounded-xl shadow-lg">
+            <div className="h-[94%] w-[60rem] max-w-[95%] mt-5 mo:mt-12 flex flex-col gap-y-5 overflow-y-scroll noScrollbar">
+                <div className="flex flex-wrap justify-between gap-2">
+                    <div className="bg-blue-400 h-[12rem] w-[14rem] flex flex-col justify-center gap-y-2 p-3 rounded-xl shadow-lg mo:h-[10rem] mo:w-[48.5%] mo:gap-y-1 mo:p-2 ">
                         <AiOutlineProduct className="text-6xl" />
-                        <hr />
-                        <p className="text-3xl">Total Product</p>
+                        <hr className='border-blue-600'/>
+                        <p className="text-3xl mo:text-xl">Total Product</p>
                         <p className="text-2xl">{filteredFetchedProductData.length}</p>
                     </div>
 
-                    <div className="bg-white h-[12rem] w-[14rem] flex flex-col justify-center gap-y-2 p-3 rounded-xl shadow-lg">
+                    <div className="bg-yellow-400 h-[12rem] w-[14rem] flex flex-col justify-center gap-y-2 p-3 rounded-xl shadow-lg mo:h-[10rem] mo:w-[48.5%] mo:gap-y-1 mo:p-2">
                         <IoPeopleOutline className="text-6xl" />
-                        <hr />
-                        <p className="text-3xl">Total Client</p>
+                        <hr className='border-yellow-600'/>
+                        <p className="text-3xl mo:text-xl">Total Client</p>
                         <p className="text-2xl">{filteredAllClientData.length}</p>
                     </div>
 
-                    <div className="bg-white h-[12rem] w-[14rem] flex flex-col justify-center gap-y-2 p-3 rounded-xl shadow-lg">
+                    <div className="bg-green-400 h-[12rem] w-[14rem] flex flex-col justify-center gap-y-2 p-3 rounded-xl shadow-lg mo:h-[10rem] mo:w-[48.5%] mo:gap-y-1 mo:p-2">
                         <GoGraph className="text-6xl" />
-                        <hr />
-                        <p className="text-3xl">Total Sold Item</p>
+                        <hr className='border-green-600'/>
+                        <p className="text-3xl mo:text-xl">Total Sold Item</p>
                         <p className="text-2xl">{totalSoldItem}</p>
                     </div>
 
-                    <div className="bg-white h-[12rem] w-[14rem] flex flex-col justify-center gap-y-2 p-3 rounded-xl shadow-lg">
+                    <div className="bg-red-400 h-[12rem] w-[14rem] flex flex-col justify-center gap-y-2 p-3 rounded-xl shadow-lg mo:h-[10rem] mo:w-[48.5%] mo:gap-y-1 mo:p-2">
                         <MdAttachMoney className="text-6xl" />
-                        <hr />
-                        <p className="text-3xl">Total Income</p>
+                        <hr className='border-red-600'/>
+                        <p className="text-3xl mo:text-xl">Total Income</p>
                         <p className="text-2xl">₱{totalIncome}.00</p>
                     </div>
                 </div>
@@ -158,7 +158,7 @@ export const AdminDashboard = () => {
                     <input className="p-2 outline-none" value={dateValue} onChange={handleDateChangeFunc} type="date" />
                 </div>
 
-                <div className="w-full h-[30rem] mobile:h-[10rem] flex items-center justify-center">
+                <div className="w-full h-[30rem] flex items-center justify-center">
                     <Bar data={data} options={options} />
                 </div>
 
