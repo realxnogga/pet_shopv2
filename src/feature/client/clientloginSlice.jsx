@@ -9,11 +9,15 @@ export const ClientLoginSlice = createSlice({
     name: 'ClientLoginSliceName',
     initialState: {
         isClientLoggedIn: null,
+        isRouteProtected: null,
         userData: [],
     },
     reducers: {
         clearIsClientLoggedIn: (state) => {
             state.isClientLoggedIn = null;
+        },
+        clearIsRouteProtected: (state) => {
+            state.isRouteProtected = null;
         },
         clearUserData: (state) => {
             state.userData = [];
@@ -23,6 +27,7 @@ export const ClientLoginSlice = createSlice({
         builder
             .addCase(InsertLoginDataThunk.fulfilled, (state, action) => {
                 state.isClientLoggedIn = action.payload;
+                state.isRouteProtected = action.payload;
             })
             .addCase(GetLoginDataThunk.fulfilled, (state, action) => {
                 state.userData = action.payload[0];
@@ -31,8 +36,9 @@ export const ClientLoginSlice = createSlice({
     }
 })
 
-export const { clearIsClientLoggedIn, clearUserData } = ClientLoginSlice.actions;
+export const { clearIsClientLoggedIn, clearIsRouteProtected, clearUserData } = ClientLoginSlice.actions;
 export const userDataTemp = state => state.ClientLoginSliceName.userData;
+export const isRouteProtectedTemp = state => state.ClientLoginSliceName.isRouteProtected;
 export const isClientLoggedInTemp = state => state.ClientLoginSliceName.isClientLoggedIn;
 export const ClientLoginSliceReducer = ClientLoginSlice.reducer;
 

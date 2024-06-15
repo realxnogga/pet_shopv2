@@ -52,7 +52,6 @@ export const ClientHome = () => {
         document.getElementById('viewRatingModal').showModal();
     }
 
-
     return (
         <section className={`relative bg-gray-200 mt-[4rem] h-screen w-screen flex items-center justify-center`}>
             <ClientHamburger />

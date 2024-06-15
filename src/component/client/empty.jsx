@@ -1,7 +1,5 @@
 
 
-
-
 export const Empty = ({design, text1, text2 }) => {
 
     return (

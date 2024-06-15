@@ -13,8 +13,8 @@ import { GetProductDataThunk } from "../../feature/admin/adminproductSlice";
 import { GetAllCustomerDataThunk } from "../../feature/admin/admincustomerSlice";
 import { GetAllBuyDataThunk } from "../../feature/client/clientbuySlice";
 import { GetAddToCartDataThunk } from "../../feature/client/addtocartSlice";
-
 import ReactTooltip from 'react-tooltip';
+import { clearIsRouteProtected } from "../../feature/client/clientloginSlice";
 
 export const ClientNavbar = () => {
     const navigate = useNavigate();
@@ -29,6 +29,8 @@ export const ClientNavbar = () => {
 
     const handleLogoutFunc = () => {
         navigate('/');
+
+        dispatch(clearIsRouteProtected());
         dispatch(clearUserData());
         dispatch(clearIsClientSidebarOpen());
         dispatch(clearWhatIsClickedInClientSidebar());
