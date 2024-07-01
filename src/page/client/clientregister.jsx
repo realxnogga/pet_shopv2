@@ -7,10 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { isClientAlreadyExistTemp } from "../../feature/client/clientregisterSlice";
 import { clearIsClientAlreadyExist } from "../../feature/client/clientregisterSlice";
 import { useNavigate } from "react-router-dom";
-
 import { GetProductDataThunk } from "../../feature/admin/adminproductSlice";
 import { GetAllCustomerDataThunk } from "../../feature/admin/admincustomerSlice";
 import { GetAllBuyDataThunk } from "../../feature/client/clientbuySlice";
+import { Toggle } from "../../utils/toggle";
 
 export const ClientRegister = () => {
 
@@ -86,10 +86,7 @@ export const ClientRegister = () => {
 
     }, [isClientAlreadyExist])
 
-
-
-    const [showPassword, setShowPassword] = useState(false)
-    const showpassword = () => setShowPassword(!showPassword);
+    const {toggle, handleToggleFunc} = Toggle();
 
     return (
         <section className="h-screen w-screen flex items-center justify-center relative">
@@ -121,14 +118,14 @@ export const ClientRegister = () => {
                 <div className="flex flex-col">
                     <label htmlFor="password">Enter Password<span className='text-red-500'>*</span></label>
                     <input
-                        type={`${showPassword ? 'text' : 'password'}`}
+                        type={`${toggle ? 'text' : 'password'}`}
                         name="userregisterpassword"
                         value={userRegisterCredential.userregisterpassword}
                         onChange={handleRegisterDataChangeFunc}
                         className="h-[2.5rem] rounded-sm border border-gray-400 px-2" />
 
                     <div className='flex items-center gap-x-2'>
-                        <input onClick={showpassword} type="checkbox" />
+                        <input onClick={handleToggleFunc} type="checkbox" />
                         <p className='text-[.8rem] text-gray-400'>show password</p>
                     </div>
                 </div>

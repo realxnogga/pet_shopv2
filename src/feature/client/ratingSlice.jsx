@@ -32,7 +32,7 @@ export const GetAllRatingDataThunk = createAsyncThunk(
     "RatingSliceName/GetAllRatingDataThunk",
     async () => {
         try {   
-            const res = await fetch("http://localhost/petshopv2/server/client/rating.php?action=getAllRatingData", {    
+            const res = await fetch("http://localhost/petshop/server/client/rating.php?action=getAllRatingData", {    
                 method: 'POST',
                 headers: {'Content-Type' : 'application/json'},
             });

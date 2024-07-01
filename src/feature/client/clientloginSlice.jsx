@@ -49,7 +49,7 @@ export const GetLoginDataThunk = createAsyncThunk(
             const formData = new FormData();
             formData.append('loginDataTemp', JSON.stringify(loginDataTemp));
 
-            const res = await fetch("http://localhost/petshopv2/server/client/clientlogin.php?action=getLoginData", {
+            const res = await fetch("http://localhost/petshop/server/client/clientlogin.php?action=getLoginData", {
                 method: 'POST',
                 body: formData,
             });
@@ -69,7 +69,7 @@ export const InsertLoginDataThunk = createAsyncThunk(
             const formData = new FormData();
             formData.append('loginDataTemp', JSON.stringify(loginDataTemp));
 
-            const res = await fetch("http://localhost/petshopv2/server/client/clientlogin.php?action=putLoginData", {
+            const res = await fetch("http://localhost/petshop/server/client/clientlogin.php?action=putLoginData", {
                 method: 'POST',
                 body: formData,
             });

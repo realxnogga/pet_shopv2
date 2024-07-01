@@ -15,6 +15,7 @@ import { GetAllBuyDataThunk } from "../../feature/client/clientbuySlice";
 import { GetAddToCartDataThunk } from "../../feature/client/addtocartSlice";
 import ReactTooltip from 'react-tooltip';
 import { clearIsRouteProtected } from "../../feature/client/clientloginSlice";
+import { Toggle } from "../../utils/toggle";
 
 export const ClientNavbar = () => {
     const navigate = useNavigate();
@@ -36,8 +37,6 @@ export const ClientNavbar = () => {
         dispatch(clearWhatIsClickedInClientSidebar());
     }
 
-    const [showDropdown, setShowDropdown] = useState(false);
-
     const [spin, setSpin] = useState(false);
 
     const handleRefreshFunc = () => {
@@ -53,6 +52,8 @@ export const ClientNavbar = () => {
          
     }
 
+    const {toggle, handleToggleFunc} = Toggle();
+
     return (
         <nav className={`bg-blue-400 h-[4rem] px-12 mo:px-4 w-screen backdrop-blur absolute top-0 z-10 backdrop-brightness-75 flex items-center justify-between `}>
             <div className="flex items-center gap-x-2">
@@ -65,9 +66,9 @@ export const ClientNavbar = () => {
                <MdRefresh data-type="info" data-tip="Refresh" onClick={handleRefreshFunc} className={`${spin ? 'animate-spin' : ''} outline-none text-3xl text-white`} />
                <ReactTooltip />
                 <div className={`relative`}>
-                    <img onClick={() => { setShowDropdown(!showDropdown) }} className="h-[2.8rem] w-[2.8rem] mobile:h-[1.9rem] mobile:w-[1.9rem] rounded-[50%]" src={`../../asset/client/clientprofile/${clientprofile}`} alt="" />
+                    <img onClick={handleToggleFunc} className="h-[2.8rem] w-[2.8rem] mobile:h-[1.9rem] mobile:w-[1.9rem] rounded-[50%]" src={`../../asset/client/clientprofile/${clientprofile}`} alt="" />
 
-                    <div className={`${showDropdown ? '' : 'hidden'} bg-white h-fit p-3 w-fit border rounded-md shadow-md text-nowrap absolute right-0 mt-3 flex flex-col items-start gap-y-2 `}>
+                    <div className={`${toggle ? '' : 'hidden'} bg-white h-fit p-3 w-fit border rounded-md shadow-md text-nowrap absolute right-0 mt-3 flex flex-col items-start gap-y-2 `}>
                         <p>Name: {clientusername}</p>
                         {/* <hr className="h-[1px] border border-gray-400 w-full "/> */}
                         <button onClick={handleLogoutFunc} className='w-full hover:text-blue-400 border border-blue-400 rounded-lg py-2 px-2  cursor-pointer flex items-center justify-center gap-x-2'>

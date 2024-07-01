@@ -1,16 +1,8 @@
 
 
 <?php
-header("Access-Control-Allow-Origin: http://localhost:3000");
-header("Access-Control-Allow-Headers: Content-Type");
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "petshopv2";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+require_once "../connection/connection.php";
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

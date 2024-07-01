@@ -31,7 +31,7 @@ export const AuthAdminThunk = createAsyncThunk(
         const formData = new FormData();
         formData.append('adminCredentialTemp', JSON.stringify(adminCredentialTemp));
        try {
-        const res = await fetch('http://localhost/petshopv2/server/admin/adminlogin.php?action=adminAuth', {
+        const res = await fetch('http://localhost/petshop/server/admin/adminlogin.php?action=adminAuth', {
             method: 'POST',
             body: formData, 
         })

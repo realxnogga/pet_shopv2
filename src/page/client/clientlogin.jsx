@@ -14,6 +14,7 @@ import { GetBuyDataThunk } from "../../feature/client/clientbuySlice";
 import { GetAddToCartDataThunk } from "../../feature/client/addtocartSlice";
 import { GetAllRatingDataThunk } from "../../feature/client/ratingSlice";
 import { clearIsRouteProtected } from "../../feature/client/clientloginSlice";
+import { Toggle } from "../../utils/toggle";
 
 export const ClientLogin = () => {
 
@@ -77,11 +78,8 @@ export const ClientLogin = () => {
 
     }, [isClientLoggedIn])
 
-    console.log(isClientLoggedIn)
-    
-    const [showPassword, setShowPassword] = useState(false)
-    const showpassword = () => setShowPassword(!showPassword);
-
+    const {toggle, handleToggleFunc} = Toggle();
+ 
     return (
         <section className="h-screen w-screen flex items-center justify-center relative">
 
@@ -111,14 +109,14 @@ export const ClientLogin = () => {
                 <div className="flex flex-col">
                     <label htmlFor="password">Enter Password<span className='text-red-500'>*</span></label>
                     <input
-                        type={`${showPassword ? 'text' : 'password'}`}
+                        type={`${toggle ? 'text' : 'password'}`}
                         name="userloginpassword"
                         value={userLoginCredential.userloginpassword}
                         onChange={handleLoginDataChangeFunc}
                         className="h-[2.5rem] rounded-sm border border-gray-400 px-2" />
 
                     <div className='flex items-center gap-x-2'>
-                        <input onClick={showpassword} type="checkbox" />
+                        <input onClick={handleToggleFunc} type="checkbox" />
                         <p className='text-[.8rem] text-gray-400'>show password</p>
                     </div>
                 </div>
