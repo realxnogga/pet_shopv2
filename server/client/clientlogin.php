@@ -17,7 +17,8 @@ if (isset($_GET['action'])) {
     switch ($action) {
         case 'putLoginData':
 
-            $data = json_decode($_POST['loginDataTemp'], true);
+            $data = json_decode($_POST['credential'], true);
+
             $userloginusername = $data['userloginusername'];
             $userloginpassword = $data['userloginpassword'];
 
@@ -36,7 +37,8 @@ if (isset($_GET['action'])) {
 
         case 'getLoginData':
 
-            $data = json_decode($_POST['loginDataTemp'], true);
+            $data = json_decode($_POST['credential'], true);
+            
             $userloginusername = $data['userloginusername'];
             $userloginpassword = $data['userloginpassword'];
 

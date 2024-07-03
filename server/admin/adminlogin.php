@@ -12,7 +12,7 @@ if (isset($_GET['action'])) {
 
     switch ($action) {
         case 'adminAuth':
-            $data = json_decode($_POST['adminCredentialTemp'], true);
+            $data = json_decode($_POST['credential'], true);
             $username = $data['username'];
             $password = $data['password'];
 

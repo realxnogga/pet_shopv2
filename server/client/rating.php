@@ -17,7 +17,7 @@ if (isset($_GET['action'])) {
     switch ($action) {
         case 'insertRatingData':    
 
-            $data = json_decode($_POST['ratingDataTemp'], true);
+            $data = json_decode($_POST['credential'], true);
     
             $ratingproductID = $data['ratingproductID'];
             $productname = $data['productname'];

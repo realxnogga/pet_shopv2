@@ -1,6 +1,7 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
+import { HelperThunkFunction } from "../../utils/helperthunkfunction";
+import { HelperFormDataFunction } from "../../utils/helperformdatafunction";
 
 export const AdminLoginSlice = createSlice({
     name: 'AdminLoginSliceName',
@@ -28,17 +29,9 @@ export const AuthAdminThunk = createAsyncThunk(
     'AdminLoginSliceName/AuthAdminThunk',
     async( adminCredentialTemp ) => {
 
-        const formData = new FormData();
-        formData.append('adminCredentialTemp', JSON.stringify(adminCredentialTemp));
-       try {
-        const res = await fetch('http://localhost/petshop/server/admin/adminlogin.php?action=adminAuth', {
-            method: 'POST',
-            body: formData, 
-        })
-        const data = await res.json();
-        return data;
-       } catch (error) {
-        
-       }
+    const formData = HelperFormDataFunction(adminCredentialTemp);
+
+    return HelperThunkFunction('admin/adminlogin.php?action=adminAuth', 'POST', formData, true);
+
     }
 )

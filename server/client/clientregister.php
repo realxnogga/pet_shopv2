@@ -16,13 +16,13 @@ if (isset($_GET['action'])) {
     switch ($action) {
         case 'putRegisterData':        
 
-            $data = json_decode($_POST['registerDataTemp'], true);
+            $data = json_decode($_POST['credential'], true);
             $userregisterusername = $data['userregisterusername'];
             $userregisterpassword = $data['userregisterpassword'];
 
             $userregisteraddress = $data['userregisteraddress'];
 
-            $file = $_FILES['userProfile'];
+            $file = $_FILES['imagecredential'];
 
 
             $sql = "select*from client where clientusername = '$userregisterusername'";

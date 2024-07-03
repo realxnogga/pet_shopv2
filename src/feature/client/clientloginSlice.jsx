@@ -1,9 +1,7 @@
 
-
-
-
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
+import { HelperFormDataFunction } from "../../utils/helperformdatafunction";
+import { HelperThunkFunction } from "../../utils/helperthunkfunction";
 
 export const ClientLoginSlice = createSlice({
     name: 'ClientLoginSliceName',
@@ -45,19 +43,10 @@ export const ClientLoginSliceReducer = ClientLoginSlice.reducer;
 export const GetLoginDataThunk = createAsyncThunk(
     "ClientLoginSliceName/GetLoginDataThunk",
     async ({ loginDataTemp }) => {
-        try {
-            const formData = new FormData();
-            formData.append('loginDataTemp', JSON.stringify(loginDataTemp));
 
-            const res = await fetch("http://localhost/petshop/server/client/clientlogin.php?action=getLoginData", {
-                method: 'POST',
-                body: formData,
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log('Error', error);
-        }
+        const formData = HelperFormDataFunction(loginDataTemp);
+
+        return HelperThunkFunction('client/clientlogin.php?action=getLoginData', 'POST', formData, true);
 
     }
 )
@@ -65,19 +54,10 @@ export const GetLoginDataThunk = createAsyncThunk(
 export const InsertLoginDataThunk = createAsyncThunk(
     "ClientLoginSliceName/InsertLoginDataThunk",
     async ({ loginDataTemp }) => {
-        try {
-            const formData = new FormData();
-            formData.append('loginDataTemp', JSON.stringify(loginDataTemp));
 
-            const res = await fetch("http://localhost/petshop/server/client/clientlogin.php?action=putLoginData", {
-                method: 'POST',
-                body: formData,
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log('Error', error);
-        }
+        const formData = HelperFormDataFunction(loginDataTemp);
+
+        return HelperThunkFunction('client/clientlogin.php?action=putLoginData', 'POST', formData, true);
 
     }
 )

@@ -16,7 +16,7 @@ if (isset($_GET['action'])) {
     switch ($action) {
         case 'insertAddToCartProductData':
 
-            $data = json_decode($_POST['addToCartDataTemp'], true);
+            $data = json_decode($_POST['credential'], true);
 
             $productID = $data['productID'];
             $clientID = $data['clientID'];
@@ -44,7 +44,7 @@ if (isset($_GET['action'])) {
 
         case 'getAddToCartProductData':
 
-            $clientusername = json_decode($_POST['clientusername'], true);
+            $clientusername = json_decode(file_get_contents("php://input"), true);
 
             $sql = "select*from addtocartproduct where clientusername = '$clientusername'";
             $result = $conn->query($sql);

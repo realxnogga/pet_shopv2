@@ -14,7 +14,8 @@ if (isset($_GET['action'])) {
     switch ($action) {
         case 'putProduct':
 
-            $data = json_decode($_POST['productDataTemp'], true);
+            $data = json_decode($_POST['credential'], true);
+
             $productname = $data['productname'];
             $productsize = $data['productsize'];
             $productstock = $data['productstock'];
@@ -23,7 +24,8 @@ if (isset($_GET['action'])) {
             $productcategory = $data['productcategory'];
 
 
-            $file = $_FILES['productImage'];
+            $file = $_FILES['imagecredential'];
+
             $productImageName = $file['name'];
             $uniqueProductImageName =  $productImageName . "_" . $timestamp = date("YmdHis");
             $productImageTMP = $file['tmp_name'];
@@ -129,7 +131,7 @@ if (isset($_GET['action'])) {
 
         case 'updateProduct':
 
-            $data = json_decode($_POST['selectedProduct'], true);
+            $data = json_decode($_POST['credential'], true);
 
             $productID = $data['productID'];
             $productname = $data['productname'];
@@ -140,7 +142,7 @@ if (isset($_GET['action'])) {
             $productcategory = $data['productcategory'];
             $productimagetobereplace = $data['productimage'];
 
-            $file = $_FILES['productPic'];
+            $file = $_FILES['imagecredential'];
 
             $productPicName = $file['name'];
             $uniqueProductPicName = $productPicName . "_" . date("YmdHis");

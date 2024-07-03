@@ -1,5 +1,7 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { HelperFormDataFunction } from "../../utils/helperformdatafunction";
+import { HelperThunkFunction } from "../../utils/helperthunkfunction";
 
 export const RatingSlice = createSlice({
     name: 'RatingSliceName',
@@ -31,16 +33,8 @@ export const RatingSliceReducer = RatingSlice.reducer;
 export const GetAllRatingDataThunk = createAsyncThunk(
     "RatingSliceName/GetAllRatingDataThunk",
     async () => {
-        try {   
-            const res = await fetch("http://localhost/petshop/server/client/rating.php?action=getAllRatingData", {    
-                method: 'POST',
-                headers: {'Content-Type' : 'application/json'},
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log('Error', error);
-        }
+
+        return HelperThunkFunction('client/rating.php?action=getAllRatingData', 'POST', null, false);
 
     }
 )
@@ -48,19 +42,10 @@ export const GetAllRatingDataThunk = createAsyncThunk(
 export const InsertRatingDataThunk = createAsyncThunk(
     "RatingSliceName/InsertRatingDataThunk",
     async ({ ratingDataTemp }) => {
-        try {
-            const formData = new FormData();
-            formData.append('ratingDataTemp', JSON.stringify(ratingDataTemp));
 
-            const res = await fetch("http://localhost/petshopv2/server/client/rating.php?action=insertRatingData", {
-                method: 'POST',
-                body: formData,
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log('Error', error);
-        }
+        const formData = HelperFormDataFunction(ratingDataTemp);
+        
+        return HelperThunkFunction('client/rating.php?action=insertRatingData', 'POST', formData, true);
 
     }
 )

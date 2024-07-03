@@ -1,6 +1,8 @@
 
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { HelperFormDataFunction } from "../../utils/helperformdatafunction";
+import { HelperThunkFunction } from "../../utils/helperthunkfunction";
 
 export const ClientBuySlice = createSlice({
     name: 'ClientBuySliceName',
@@ -46,34 +48,17 @@ export const ClientBuySliceReducer = ClientBuySlice.reducer;
 export const UpdateBuyDataStatusThunk = createAsyncThunk(
     "ClientBuySliceName/UpdateBuyDataStatusThunk",
     async ( buyproductprimarykey ) => {
-        try {   
-            const res = await fetch("http://localhost/petshop/server/client/buyproduct.php?action=updateBuyDataStatus", {    
-                method: 'POST',
-                headers: {'Content-Type' : 'application/json'},
-                body: JSON.stringify(buyproductprimarykey)
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log('Error', error);
-        }
 
+        return HelperThunkFunction('client/buyproduct.php?action=updateBuyDataStatus', 'POST', buyproductprimarykey, false); 
+  
     }
 )
 
 export const GetAllBuyDataThunk = createAsyncThunk(
     "ClientBuySliceName/GetAllBuyDataThunk",
     async () => {
-        try {   
-            const res = await fetch("http://localhost/petshop/server/client/buyproduct.php?action=getAllBuyProductData", {    
-                method: 'POST',
-                headers: {'Content-Type' : 'application/json'},
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log('Error', error);
-        }
+
+        return HelperThunkFunction('client/buyproduct.php?action=getAllBuyProductData', 'POST', null, false);
 
     }
 )
@@ -81,19 +66,8 @@ export const GetAllBuyDataThunk = createAsyncThunk(
 export const GetBuyDataThunk = createAsyncThunk(
     "ClientBuySliceName/GetBuyDataThunk",
     async (clientusername) => {
-        try {
-            const formData = new FormData();
-            formData.append('clientusername', JSON.stringify(clientusername));
 
-            const res = await fetch("http://localhost/petshop/server/client/buyproduct.php?action=getBuyProductData", {
-                method: 'POST',
-                body: formData,
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log('Error', error);
-        }
+        return HelperThunkFunction('client/buyproduct.php?action=getBuyProductData', 'POST', clientusername, false);
 
     }
 )
@@ -101,19 +75,10 @@ export const GetBuyDataThunk = createAsyncThunk(
 export const InsertBuyDataThunk = createAsyncThunk(
     "ClientBuySliceName/InsertBuyDataThunk",
     async ({ buyDataTemp }) => {
-        try {
-            const formData = new FormData();
-            formData.append('buyDataTemp', JSON.stringify(buyDataTemp));
 
-            const res = await fetch("http://localhost/petshop/server/client/buyproduct.php?action=insertBuyProductData", {
-                method: 'POST',
-                body: formData,
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log('Error', error);
-        }
+        const formData = HelperFormDataFunction(buyDataTemp);
+
+        return HelperThunkFunction('client/buyproduct.php?action=insertBuyProductData', 'POST', formData, true);
 
     }
 )

@@ -1,8 +1,6 @@
 
-
-
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
+import { HelperThunkFunction } from "../../utils/helperthunkfunction";
 
 export const AdminCustomerSlice = createSlice({
     name: 'AdminCustomerSliceName',
@@ -34,34 +32,13 @@ export const AdminCustomerSliceReducer = AdminCustomerSlice.reducer;
 export const DeleteCustomerDataThunk = createAsyncThunk(
     "AdminCustomerSliceName/DeleteCustomerDataThunk",
     async ({ clientID, clientprofile }) => {
-        try {   
-            const res = await fetch("http://localhost/petshop/server/admin/admincustomer.php?action=deleteCustomer", {    
-                method: 'POST',
-                headers: {'Content-Type' : 'application/json'},
-                body: JSON.stringify({ clientID, clientprofile })
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log('Error', error);
-        }
-
+        return HelperThunkFunction('admin/admincustomer.php?action=deleteCustomer', 'POST', {clientID, clientprofile}, false);
     }
 )
 
 export const GetAllCustomerDataThunk = createAsyncThunk(
     "AdminCustomerSliceName/GetAllCustomerDataThunk",
-    async () => {
-        try {
-            const res = await fetch("http://localhost/petshop/server/admin/admincustomer.php?action=getAllCustomer", {
-                method: 'POST',
-                headers: {'Content-Type' : 'application/json'},
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log('Error', error);
-        }
-
+    async () => {     
+        return HelperThunkFunction('admin/admincustomer.php?action=getAllCustomer', 'POST', null, false);
     }
 )

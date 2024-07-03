@@ -1,6 +1,8 @@
 
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { HelperFormDataFunction } from "../../utils/helperformdatafunction";
+import { HelperThunkFunction } from "../../utils/helperthunkfunction";
 
 
 export const ClientRegisterSlice = createSlice({
@@ -29,20 +31,10 @@ export const ClientRegisterSliceReducer = ClientRegisterSlice.reducer;
 export const InsertRegisterDataThunk = createAsyncThunk(
     "ClientRegisterSliceName/InsertRegisterDataThunk",
     async ({ registerDataTemp, userProfile  }) => {
-        try {
-            const formData = new FormData();
-            formData.append('registerDataTemp', JSON.stringify(registerDataTemp));
-            formData.append('userProfile', userProfile);
 
-            const res = await fetch("http://localhost/petshop/server/client/clientregister.php?action=putRegisterData", {
-                method: 'POST',
-                body: formData,
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log('Error', error);
-        }
+        const formData = HelperFormDataFunction(registerDataTemp, userProfile);
+
+        return HelperThunkFunction('client/clientregister.php?action=putRegisterData', 'POST', formData, true);
 
     }
 )

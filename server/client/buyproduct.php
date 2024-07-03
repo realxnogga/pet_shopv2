@@ -14,7 +14,7 @@ if (isset($_GET['action'])) {
     switch ($action) {
         case 'insertBuyProductData':
         
-            $data = json_decode($_POST['buyDataTemp'], true);
+            $data = json_decode($_POST['credential'], true);
             $productID = $data['productID'];
             $clientID = $data['clientID'];
             $clientusername = $data['clientusername'];
@@ -41,7 +41,7 @@ if (isset($_GET['action'])) {
 
         case 'getBuyProductData':
 
-            $clientusername = json_decode($_POST['clientusername'], true);
+            $clientusername = json_decode(file_get_contents("php://input"), true);
 
             $sql = "select*from buyproduct where clientusername = '$clientusername'";
 

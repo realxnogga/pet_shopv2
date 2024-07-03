@@ -1,6 +1,7 @@
 
-
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { HelperFormDataFunction } from "../../utils/helperformdatafunction";
+import { HelperThunkFunction } from "../../utils/helperthunkfunction";
 
 export const AddToCartSlice = createSlice({
     name: 'AddToCartSliceName',
@@ -33,19 +34,8 @@ export const AddToCartSliceReducer = AddToCartSlice.reducer;
 export const GetAddToCartDataThunk = createAsyncThunk(
     "AddToCartSliceName/GetAddToCartDataThunk",
     async (clientusername) => {
-        try {
-            const formData = new FormData();
-            formData.append('clientusername', JSON.stringify(clientusername));
 
-            const res = await fetch("http://localhost/petshop/server/client/addtocartproduct.php?action=getAddToCartProductData", {
-                method: 'POST',
-                body: formData,
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log('Error', error);
-        }
+        return HelperThunkFunction('client/addtocartproduct.php?action=getAddToCartProductData', 'POST', clientusername, false);
 
     }
 )
@@ -53,19 +43,10 @@ export const GetAddToCartDataThunk = createAsyncThunk(
 export const InsertAddToCartDataThunk = createAsyncThunk(
     "AddToCartSliceName/InsertAddToCartDataThunk",
     async ({ addToCartDataTemp }) => {
-        try {
-            const formData = new FormData();
-            formData.append('addToCartDataTemp', JSON.stringify(addToCartDataTemp));
 
-            const res = await fetch("http://localhost/petshop/server/client/addtocartproduct.php?action=insertAddToCartProductData", {
-                method: 'POST',
-                body: formData,
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log('Error', error);
-        }
+        const formData = HelperFormDataFunction(addToCartDataTemp);
+        
+        return HelperThunkFunction('client/addtocartproduct.php?action=insertAddToCartProductData', 'POST', formData, true);
 
     }
 )

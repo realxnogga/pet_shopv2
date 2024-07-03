@@ -1,7 +1,8 @@
 
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
+import { HelperFormDataFunction } from "../../utils/helperformdatafunction";
+import { HelperThunkFunction } from "../../utils/helperthunkfunction";
 
 export const AdminProductSlice = createSlice({
     name: 'AdminProductSliceName',
@@ -55,24 +56,13 @@ export const isProductDataInsertedTemp = state => state.AdminProductSliceName.is
 export const isProductDataDeletedTemp = state => state.AdminProductSliceName.isProductDataDeleted;
 export const AdminProductSliceReducer = AdminProductSlice.reducer;
 
-
 export const UpdateProductThunk = createAsyncThunk(
     "AdminProductSliceName/UpdateProductThunk",
     async ({selectedProduct, productPic}) => {
-        try {   
-            const formData = new FormData();
-            formData.append('selectedProduct', JSON.stringify(selectedProduct));
-            formData.append('productPic', productPic);
-      
-            const res = await fetch("http://localhost/petshop/server/admin/adminproduct.php?action=updateProduct", {    
-                method: 'POST',
-                body: formData,
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log('Error', error);
-        }
+
+        const formData = HelperFormDataFunction(selectedProduct, productPic);
+
+        return HelperThunkFunction('admin/adminproduct.php?action=updateProduct', 'POST', formData, true);
 
     }
 )
@@ -80,17 +70,8 @@ export const UpdateProductThunk = createAsyncThunk(
 export const UpdateProductStockThunk = createAsyncThunk(
     "AdminProductSliceName/UpdateProductStockThunk",
     async ({productID, producttotalstock}) => {
-        try {   
-            const res = await fetch("http://localhost/petshop/server/admin/adminproduct.php?action=updateProductStock", {    
-                method: 'POST',
-                headers: {'Content-Type' : 'application/json'},
-                body: JSON.stringify({productID, producttotalstock})
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log('Error', error);
-        }
+
+        return HelperThunkFunction('admin/adminproduct.php?action=updateProductStock', 'POST', {productID, producttotalstock}, false);
 
     }
 )
@@ -98,17 +79,8 @@ export const UpdateProductStockThunk = createAsyncThunk(
 export const DeleteProductDataThunk = createAsyncThunk(
     "AdminProductSliceName/DeleteProductDataThunk",
     async ({ productID, productimage }) => {
-        try {   
-            const res = await fetch("http://localhost/petshop/server/admin/adminproduct.php?action=deleteProduct", {    
-                method: 'POST',
-                headers: {'Content-Type' : 'application/json'},
-                body: JSON.stringify({ productID, productimage })
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log('Error', error);
-        }
+
+        return HelperThunkFunction('admin/adminproduct.php?action=deleteProduct', 'POST', {productID, productimage}, false);
 
     }
 )
@@ -116,38 +88,19 @@ export const DeleteProductDataThunk = createAsyncThunk(
 export const GetProductDataThunk = createAsyncThunk(
     "AdminProductSliceName/GetProductDataThunk",
     async () => {
-        try {   
-            const res = await fetch("http://localhost/petshop/server/admin/adminproduct.php?action=getProduct", {    
-                method: 'POST',
-                headers: {'Content-Type' : 'application/json'},
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log('Error', error);
-        }
+
+        return HelperThunkFunction('admin/adminproduct.php?action=getProduct', 'POST', null, false);
 
     }
 )
 
-
 export const InsertProductDataThunk = createAsyncThunk(
     "AdminProductSliceName/InsertProductDataThunk",
     async ({ productDataTemp, productImage }) => {
-        try {
-            const formData = new FormData();
-            formData.append('productDataTemp', JSON.stringify(productDataTemp));
-            formData.append('productImage', productImage);
 
-            const res = await fetch("http://localhost/petshop/server/admin/adminproduct.php?action=putProduct", {
-                method: 'POST',
-                body: formData,
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log('Error', error);
-        }
+        const formData = HelperFormDataFunction(productDataTemp, productImage);
+
+        return HelperThunkFunction('admin/adminproduct.php?action=putProduct', 'POST', formData, true);
 
     }
 )
