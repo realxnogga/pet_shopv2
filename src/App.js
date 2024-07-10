@@ -10,6 +10,7 @@ import { ClientRegister } from "./page/client/clientregister";
 import { ClientMainPage } from "./page/client/clientmainpage";
 import { Page404 } from "./page/client/page404";
 import { isRouteProtectedTemp } from "./feature/client/clientloginSlice";
+import { SendToken } from "./page/client/sendtoken";
 
 function WrapperApp() {
 
@@ -22,6 +23,7 @@ function WrapperApp() {
         <Route path="/admin/mainpage" element={<AdminMainPage />} />
         <Route path="/" element={<ClientLogin />} />
         <Route path="/register" element={<ClientRegister />} />
+        <Route path="/sendtoken" element={<SendToken />} />
         <Route path="*" element={<Page404 />} />
         {
           isRouteProtected ?

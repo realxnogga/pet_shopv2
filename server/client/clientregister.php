@@ -19,8 +19,8 @@ if (isset($_GET['action'])) {
             $data = json_decode($_POST['credential'], true);
             $userregisterusername = $data['userregisterusername'];
             $userregisterpassword = $data['userregisterpassword'];
-
             $userregisteraddress = $data['userregisteraddress'];
+            $userregisteremail = $data['userregisteremail'];
 
             $file = $_FILES['imagecredential'];
 
@@ -41,7 +41,7 @@ if (isset($_GET['action'])) {
     
                 move_uploaded_file($clientProfileTMP, $clientProfileDestination);
 
-                $sql = "INSERT INTO client (clientusername, clientpassword, clientaddress, clientprofile) VALUES ('$userregisterusername', '$userregisterpassword', '$userregisteraddress', '$uniqueClientProfileName')";
+                $sql = "INSERT INTO client (clientusername, clientpassword, clientaddress, clientemail, clientprofile) VALUES ('$userregisterusername', '$userregisterpassword', '$userregisteraddress', '$userregisteremail', '$uniqueClientProfileName')";
                 $conn->query($sql);
             }
     

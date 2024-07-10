@@ -123,6 +123,8 @@ export const ClientLogin = () => {
 
                 <button onClick={handleLoginDataSubmitFunc} className="w-full bg-blue-500 hover:bg-blue-400 rounded-[10rem] text-xl p-2 font-semibold text-white">Login</button>
 
+                <p className="text-center cursor-pointer hover:text-blue-500"><NavLink to={'/sendtoken'}> Forgot Password?</NavLink></p>
+
                 <p>Don't have an account yet?<span className="hover:text-blue-500 cursor-pointer underline">
                     <NavLink to={'/register'}> Register</NavLink></span></p>
 
