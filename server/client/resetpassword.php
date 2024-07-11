@@ -18,21 +18,18 @@ if (isset($_GET['action'])) {
             $email = $data['email'];
             $emailapppassword = $data['emailapppassword'];
 
-            $sql = "select*from client where clientemail = '$email'";
-            $result = $conn->query($sql);
+            $result = $conn->query("select*from client where clientemail = '$email'");
 
             if ($result->num_rows <= 0) {
-                echo json_encode(false); // if email doesnt exist
+                echo json_encode(['bool' => false, 'message' => 'Email does not exist']);
             } else {
-               $token = bin2hex(random_bytes(10));
+                //  gfnt icqt tepu aiyg sa main account
+                //  mpsm bquu hwjw qxch
 
-                $sql = "UPDATE client SET clienttoken = '$token' WHERE clientemail = '$email'";
-                $conn->query($sql);
+                try {
+                    $token = bin2hex(random_bytes(5));
 
-               // Send reset email
-                $mail = new PHPMailer(true);
-              //  uomw evvl gpxj szxx sa main account
-              //  mpsm bquu hwjw qxch
+                    $mail = new PHPMailer(true);
                     $mail->isSMTP();
                     $mail->Host = 'smtp.gmail.com';
                     $mail->SMTPAuth = true;
@@ -46,12 +43,36 @@ if (isset($_GET['action'])) {
 
                     $mail->isHTML(true);
                     $mail->Subject = 'Password Reset Request';
-                    $mail->Body = 'Here is your token : ' . $token .'';
+                    $mail->Body = 'Here is your token : ' . $token . '';
 
-                    $mail->send();
-                    echo json_encode(true);
-
+                    if ($mail->send()) {
+                        $conn->query("UPDATE client SET clienttoken = '$token' WHERE clientemail = '$email'");
+                        echo json_encode(['bool' => true, 'message' => 'Email sent successfully']);
+                    }
+                } catch (Exception $e) {
+                    echo json_encode(['bool' => false, 'message' => 'Failed to send to email']);
+                }
             }
+        break;
+
+        case 'verifyToken':
+
+            $data = json_decode($_POST['credential'], true);
+            $email = $data['email'];
+            $token = $data['token'];
+
+            $sql = "select*from client where clientemail = '$email'";
+
+            $result = $conn->query($sql);
+
+            $row = $result->fetch_assoc();
+
+            if ($row['clienttoken'] === $token) {
+                echo json_encode(true);
+            } else {
+                echo json_encode(false);
+            }
+        break;
     }
 }
 
