@@ -53,7 +53,7 @@ if (isset($_GET['action'])) {
                     echo json_encode(['bool' => false, 'message' => 'Failed to send to email']);
                 }
             }
-        break;
+            break;
 
         case 'verifyToken':
 
@@ -72,7 +72,23 @@ if (isset($_GET['action'])) {
             } else {
                 echo json_encode(false);
             }
-        break;
+            break;
+
+        case 'changepassword':
+
+            $data = json_decode($_POST['credential'], true);
+            $email = $data['email'];
+            $password = $data['password'];
+
+            $sql = "UPDATE `client` SET `clientpassword` = '$password' WHERE `clientemail` = '$email'";
+            $conn->query($sql);
+
+            if ($conn->affected_rows > 0) {
+                echo json_encode(true);
+            } else {
+                echo json_encode(false);
+            }
+            break;
     }
 }
 

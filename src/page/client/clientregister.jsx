@@ -11,6 +11,7 @@ import { GetProductDataThunk } from "../../feature/admin/adminproductSlice";
 import { GetAllCustomerDataThunk } from "../../feature/admin/admincustomerSlice";
 import { GetAllBuyDataThunk } from "../../feature/client/clientbuySlice";
 import { Toggle } from "../../utils/toggle";
+import { PreviewImage } from "../../utils/previewimage";
 
 export const ClientRegister = () => {
 
@@ -25,18 +26,19 @@ export const ClientRegister = () => {
         userregisteremail: '',
     })
 
-    console.log(userRegisterCredential);
-
     const handleRegisterDataChangeFunc = (e) => {
         const { name, value } = e.target;
         setUserRegisterCredential({ ...userRegisterCredential, [name]: value });
     };
+
     // for product image
     const [userProfile, setUserProfile] = useState(null);
-    const handleUserProfileUploadChange = (e) => setUserProfile(e.target.files[0]);
+
+    console.log(userProfile)
+
+    const handleUserProfileUploadChange = (e) => {setUserProfile(e.target.files[0])}
 
     const handleRegisterDataSubmitFunc = () => {
-
 
         if (userRegisterCredential.userregisterusername === '') {
             ShowToast('username must not be empty', 'warning');
@@ -159,8 +161,15 @@ export const ClientRegister = () => {
                 </div>
 
                 <div className="flex flex-col">
-                    <label>Choose Profile<span className='text-red-500'>*</span></label>
+                    <div className="flex justify-between items-end">
+                        <label>Choose Profile<span className='text-red-500'>*</span></label>
+
+                        <PreviewImage targetFile={userProfile} />
+
+                    </div>
+
                     <input id="fileInput" onChange={handleUserProfileUploadChange} type="file" className="border h-[2.5rem] p-1 border border-gray-400 " />
+
                 </div>
 
                 <button onClick={handleRegisterDataSubmitFunc} className="w-full bg-blue-500 hover:bg-blue-400 rounded-[10rem] text-xl p-2 font-semibold text-white">Register</button>

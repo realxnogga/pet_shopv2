@@ -8,14 +8,22 @@ export const ResetPasswordSlice = createSlice({
     name: 'ResetPasswordSliceName',
     initialState: {
         isEmailSend: {bool: null, message: ''},
+        email: '',
         isTokenMatch: null,
+        isPasswordChange: null,
     },
     reducers: {
+        getEmail: (state, action) => {
+           state.email = action.payload;
+        },
         clearIsEmailSend: (state) => {
             state.isEmailSend = {bool: null, message: ''};
         },
         clearIsTokenMatch: (state) => {
             state.isTokenMatch = null;
+        },
+        clearIsPasswordChange: (state) => {
+            state.isPasswordChange = null;
         },
     },
     extraReducers: builder => {
@@ -26,13 +34,18 @@ export const ResetPasswordSlice = createSlice({
             .addCase(VerifyTokenThunk.fulfilled, (state, action) => {
                 state.isTokenMatch = action.payload;
             })
+            .addCase(ChangePasswordThunk.fulfilled, (state, action) => {
+                state.isPasswordChange = action.payload;
+            })
     }
 
 })
 
+export const { getEmail, clearIsEmailSend, clearIsTokenMatch, clearIsPasswordChange } = ResetPasswordSlice.actions;
+export const isPasswordChangeTemp = state => state.ResetPasswordSliceName.isPasswordChange;
+export const emailTemp = state => state.ResetPasswordSliceName.email;
 export const isTokenMatchTemp = state => state.ResetPasswordSliceName.isTokenMatch;
 export const isEmailSendTemp = state => state.ResetPasswordSliceName.isEmailSend;
-export const { clearIsEmailSend, clearIsTokenMatch } = ResetPasswordSlice.actions;
 export const ResetPasswordSliceReducer = ResetPasswordSlice.reducer;
 
 
@@ -52,5 +65,14 @@ export const VerifyTokenThunk = createAsyncThunk(
 
         const formData = HelperFormDataFunction(tokentemp);
         return HelperThunkFunction('client/resetpassword.php?action=verifyToken', 'POST', formData, true);
+    }
+)
+
+export const ChangePasswordThunk = createAsyncThunk(
+    "ResetPasswordSliceName/ChangePasswordThunk",
+    async ({ passwordtemp }) => {
+
+        const formData = HelperFormDataFunction(passwordtemp);
+        return HelperThunkFunction('client/resetpassword.php?action=changepassword', 'POST', formData, true);
     }
 )
