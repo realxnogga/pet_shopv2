@@ -43,9 +43,9 @@ export const GetAddToCartDataThunk = createAsyncThunk(
 export const InsertAddToCartDataThunk = createAsyncThunk(
     "AddToCartSliceName/InsertAddToCartDataThunk",
     async ({ addToCartDataTemp }) => {
-
-        const formData = HelperFormDataFunction(addToCartDataTemp);
         
+        const formData = HelperFormDataFunction(addToCartDataTemp);
+
         return HelperThunkFunction('client/addtocartproduct.php?action=insertAddToCartProductData', 'POST', formData, true);
 
     }

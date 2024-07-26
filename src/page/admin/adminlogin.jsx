@@ -6,9 +6,10 @@ import { isAdminAuthTemp } from "../../feature/admin/loginSlice";
 import { clearIsAdminAuth } from "../../feature/admin/loginSlice";
 import { useNavigate } from "react-router-dom";
 import { GetProductDataThunk } from "../../feature/admin/adminproductSlice";
-import { GetLoginDataThunk } from "../../feature/client/clientloginSlice";
 import { GetAllCustomerDataThunk } from "../../feature/admin/admincustomerSlice";
 import { GetAllBuyDataThunk } from "../../feature/client/clientbuySlice";
+import { TextField, PasswordField } from "../../component/shared/inputfield";
+import { PrimaryButton } from "../../component/shared/button";
 
 export const AdminLogin = () => {
 
@@ -22,80 +23,55 @@ export const AdminLogin = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setAdminCredentials({
-            ...adminCredential,
-            [name]: value,
-        });
+        setAdminCredentials({ ...adminCredential, [name]: value });
     };
 
     const handleSubmitFunc = () => {
-
-        dispatch(AuthAdminThunk({
-            username: adminCredential.username,
-            password: adminCredential.password,
-        }));
+        dispatch(AuthAdminThunk({ adminCredential }));
     }
 
     const isAdminAuth = useSelector(isAdminAuthTemp);
     useEffect(() => {
         if (isAdminAuth === true) {
-       
+
             navigate('/admin/mainpage');
-            dispatch(clearIsAdminAuth());    
+            dispatch(clearIsAdminAuth());
             dispatch(GetProductDataThunk());
             dispatch(GetAllCustomerDataThunk());
             dispatch(GetAllBuyDataThunk());
-            
+
         }
-        if (isAdminAuth === false) {    
+        if (isAdminAuth === false) {
             dispatch(clearIsAdminAuth());
         }
-
     }, [isAdminAuth])
 
-    const [showPassword, setShowPassword] = useState(false)
-
-    const showpassword = () => setShowPassword(!showPassword);
-
     return (
-        <section className="h-screen w-screen flex items-center justify-center relative">
+        <section className="relative h-screen w-screen flex items-center justify-center 
+        bg-[url('../asset/loginregisterbg/loginregisterbg.png')] bg-no-repeat bg-cover bg-center
+        ">
 
-            <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-[url('../asset/loginregisterbg/loginregisterbg.png')] bg-no-repeat bg-cover bg-center filter blur-sm"></div>
-                <div className="absolute inset-0 bg-black opacity-50"></div>
-            </div>
+        <div className="absolute bg-black/25 inset-0 backdrop-blur-md"></div>
 
-          
 
-            {/* Login Form */}
-            <div className="z-10 h-fit w-[20rem] bg-white shadow-xl rounded-lg px-4 py-6 flex flex-col justify-center gap-y-5"> 
-             <h3 className="text-center text-3xl font-semibold">Login Admin</h3>
-                <div className="flex flex-col">
-                    <label htmlFor="username">Enter Username</label>
-                    <input
-                        type="text"
-                        name="username"
-                        onChange={handleInputChange}
-                        value={adminCredential.username}
-                        className="h-[2.5rem] rounded-sm border border-gray-400 px-2" />
-                </div>
+            <div className="z-10 h-fit w-[20rem] bg-white shadow-xl rounded-lg px-4 py-6 flex flex-col justify-center gap-y-5">
+                <h3 className="text-center text-3xl font-semibold">Login Admin</h3>
 
-                <div className="flex flex-col">
-                    <label htmlFor="password">Enter Password</label>
-                    <input
-                        type={`${showPassword ? 'text' : 'password'}`}
-                        name="password"
-                        onChange={handleInputChange}
-                        value={adminCredential.password}
-                        className="h-[2.5rem] rounded-sm border border-gray-400 px-2" />
+                <TextField
+                    label={'Enter Username'}
+                    name={'username'}
+                    value={adminCredential.username}
+                    onChange={handleInputChange}
+                />
 
-                    <div className='flex items-center gap-x-2'>
-                        <input onClick={showpassword} type="checkbox" />
-                        <p className='text-[.8rem] text-gray-400'>show password</p>
-                    </div>
-                </div>
+                <PasswordField
+                    label={'Enter Password'}
+                    name="password"
+                    onChange={handleInputChange}
+                    value={adminCredential.password}
+                />
 
-                <button onClick={handleSubmitFunc} className="w-full bg-blue-500 hover:bg-blue-400 rounded-[10rem] text-xl p-2 font-semibold text-white">Login</button>
+                <PrimaryButton text={'Admin Login'} onClick={handleSubmitFunc} />
 
             </div>
         </section>

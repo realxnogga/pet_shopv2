@@ -42,9 +42,9 @@ export const GetAllRatingDataThunk = createAsyncThunk(
 export const InsertRatingDataThunk = createAsyncThunk(
     "RatingSliceName/InsertRatingDataThunk",
     async ({ ratingDataTemp }) => {
-
+   
         const formData = HelperFormDataFunction(ratingDataTemp);
-        
+
         return HelperThunkFunction('client/rating.php?action=insertRatingData', 'POST', formData, true);
 
     }

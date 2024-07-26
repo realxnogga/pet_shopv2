@@ -43,21 +43,26 @@ export const ClientLoginSliceReducer = ClientLoginSlice.reducer;
 export const GetLoginDataThunk = createAsyncThunk(
     "ClientLoginSliceName/GetLoginDataThunk",
     async ({ loginDataTemp }) => {
-
         const formData = HelperFormDataFunction(loginDataTemp);
 
         return HelperThunkFunction('client/clientlogin.php?action=getLoginData', 'POST', formData, true);
-
     }
 )
 
 export const InsertLoginDataThunk = createAsyncThunk(
     "ClientLoginSliceName/InsertLoginDataThunk",
     async ({ loginDataTemp }) => {
-
         const formData = HelperFormDataFunction(loginDataTemp);
 
         return HelperThunkFunction('client/clientlogin.php?action=putLoginData', 'POST', formData, true);
-
     }
 )
+// ------------------------------
+// import { SampleFunc } from "../../utils/sample";
+// import { create, useStore } from "zustand"; 
+// import { HelperFormDataFunction } from "../../utils/helperformdatafunction";
+
+// const loginStore = create((set) => ({
+      
+//       insertlogindata: (logindata) => SampleFunc()
+// }));

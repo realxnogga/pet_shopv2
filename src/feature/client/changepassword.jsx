@@ -64,6 +64,7 @@ export const VerifyTokenThunk = createAsyncThunk(
     async ({ tokentemp }) => {
 
         const formData = HelperFormDataFunction(tokentemp);
+
         return HelperThunkFunction('client/resetpassword.php?action=verifyToken', 'POST', formData, true);
     }
 )
@@ -73,6 +74,7 @@ export const ChangePasswordThunk = createAsyncThunk(
     async ({ passwordtemp }) => {
 
         const formData = HelperFormDataFunction(passwordtemp);
+
         return HelperThunkFunction('client/resetpassword.php?action=changepassword', 'POST', formData, true);
     }
 )

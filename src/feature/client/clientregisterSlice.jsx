@@ -30,9 +30,9 @@ export const ClientRegisterSliceReducer = ClientRegisterSlice.reducer;
 
 export const InsertRegisterDataThunk = createAsyncThunk(
     "ClientRegisterSliceName/InsertRegisterDataThunk",
-    async ({ registerDataTemp, userProfile  }) => {
+    async ({ userRegisterCredential, userProfile }) => {
 
-        const formData = HelperFormDataFunction(registerDataTemp, userProfile);
+        const formData = HelperFormDataFunction(userRegisterCredential, userProfile);
 
         return HelperThunkFunction('client/clientregister.php?action=putRegisterData', 'POST', formData, true);
 

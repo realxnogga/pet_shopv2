@@ -20,6 +20,11 @@ if (isset($_GET['action'])) {
 
             $result = $conn->query("select*from client where clientemail = '$email'");
 
+            $row = $result->fetch_assoc();
+
+            $clientusername = $row['clientusername'];
+
+
             if ($result->num_rows <= 0) {
                 echo json_encode(['bool' => false, 'message' => 'Email does not exist']);
             } else {
@@ -38,7 +43,7 @@ if (isset($_GET['action'])) {
                     $mail->SMTPSecure = 'tls';
                     $mail->Port = 587;
 
-                    $mail->setFrom($email, 'Customer');
+                    $mail->setFrom($email, $clientusername);
                     $mail->addAddress($email);
 
                     $mail->isHTML(true);

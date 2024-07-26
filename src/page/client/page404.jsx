@@ -1,6 +1,7 @@
 
 
 import { NavLink } from "react-router-dom"
+import { PrimaryButton } from "../../component/shared/button"
 
 export const Page404 = () => {
 
@@ -9,9 +10,7 @@ export const Page404 = () => {
 
       <p className="text-5xl">Error 404 Page</p>
       <NavLink to={'/'}>
-        <button className='bg-blue-500 hover:bg-blue-400 rounded-sm py-2 px-5 text-3xl text-white'>
-          Back
-        </button>
+        <PrimaryButton text={'Back'} design={'w-[8rem] rounded-none'} />
       </NavLink>
     </section >
   )

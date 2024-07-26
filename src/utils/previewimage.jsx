@@ -1,7 +1,7 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export const PreviewImage = ({targetFile, design}) => {
+export const PreviewImage = ({ targetFile, design }) => {
 
     const [userProfilePreview, setUserProfilePreview] = useState(null);
 
@@ -14,10 +14,10 @@ export const PreviewImage = ({targetFile, design}) => {
     }
 
     return (
-        userProfilePreview ? <img
+        userProfilePreview && <img
             src={userProfilePreview}
             alt="Profile Preview"
             className={`${design} h-[4rem] w-[4rem] mb-1 object-contain`}
-        /> : ''
+        />
     )
 }

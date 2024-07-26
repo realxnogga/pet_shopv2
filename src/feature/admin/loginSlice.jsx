@@ -27,11 +27,9 @@ export const AdminLoginSliceReducer = AdminLoginSlice.reducer;
 
 export const AuthAdminThunk = createAsyncThunk(
     'AdminLoginSliceName/AuthAdminThunk',
-    async( adminCredentialTemp ) => {
+    async({ adminCredential }) => {
 
-    const formData = HelperFormDataFunction(adminCredentialTemp);
-
-    return HelperThunkFunction('admin/adminlogin.php?action=adminAuth', 'POST', formData, true);
+    return HelperThunkFunction('admin/adminlogin.php?action=adminAuth', 'POST', adminCredential, false);
 
     }
 )

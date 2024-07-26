@@ -15,7 +15,6 @@ if (isset($_GET['action'])) {
 
     switch ($action) {
         case 'putRegisterData':        
-
             $data = json_decode($_POST['credential'], true);
             $userregisterusername = $data['userregisterusername'];
             $userregisterpassword = $data['userregisterpassword'];
@@ -23,7 +22,6 @@ if (isset($_GET['action'])) {
             $userregisteremail = $data['userregisteremail'];
 
             $file = $_FILES['imagecredential'];
-
 
             $sql = "select*from client where clientusername = '$userregisterusername'";
             $result = $conn->query($sql);
