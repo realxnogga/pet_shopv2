@@ -1,49 +1,60 @@
 
-import { useDispatch, useSelector } from "react-redux"
 import { ClientHamburger } from "../../component/client/clienthamburger"
-import { buyProductDataTemp, isBuyDataStatusUpdatedTemp } from "../../feature/client/clientbuySlice"
 import { useEffect, useState } from "react";
-import { UpdateBuyDataStatusThunk } from "../../feature/client/clientbuySlice";
-import { GetBuyDataThunk } from "../../feature/client/clientbuySlice";
-import { userDataTemp } from "../../feature/client/clientloginSlice";
-import { clearIsBuyDataStatusUpdated } from "../../feature/client/clientbuySlice";
 import { FaCheck } from "react-icons/fa6";
 import { IoCloseSharp } from "react-icons/io5";
 import { MdCheckCircleOutline } from "react-icons/md";
-import { InsertRatingDataThunk } from "../../feature/client/ratingSlice";
-import { clearIsRatingDataInserted } from "../../feature/client/ratingSlice";
-import { isRatingDataInsertedTemp } from "../../feature/client/ratingSlice";
 import { ShowToast } from "../../component/admin/toaster";
-import { GetAllRatingDataThunk } from "../../feature/client/ratingSlice";
 import { IoSearch } from "react-icons/io5";
 import { Empty } from "../../component/client/empty";
-
+import { useClientRating } from "../../store/client/clientratingstore";
+import { useClientLogin } from "../../store/client/clientloginstore";
+import { useClientBuy } from "../../store/client/clientbuystore";
+import { useTableData } from "../../store/shared/tabledata";
+import { Pagination } from "../../component/shared/pagination";
+import { Entries } from "../../component/shared/entries";
 
 export const ClientYourOrder = () => {
-    const dispatch = useDispatch();
 
-    const userdata = useSelector(userDataTemp);
-    if (Object.keys(userdata).length != 0) {
-        var clientusername = userdata.clientusername;
-    }
+    const userData = useClientLogin(state => state.userData);
 
-    const buyProductData = useSelector(buyProductDataTemp);
+    const getTableData = useTableData(state => state.getTableData);
+    const returnedtTableDataFromPagination = useTableData(state => state.returnedtTableDataFromPagination);
+
+
+    const { isRatingDataInserted, insertRatingData, clearIsRatingDataInserted, getRatingData } = useClientRating(state => ({
+        isRatingDataInserted: state.isRatingDataInserted,
+        insertRatingData: state.insertRatingData,
+        clearIsRatingDataInserted: state.clearIsRatingDataInserted,
+        getRatingData: state.getRatingData,
+    }))
+    // -------------------------------------------
+    const { buyProductData, getBuyData, isBuyDataStatusUpdated, updateBuyDataStatus, clearIsBuyDataStatusUpdated } = useClientBuy(state => ({
+        buyProductData: state.buyProductData,
+        getBuyData: state.getBuyData,
+        isBuyDataStatusUpdated: state.isBuyDataStatusUpdated,
+        updateBuyDataStatus: state.updateBuyDataStatus,
+        clearIsBuyDataStatusUpdated: state.clearIsBuyDataStatusUpdated,
+    }))
+
+    // -------------------------------------------
+    // get the table data
+    useEffect(() => {
+        getTableData(buyProductData);
+    }, [buyProductData]);
+
 
     const [idToRecieve, setIdToRecieve] = useState(0);
 
-    const handleRecieveFunc = () => {
-        dispatch(UpdateBuyDataStatusThunk(idToRecieve));
-    }
-
-    const isBuyDataStatusUpdated = useSelector(isBuyDataStatusUpdatedTemp);
+    const handleRecieveFunc = () => updateBuyDataStatus(idToRecieve);
 
     useEffect(() => {
         if (isBuyDataStatusUpdated === true) {
-            dispatch(GetBuyDataThunk(clientusername));
-            dispatch(clearIsBuyDataStatusUpdated());
+            getBuyData(userData.clientusername);
+            clearIsBuyDataStatusUpdated();
         }
         if (isBuyDataStatusUpdated === false) {
-            dispatch(clearIsBuyDataStatusUpdated());
+            clearIsBuyDataStatusUpdated();
         }
     }, [isBuyDataStatusUpdated])
     //-----------------------------------------------
@@ -73,10 +84,10 @@ export const ClientYourOrder = () => {
             star: rating.star,
             comment: rating.comment,
         }
-        dispatch(InsertRatingDataThunk({ ratingDataTemp }));
+        insertRatingData({ ratingDataTemp });
     }
 
-    const isRatingDataInserted = useSelector(isRatingDataInsertedTemp);
+
     useEffect(() => {
         if (isRatingDataInserted === true) {
             ShowToast('your rating has been added successfully', 'success');
@@ -84,9 +95,9 @@ export const ClientYourOrder = () => {
                 star: 1,
                 comment: '',
             })
-            dispatch(GetAllRatingDataThunk());
+            getRatingData();
             document.getElementById('AddRatingModal').close();
-            dispatch(clearIsRatingDataInserted());
+            clearIsRatingDataInserted();
         }
         if (isRatingDataInserted === false) {
             ShowToast('failed to add your rating', 'error');
@@ -94,7 +105,7 @@ export const ClientYourOrder = () => {
                 star: 1,
                 comment: '',
             })
-            dispatch(clearIsRatingDataInserted());
+            clearIsRatingDataInserted();
         }
 
     }, [isRatingDataInserted])
@@ -105,9 +116,9 @@ export const ClientYourOrder = () => {
     const handleSearchQueryChangeFunc = (e) => {
         setSearchQuery(e.target.value)
     }
-    const filteredProductData = buyProductData.filter(item => {
-        const temp = item.productname.toLowerCase().includes(searchQuery.toLowerCase()); 
-        return temp;   
+    const filteredProductData = returnedtTableDataFromPagination.filter(item => {
+        const temp = item.productname.toLowerCase().includes(searchQuery.toLowerCase());
+        return temp;
     });
 
 
@@ -115,70 +126,77 @@ export const ClientYourOrder = () => {
         <section className={`relative bg-gray-200 mt-[4rem] h-screen w-screen flex items-center justify-center`}>
             <ClientHamburger />
 
-            <div className="h-[95%] w-[70rem] max-w-[95%] flex flex-col gap-y-4">
-            {/* h-[95%] w-[68rem] max-w-[95%] flex flex-col gap-y-4 */}
+            <div className="h-[95%] w-[70rem] max-w-[95%] flex flex-start flex-col gap-y-2">
 
-                <div className='flex justify-end'>
-                    <IoSearch className='h-[2.5rem] w-[2.5rem] p-[.5rem] bg-white' />
-                    <input
-                        value={searchQuery}
-                        onChange={handleSearchQueryChangeFunc}
-                        type="text"
-                        placeholder='search product name'
-                        className="h-[2.5rem] rounded-sm outline-none" />
-                </div>
+                <section className="flex items-end justify-between">
+                    <Entries />
 
-                <div className="h-full w-full overflow-y-scroll noScrollbar rounded-lg">
+                    <div className='flex justify-end'>
+                        <IoSearch className='h-[2.5rem] w-[2.5rem] p-[.5rem] bg-white' />
+                        <input
+                            value={searchQuery}
+                            onChange={handleSearchQueryChangeFunc}
+                            type="text"
+                            placeholder='search product name'
+                            className="h-[2.5rem] rounded-sm outline-none" />
+                    </div>
+                </section>
+
+                <div className="h-fit max-h-[28rem] w-full overflow-y-scroll noScrollbar">
                     {
-                       filteredProductData.length === 0 ?
-                       (
-                        <Empty design={`border border-gray-500 rounded-lg `} text1={'Nothing to show'} text2={'Its empty here, you can choose other product name.'}/>  
-                       )
-                       :
-                       (
-                        <table className="w-full bg-white">
-                        <tr className="bg-blue-400 sticky top-0">
-                            <td className="border font-semibold text-left p-[.6rem]">Product Name</td>
-                            <td className="border font-semibold text-left p-[.6rem]">Product size</td>
-                            <td className="border font-semibold text-left p-[.6rem]">Product Quantity</td>
-                            <td className="border font-semibold text-left p-[.6rem]">Product Total Price</td>
-                            <td className="border font-semibold text-left p-[.6rem]">Order Date</td>
-                            <td className="border font-semibold text-left p-[.6rem]">Your Address</td>
-                            <td className="border font-semibold text-left p-[.6rem]">Payment Method</td>
-                            <td className="border font-semibold text-left p-[.6rem]">Order Status</td>
-                        </tr>
+                        filteredProductData.length === 0 ?
+                            (
+                                <Empty design={`border border-gray-500 rounded-lg `} text1={'Nothing to show'} text2={'Its empty here, you can choose other product name.'} />
+                            )
+                            :
+                            (
+                                <table className="w-full bg-white">
+                                    <tr className="bg-blue-400 sticky top-0">
+                                        <td className="border font-semibold text-left p-[.6rem]">Product Name</td>
+                                        <td className="border font-semibold text-left p-[.6rem]">Product size</td>
+                                        <td className="border font-semibold text-left p-[.6rem]">Product Quantity</td>
+                                        <td className="border font-semibold text-left p-[.6rem]">Product Total Price</td>
+                                        <td className="border font-semibold text-left p-[.6rem]">Order Date</td>
+                                        <td className="border font-semibold text-left p-[.6rem]">Your Address</td>
+                                        <td className="border font-semibold text-left p-[.6rem]">Payment Method</td>
+                                        <td className="border font-semibold text-left p-[.6rem]">Order Status</td>
+                                    </tr>
 
-                        {filteredProductData.map(item => (
-                            <tr key={item.buyproductprimarykey}>
-                                <td className="border px-2">{item.productname}</td>
-                                <td className="border px-2">{item.productsize}</td>
-                                <td className="border px-2">{item.productquantity}</td>
-                                <td className="border px-2">{item.producttotalprice}</td>
-                                <td className="border px-2">{item.orderdate}</td>
-                                <td className="border px-2">{item.clientaddress}</td>
-                                <td className="border px-2">{item.paymentmethod}</td>
-                                <td className="border flex items-center justify-center p-2">
-                                    {
-                                        item.orderstatus === 'not recieve' ?
-                                            (
-                                                <button onClick={() => { setIdToRecieve(item.buyproductprimarykey); document.getElementById('confirmRecieveModal').showModal(); }} className={`bg-gray-400 px-3 py-1 text-white`}>To Recieve</button>
-                                            )
-                                            :
-                                            (
-                                                <div className="flex gap-x-2">
-                                                    <button onClick={() => { setIdToRecieve(item.buyproductprimarykey); document.getElementById('AddRatingModal').showModal(); setProductIDRating(item.buyproductID) }} className={`bg-blue-400 px-3 py-1 text-white flex items-center gap-x-1`}>Rate</button>
+                                    {filteredProductData.map(item => (
+                                        <tr key={item.buyproductprimarykey}>
+                                            <td className="border px-2">{item.productname}</td>
+                                            <td className="border px-2">{item.productsize}</td>
+                                            <td className="border px-2">{item.productquantity}</td>
+                                            <td className="border px-2">{item.producttotalprice}</td>
+                                            <td className="border px-2">{item.orderdate}</td>
+                                            <td className="border px-2">{item.clientaddress}</td>
+                                            <td className="border px-2">{item.paymentmethod}</td>
+                                            <td className="border flex items-center justify-center p-2">
+                                                {
+                                                    item.orderstatus === 'not recieve' ?
+                                                        (
+                                                            <button onClick={() => { setIdToRecieve(item.buyproductprimarykey); document.getElementById('confirmRecieveModal').showModal(); }} className={`bg-gray-400 px-3 py-1 text-white`}>To Recieve</button>
+                                                        )
+                                                        :
+                                                        (
+                                                            <div className="flex gap-x-2">
+                                                                <button onClick={() => { setIdToRecieve(item.buyproductprimarykey); document.getElementById('AddRatingModal').showModal(); setProductIDRating(item.buyproductID) }} className={`bg-blue-400 px-3 py-1 text-white flex items-center gap-x-1`}>Rate</button>
 
-                                                    <button className={`bg-green-400 px-3 py-1 text-white flex items-center gap-x-1`}>Recieved<FaCheck /></button>
-                                                </div>
-                                            )
-                                    }
-                                </td>
-                            </tr>
-                        ))}
-                    </table>
-                       ) 
+                                                                <button className={`bg-green-400 px-3 py-1 text-white flex items-center gap-x-1`}>Recieved<FaCheck /></button>
+                                                            </div>
+                                                        )
+                                                }
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </table>
+                            )
                     }
-                   
+
+                </div>
+                {/* pagination */}
+                <div className="flex items-start justify-between ">
+                    <Pagination />
                 </div>
             </div>
             {/* rating modal */}

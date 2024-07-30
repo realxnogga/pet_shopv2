@@ -29,7 +29,7 @@ if (isset($_GET['action'])) {
 
             case 'deleteCustomer':
 
-                $data = json_decode(file_get_contents("php://input"), true);
+                $data = json_decode($_POST['credential'], true);
            
                 $clientID = $data['clientID'];
                 $clientprofile = $data['clientprofile'];

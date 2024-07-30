@@ -62,7 +62,7 @@ if (isset($_GET['action'])) {
 
         case 'deleteProduct':
 
-            $data = json_decode(file_get_contents("php://input"), true);
+            $data = json_decode($_POST['credential'], true);
 
             $productID = $data['productID'];
             $productimage = $data['productimage'];
@@ -92,7 +92,7 @@ if (isset($_GET['action'])) {
         case 'updateProductStock':
 
             // Get the JSON data from the request
-            $data = json_decode(file_get_contents("php://input"), true);
+            $data = json_decode($_POST['credential'], true);
 
             // Extract the product ID and total stock from the JSON data
             $productID = $data['productID'];

@@ -15,7 +15,7 @@ if (isset($_GET['action'])) {
     $action = $_GET['action'];
 
     switch ($action) {
-        case 'putLoginData':
+        case 'testLogin':
 
             $data = json_decode($_POST['credential'], true);
 
@@ -27,9 +27,9 @@ if (isset($_GET['action'])) {
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
-                echo json_encode(true);
+                echo json_encode(['islogin' => true, 'isrouteprotected' => true]);
             } else {
-                echo json_encode(false);
+                echo json_encode(['islogin' => false, 'isrouteprotected' => false]);
             }
 
             $conn->close();
@@ -46,9 +46,9 @@ if (isset($_GET['action'])) {
 
             $result = $conn->query($sql);
 
-            $data = [];
+            $data = '';
             while ($row = $result->fetch_assoc()) {
-                $data[] = $row;
+                $data = $row;
             }
             echo json_encode($data);
         

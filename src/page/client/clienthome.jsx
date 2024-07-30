@@ -1,19 +1,29 @@
-// ClientHome.js
-import React, { useEffect, useState } from 'react';
+
+import React, { useState } from 'react';
 import { ClientHamburger } from "../../component/client/clienthamburger";
 import { IoSearch } from "react-icons/io5";
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchedProductDataTemp, GetProductDataThunk } from '../../feature/admin/adminproductSlice';
-import { ClientViewProductModal } from '../../component/client/clientviewproductmodal';
-import { ratingDataTemp } from '../../feature/client/ratingSlice';
 import { IoCloseSharp } from "react-icons/io5";
 import { Empty } from '../../component/client/empty';
+import { useAdminProduct } from '../../store/admin/adminproductstore';
+import { useClientRating } from '../../store/client/clientratingstore';
+import { AddToCartButton } from '../../component/client/addtocartbutton';
+import { useNavigate } from 'react-router-dom';
 
 export const ClientHome = () => {
-    const dispatch = useDispatch();
-    const fetchedProductData = useSelector(fetchedProductDataTemp);
+
+    const navigate = useNavigate();
+
+    const {fetchedProductData, getProductIDForCart, getProductIDForViewMore} = useAdminProduct(state => ({
+        fetchedProductData: state.fetchedProductData,
+        getProductIDForCart: state.getProductIDForCart,
+        getProductIDForViewMore: state.getProductIDForViewMore,
+
+    }));
+    const ratingData = useClientRating(state => state.ratingData);
+
     const [searchQuery, setSearchQuery] = useState('');
     const [productFilter, setProductFilter] = useState('all');
+
 
     const filteredProductData = fetchedProductData.filter(item => {
         const matchesSearchQuery = item.productname.toLowerCase().includes(searchQuery.toLowerCase());
@@ -21,14 +31,7 @@ export const ClientHome = () => {
         return matchesSearchQuery && allProductFilter;
     });
 
-    const [selectedProduct, setSelectedProduct] = useState([]);
-    const GetSelectedProductFunc = (productID) => {
-        let selectedProductTemp = filteredProductData.filter(item => item.productID === productID);
-        setSelectedProduct(selectedProductTemp);
-    };
     //------------------------------------------------
-
-    const ratingData = useSelector(ratingDataTemp);
 
     const [ratingProduct, setRatingProduct] = useState([]);
 
@@ -112,15 +115,18 @@ export const ClientHome = () => {
 
                                             <p className='text-xl font-semibold'>{item.productname}</p>
                                             <p className='text-blue-500 mo:hidden'>₱{item.productprice}</p>
-                                            <button
-                                                onClick={() => {
-                                                    GetSelectedProductFunc(item.productID);
-                                                    document.getElementById('viewProductModal').showModal()
-                                                }}
-                                                className='bg-blue-500 hover:bg-blue-400 rounded-sm p-2 mt-1 text-xs text-white'
-                                            >
-                                                View More
-                                            </button>
+
+    <div className='h-[2rem] w-full text-xs text-white flex items-center justify-between gap-x-3'>
+    <button onClick={() => {navigate('/viewproduct'); getProductIDForViewMore(item.productID)}} className='bg-blue-500 hover:bg-blue-400 h-full w-full duration-500'>
+        View More
+    </button>
+
+    <AddToCartButton onClick={() => getProductIDForCart(item.productID)} />
+ 
+    </div>
+
+   
+
                                         </div>
                                     </div>
                                 );
@@ -177,8 +183,6 @@ export const ClientHome = () => {
 
                 </div>
             </dialog>
-
-            <ClientViewProductModal selectedProduct={selectedProduct} />
 
         </section>
     );

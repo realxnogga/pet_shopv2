@@ -1,37 +1,38 @@
 import { useNavigate } from "react-router-dom"
-import { useDispatch } from "react-redux";
-import { clearIsAdminAuth } from "../../feature/admin/loginSlice";
 import { MdRefresh } from "react-icons/md";
-import { GetProductDataThunk } from "../../feature/admin/adminproductSlice";
-import { GetAllCustomerDataThunk } from "../../feature/admin/admincustomerSlice";
-import { GetAllBuyDataThunk } from "../../feature/client/clientbuySlice";
 import { useState } from "react";
 import ReactTooltip from "react-tooltip";
-
+import { useAdminLogin } from "../../store/admin/adminloginstore";
+import { useAdminCustomer } from "../../store/admin/admincustomerstore";
+import { useAdminProduct } from "../../store/admin/adminproductstore";
+import { useClientBuy } from "../../store/client/clientbuystore";
 
 export const AdminNavbar = () => {
+
+    const clearIsAdminLogin = useAdminLogin(state => state.clearIsAdminLogin);
+    const getAllCustomerData = useAdminCustomer(state => state.getAllCustomerData);
+    const getProductData = useAdminProduct(state => state.getProductData);
+    const getAllBuyData = useClientBuy(state => state.getAllBuyData);
+
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     const handleLogoutFunc = () => {
         navigate('/admin/login');
-        dispatch(clearIsAdminAuth());
+        clearIsAdminLogin();
     }
 
     const [spin, setSpin] = useState(false);
 
     const handleRefreshFunc = () => {
         setSpin(true);
-        dispatch(GetProductDataThunk());
-        dispatch(GetAllCustomerDataThunk());
-        dispatch(GetAllBuyDataThunk());
+        getAllBuyData();
+        getProductData();
+        getAllCustomerData();
 
         setTimeout(() => {
             setSpin(false);
         }, 1000);
-
     }
-
 
     return (
         <nav className={`bg-blue-400 h-[4rem] px-12 mo:px-4 w-screen backdrop-blur absolute top-0  z-10 backdrop-brightness-75 flex items-center justify-between `}>

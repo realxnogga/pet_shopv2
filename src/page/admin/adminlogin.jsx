@@ -1,19 +1,26 @@
 
 import { useEffect, useState } from "react"
-import { useSelector, useDispatch } from "react-redux";
-import { AuthAdminThunk } from "../../feature/admin/loginSlice"
-import { isAdminAuthTemp } from "../../feature/admin/loginSlice";
-import { clearIsAdminAuth } from "../../feature/admin/loginSlice";
 import { useNavigate } from "react-router-dom";
-import { GetProductDataThunk } from "../../feature/admin/adminproductSlice";
-import { GetAllCustomerDataThunk } from "../../feature/admin/admincustomerSlice";
-import { GetAllBuyDataThunk } from "../../feature/client/clientbuySlice";
 import { TextField, PasswordField } from "../../component/shared/inputfield";
 import { PrimaryButton } from "../../component/shared/button";
+import { useAdminLogin } from "../../store/admin/adminloginstore";
+import { useAdminCustomer } from "../../store/admin/admincustomerstore";
+import { useAdminProduct } from "../../store/admin/adminproductstore";
+import { useClientBuy } from "../../store/client/clientbuystore";
 
 export const AdminLogin = () => {
 
-    const dispatch = useDispatch();
+    const {isAdminLogin, clearIsAdminLogin, insertAdminLoginData} = useAdminLogin(state => ({
+        isAdminLogin: state.isAdminLogin,
+        clearIsAdminLogin: state.clearIsAdminLogin,
+        insertAdminLoginData: state.insertAdminLoginData,
+    }));
+
+    const getAllCustomerData = useAdminCustomer(state => state.getAllCustomerData);
+    const getProductData = useAdminProduct(state => state.getProductData);
+    const getAllBuyData = useClientBuy(state => state.getAllBuyData);
+
+
     const navigate = useNavigate();
 
     const [adminCredential, setAdminCredentials] = useState({
@@ -27,24 +34,25 @@ export const AdminLogin = () => {
     };
 
     const handleSubmitFunc = () => {
-        dispatch(AuthAdminThunk({ adminCredential }));
+       insertAdminLoginData({adminCredential});
     }
 
-    const isAdminAuth = useSelector(isAdminAuthTemp);
     useEffect(() => {
-        if (isAdminAuth === true) {
+        if (isAdminLogin === true) {
 
             navigate('/admin/mainpage');
-            dispatch(clearIsAdminAuth());
-            dispatch(GetProductDataThunk());
-            dispatch(GetAllCustomerDataThunk());
-            dispatch(GetAllBuyDataThunk());
+            getAllBuyData();
+            getProductData();
+            getAllCustomerData();
+            clearIsAdminLogin();
 
         }
-        if (isAdminAuth === false) {
-            dispatch(clearIsAdminAuth());
+        if (isAdminLogin === false) {
+           clearIsAdminLogin();
         }
-    }, [isAdminAuth])
+    }, [isAdminLogin])
+
+    console.log(isAdminLogin);
 
     return (
         <section className="relative h-screen w-screen flex items-center justify-center 

@@ -1,14 +1,13 @@
 
-
-import { useSelector } from "react-redux"
 import { FaCheck } from "react-icons/fa6";
-import { allBuyProductDataTemp } from "../../feature/client/clientbuySlice";
 import { AdminHamburger } from "../../component/admin/adminhamburger";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Empty } from "../../component/client/empty";
+import { useClientBuy } from "../../store/client/clientbuystore";
 
 export const AdminOrder = () => {
-    const allBuyProductData = useSelector(allBuyProductDataTemp);
+
+    const allBuyProductData = useClientBuy(state => state.allBuyProductData);
 
     const date = new Date();
 

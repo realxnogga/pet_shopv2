@@ -1,13 +1,13 @@
 
 
-import { isAdminSidebarOpenState } from "../../feature/admin/adminsidebarSlice";
 import { TfiMenu } from "react-icons/tfi";
-import { useDispatch } from "react-redux";
+import { useAdminSidebar } from "../../store/admin/adminsidebarstore";
 
 export const AdminHamburger = () => {
-    const dispatch = useDispatch();
+    
+    const adminSidebarToggle = useAdminSidebar(state => state.adminSidebarToggle);
 
     return (
-        <TfiMenu onMouseOver={() => {dispatch(isAdminSidebarOpenState());}} className={`absolute top-4 left-4 text-2xl`} /> 
+        <TfiMenu onMouseOver={() => adminSidebarToggle()} className={`absolute top-4 left-4 text-2xl`} /> 
     )
 }

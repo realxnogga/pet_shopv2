@@ -2,28 +2,37 @@
 import { FaPlus } from "react-icons/fa6";
 import { AdminHamburger } from "../../component/admin/adminhamburger"
 import { useEffect, useState } from "react";
-import { InsertProductDataThunk } from "../../feature/admin/adminproductSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { isProductDataInsertedTemp } from "../../feature/admin/adminproductSlice";
-import { clearIsProductDataInsertered } from "../../feature/admin/adminproductSlice";
-import { fetchedProductDataTemp } from "../../feature/admin/adminproductSlice";
-import { GetProductDataThunk } from "../../feature/admin/adminproductSlice";
+import { useDispatch } from "react-redux";
 import { MdEdit } from "react-icons/md";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import ReactTooltip from 'react-tooltip';
 import { ShowToast } from "../../component/admin/toaster";
-import { DeleteProductDataThunk } from "../../feature/admin/adminproductSlice";
-import { clearIsProductDataDeleted } from "../../feature/admin/adminproductSlice";
-import { isProductDataDeletedTemp } from "../../feature/admin/adminproductSlice";
-import { UpdateProductThunk } from "../../feature/admin/adminproductSlice";
-import { isAdminProductUpdatedTemp } from "../../feature/admin/adminproductSlice";
-import { clearIsAdminProductUpdated } from "../../feature/admin/adminproductSlice";
 import { IoSearch } from "react-icons/io5";
 import { Empty } from "../../component/client/empty";
+import { useAdminProduct } from "../../store/admin/adminproductstore";
 
 export const AdminInventory = () => {
 
-    const dispatch = useDispatch();
+    const {isProductDataInserted, insertProductData, clearIsProductDataInserted, 
+        fetchedProductData, getProductData, 
+        isProductDataDeleted, deleteProductData, clearIsProductDataDeleted, 
+        isProductUpdated, updateProduct, clearIsProductUpdated} = useAdminProduct(state => ({
+    
+            isProductDataInserted: state.isProductDataInserted,
+            insertProductData: state.insertProductData,
+            clearIsProductDataInserted: state.clearIsProductDataInserted,
+    
+            fetchedProductData: state.fetchedProductData,
+            getProductData: state.getProductData,
+    
+            isProductDataDeleted: state.isProductDataDeleted,
+            deleteProductData: state.deleteProductData,
+            clearIsProductDataDeleted: state.clearIsProductDataDeleted,
+    
+            isProductUpdated: state.isProductUpdated,
+            updateProduct: state.updateProduct,
+            clearIsProductUpdated: state.clearIsProductUpdated,
+    }));
 
     const [productData, setProductData] = useState({
         productname: '',
@@ -47,18 +56,8 @@ export const AdminInventory = () => {
 
 
     const handleProductDataSubmitFunc = () => {
-        const productDataTemp = {
-            productname: productData.productname,
-            productsize: productData.productsize,
-            productstock: productData.productstock,
-            productprice: productData.productprice,
-            productdescription: productData.productdescription,
-            productcategory: productData.productcategory,
-        }
-        dispatch(InsertProductDataThunk({ productDataTemp, productImage }));
+        insertProductData({ productData, productImage });
     }
-
-    const isProductDataInserted = useSelector(isProductDataInsertedTemp);
 
     useEffect(() => {
         if (isProductDataInserted === true) {
@@ -76,25 +75,22 @@ export const AdminInventory = () => {
             document.getElementById('fileInput').value = "";
             document.getElementById('addProductModal').close();
 
-            dispatch(GetProductDataThunk());
-            dispatch(clearIsProductDataInsertered());
+            getProductData();
+            clearIsProductDataInserted();
         }
     }, [isProductDataInserted])
 
-    const fetchedProductData = useSelector(fetchedProductDataTemp);
-
 
     const DeleteProductFunc = (productID, productimage) => {
-        dispatch(DeleteProductDataThunk({ productID, productimage }));
+        const temp = {productID, productimage}
+        deleteProductData({ temp });
     }
-
-    const isProductDataDeleted = useSelector(isProductDataDeletedTemp);
 
     useEffect(() => {
         if (isProductDataDeleted === true) {
             ShowToast('product deleted successfully', 'success');
-            dispatch(GetProductDataThunk());
-            dispatch(clearIsProductDataDeleted());
+            clearIsProductDataDeleted();
+            getProductData();
         }
 
     }, [isProductDataDeleted])
@@ -114,32 +110,27 @@ export const AdminInventory = () => {
     };
 
     const [productPic, setProductPic] = useState(null);
-    const handleProductPicChange = (e) => {
-        setProductPic(e.target.files[0]);
-    }
+    const handleProductPicChange = (e) => setProductPic(e.target.files[0]);
 
-    console.log(productPic);
+    const handleEditInputFunc = () => updateProduct({ selectedProduct, productPic });
 
-    const handleEditInputFunc = () => {
-        dispatch(UpdateProductThunk({ selectedProduct, productPic }));
-    }
-
-    const isAdminProductUpdated = useSelector(isAdminProductUpdatedTemp);
 
     useEffect(() => {
-        if (isAdminProductUpdated === true) {
+        if (isProductUpdated === true) {
             ShowToast('successfully edited', 'success');
             document.getElementById('editProductModal').close()
-            dispatch(GetProductDataThunk());
-            dispatch(clearIsAdminProductUpdated());
+    
+            getProductData();
+            clearIsProductUpdated();
         }
-        if (isAdminProductUpdated === false) {
+        if (isProductUpdated === false) {
             ShowToast('failed to edit', 'error');
             document.getElementById('editProductModal').close()
-            dispatch(clearIsAdminProductUpdated());
+         
+            clearIsProductUpdated();
         }
 
-    }, [isAdminProductUpdated])
+    }, [isProductUpdated])
 
 
     const [searchQuery, setSearchQuery] = useState('');
@@ -148,7 +139,7 @@ export const AdminInventory = () => {
         setSearchQuery(e.target.value)
     }
 
-    const filteredProductData = fetchedProductData.filter(item => {
+    const filteredProductData = fetchedProductData.reverse().filter(item => {
         const temp = item.productname.toLowerCase().includes(searchQuery.toLowerCase()); 
         return temp;   
     });

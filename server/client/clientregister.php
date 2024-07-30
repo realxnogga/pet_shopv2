@@ -14,7 +14,7 @@ if (isset($_GET['action'])) {
     $action = $_GET['action'];
 
     switch ($action) {
-        case 'putRegisterData':        
+        case 'insertRegisterData':        
             $data = json_decode($_POST['credential'], true);
             $userregisterusername = $data['userregisterusername'];
             $userregisterpassword = $data['userregisterpassword'];
@@ -47,6 +47,5 @@ if (isset($_GET['action'])) {
             break;
         }
 }
-
 
 ?>

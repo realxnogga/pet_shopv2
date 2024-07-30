@@ -40,7 +40,7 @@ if (isset($_GET['action'])) {
             $conn->close();
             break;
 
-            case 'getAllRatingData':
+            case 'getRatingData':
 
                 $sql = "select*from rating";
                 $result = $conn->query($sql);

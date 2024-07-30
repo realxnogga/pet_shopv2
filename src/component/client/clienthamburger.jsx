@@ -1,13 +1,12 @@
 
-
-import { isClientSidebarOpenState } from "../../feature/client/clientsidebarSlice";
 import { TfiMenu } from "react-icons/tfi";
-import { useDispatch } from "react-redux";
+import { useClientSidebar } from "../../store/client/clientsidebarstore";
 
 export const ClientHamburger = () => {
-    const dispatch = useDispatch();
+   
+    const clientSidebarToggle = useClientSidebar(state => state.clientSidebarToggle);
 
     return (
-        <TfiMenu onMouseOver={() => {dispatch(isClientSidebarOpenState());}} className={`absolute top-4 left-4 text-2xl`} /> 
+        <TfiMenu onMouseOver={() => clientSidebarToggle()} className={`absolute top-4 left-4 text-2xl`} /> 
     )
 }

@@ -1,23 +1,23 @@
 
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { IoPeopleOutline } from 'react-icons/io5';
 import { MdAttachMoney } from 'react-icons/md';
 import { GoGraph } from 'react-icons/go';
 import { AiOutlineProduct } from 'react-icons/ai';
-import { fetchedProductDataTemp } from '../../feature/admin/adminproductSlice';
-import { allClientDataTemp } from '../../feature/admin/admincustomerSlice';
-import { allBuyProductDataTemp } from '../../feature/client/clientbuySlice';
+import { useClientBuy } from '../../store/client/clientbuystore';
 import { AdminHamburger } from '../../component/admin/adminhamburger';
+import { useAdminCustomer } from '../../store/admin/admincustomerstore';
+import { useAdminProduct } from '../../store/admin/adminproductstore';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export const AdminDashboard = () => {
-    const fetchedProductData = useSelector(fetchedProductDataTemp);
-    const allClientData = useSelector(allClientDataTemp);
-    const allBuyProductData = useSelector(allBuyProductDataTemp);
+
+    const fetchedProductData = useAdminProduct(state => state.fetchedProductData);
+    const allClientData = useAdminCustomer(state => state.allClientData);
+    const allBuyProductData = useClientBuy(state => state.allBuyProductData);
 
     const date = new Date();
     const year = date.getFullYear();

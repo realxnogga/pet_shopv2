@@ -1,12 +1,10 @@
 
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
-import { useState } from "react";
 import { Toggle } from "../../utils/toggle";
 
 // for textfield
 export const TextField = ({ label, name, onChange, value }) => {
-
     return (
         <div className="w-full flex flex-col">
             <label htmlFor={name}>{label}<span className='text-red-500'>*</span></label>
@@ -22,7 +20,6 @@ export const TextField = ({ label, name, onChange, value }) => {
 
 // for email field
 export const EmailField = ({ label, name, onChange, value }) => {
-
     return (
         <div className="w-full flex flex-col">
             <label htmlFor={name}>{label}<span className='text-red-500'>*</span></label>
@@ -38,7 +35,6 @@ export const EmailField = ({ label, name, onChange, value }) => {
 
 // for textarea field
 export const TextAreaField = ({ label, name, onChange, value }) => {
-
     return (
         <div className="w-full flex flex-col">
             <label>{label}<span className='text-red-500'>*</span></label>

@@ -16,14 +16,9 @@ if (isset($_GET['action'])) {
 
             $data = json_decode($_POST['credential'], true);
             $email = $data['email'];
-            $emailapppassword = $data['emailapppassword'];
+            $emailAppPassword = $data['emailAppPassword'];
 
             $result = $conn->query("select*from client where clientemail = '$email'");
-
-            $row = $result->fetch_assoc();
-
-            $clientusername = $row['clientusername'];
-
 
             if ($result->num_rows <= 0) {
                 echo json_encode(['bool' => false, 'message' => 'Email does not exist']);
@@ -39,11 +34,11 @@ if (isset($_GET['action'])) {
                     $mail->Host = 'smtp.gmail.com';
                     $mail->SMTPAuth = true;
                     $mail->Username = $email;
-                    $mail->Password = $emailapppassword;
+                    $mail->Password = $emailAppPassword;
                     $mail->SMTPSecure = 'tls';
                     $mail->Port = 587;
 
-                    $mail->setFrom($email, $clientusername);
+                    $mail->setFrom($email, 'Customer');
                     $mail->addAddress($email);
 
                     $mail->isHTML(true);
@@ -60,35 +55,20 @@ if (isset($_GET['action'])) {
             }
             break;
 
-        case 'verifyToken':
+        case 'changePassword':
 
             $data = json_decode($_POST['credential'], true);
+
             $email = $data['email'];
             $token = $data['token'];
+            $password = $data['password'];
 
             $sql = "select*from client where clientemail = '$email'";
-
             $result = $conn->query($sql);
-
             $row = $result->fetch_assoc();
 
             if ($row['clienttoken'] === $token) {
-                echo json_encode(true);
-            } else {
-                echo json_encode(false);
-            }
-            break;
-
-        case 'changepassword':
-
-            $data = json_decode($_POST['credential'], true);
-            $email = $data['email'];
-            $password = $data['password'];
-
-            $sql = "UPDATE `client` SET `clientpassword` = '$password' WHERE `clientemail` = '$email'";
-            $conn->query($sql);
-
-            if ($conn->affected_rows > 0) {
+                $conn->query("UPDATE `client` SET `clientpassword` = '$password' WHERE `clientemail` = '$email'");
                 echo json_encode(true);
             } else {
                 echo json_encode(false);
@@ -96,7 +76,6 @@ if (isset($_GET['action'])) {
             break;
     }
 }
-
 
 
 ?>

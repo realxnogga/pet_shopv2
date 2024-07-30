@@ -1,36 +1,35 @@
 
 
 import { AdminHamburger } from "../../component/admin/adminhamburger"
-import { useSelector } from "react-redux";
-import { allClientDataTemp } from "../../feature/admin/admincustomerSlice";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import ReactTooltip from 'react-tooltip';
-import { DeleteCustomerDataThunk } from "../../feature/admin/admincustomerSlice";
-import { useDispatch } from "react-redux";
-import { clearIsCustomerDataDeleted } from "../../feature/admin/admincustomerSlice";
-import { isCustomerDataDeletedTemp } from "../../feature/admin/admincustomerSlice";
 import { useEffect, useState } from "react";
 import { ShowToast } from "../../component/admin/toaster";
-import { GetAllCustomerDataThunk } from "../../feature/admin/admincustomerSlice";
 import { IoSearch } from "react-icons/io5";
 import { Empty } from "../../component/client/empty";
-
+import { useAdminCustomer } from "../../store/admin/admincustomerstore";
 
 export const AdminCustomer = () => {
 
-    const dispatch = useDispatch();
+    const {allClientData, getAllCustomerData, deleteCustomerData, isCustomerDataDeleted, clearIsCustomerDataDeleted} = useAdminCustomer(state => ({
+        allClientData: state.allClientData,
+        getAllCustomerData: state.getAllCustomerData,
+        deleteCustomerData: state.deleteCustomerData,
+        isCustomerDataDeleted: state.isCustomerDataDeleted,
+        clearIsCustomerDataDeleted: state.clearIsCustomerDataDeleted,
+    }));
 
-    const allClientData = useSelector(allClientDataTemp);
 
     const DeleteCustomerFunc = (clientID, clientprofile) => {
-        dispatch(DeleteCustomerDataThunk({ clientID, clientprofile }));
+        const temp = {clientID, clientprofile}
+        deleteCustomerData({temp});
     }
-    const isCustomerDataDeleted = useSelector(isCustomerDataDeletedTemp);
+
     useEffect(() => {
         if (isCustomerDataDeleted === true) {
             ShowToast('customer deleted successfully', 'success');
-            dispatch(GetAllCustomerDataThunk());
-            dispatch(clearIsCustomerDataDeleted());
+            getAllCustomerData();
+            clearIsCustomerDataDeleted();
         }
     }, [isCustomerDataDeleted])
 
@@ -41,8 +40,8 @@ export const AdminCustomer = () => {
     }
 
     const filteredClientData = allClientData.filter(item => {
-        const temp = item.clientusername.toLowerCase().includes(searchQuery.toLowerCase()); 
-        return temp;   
+        const temp = item.clientusername.toLowerCase().includes(searchQuery.toLowerCase());
+        return temp;
     });
 
 

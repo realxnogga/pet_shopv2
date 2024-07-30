@@ -2,23 +2,29 @@
 import { useEffect, useState } from "react";
 import { ShowToast } from "../../component/admin/toaster";
 import { NavLink } from "react-router-dom";
-import { InsertRegisterDataThunk } from "../../feature/client/clientregisterSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { isClientAlreadyExistTemp } from "../../feature/client/clientregisterSlice";
-import { clearIsClientAlreadyExist } from "../../feature/client/clientregisterSlice";
 import { useNavigate } from "react-router-dom";
-import { GetProductDataThunk } from "../../feature/admin/adminproductSlice";
-import { GetAllCustomerDataThunk } from "../../feature/admin/admincustomerSlice";
-import { GetAllBuyDataThunk } from "../../feature/client/clientbuySlice";
 import { PreviewImage } from "../../utils/previewimage";
 import { TextField, PasswordField, EmailField, TextAreaField, FileField } from "../../component/shared/inputfield";
 import { PrimaryButton } from "../../component/shared/button";
+import { useAdminCustomer } from "../../store/admin/admincustomerstore";
+import { useAdminProduct } from "../../store/admin/adminproductstore";
+import { useClientRegister } from "../../store/client/clientregisterstore";
+import { useClientBuy } from "../../store/client/clientbuystore";
 
 export const ClientRegister = () => {
 
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const getProductData = useAdminProduct(state => state.getProductData);
 
+    const { isClientAlreadyExist, insertRegisterData, clearIsClientAlreadyExist } = useClientRegister(state => ({
+        isClientAlreadyExist: state.isClientAlreadyExist,
+        insertRegisterData: state.insertRegisterData,
+        clearIsClientAlreadyExist: state.clearIsClientAlreadyExist,
+    }))
+
+    const getAllCustomerData = useAdminCustomer(state => state.getAllCustomerData);
+    const getAllBuyData = useClientBuy(state => state.getAllBuyData);
+
+    const navigate = useNavigate();
 
     const [userRegisterCredential, setUserRegisterCredential] = useState({
         userregisterusername: '',
@@ -47,26 +53,23 @@ export const ClientRegister = () => {
             ShowToast('password length must be 8 and above', 'warning');
         }
         else {
-            dispatch(InsertRegisterDataThunk({ userRegisterCredential, userProfile }));
+            insertRegisterData({userRegisterCredential, userProfile});
         }
     }
 
-    const isClientAlreadyExist = useSelector(isClientAlreadyExistTemp);
     useEffect(() => {
 
         if (isClientAlreadyExist === true) {
             ShowToast('user already exist', 'error');
-
-            dispatch(clearIsClientAlreadyExist());
+            clearIsClientAlreadyExist();
         }
         if (isClientAlreadyExist === false) {
             ShowToast('account created successfully', 'success');
 
-            dispatch(clearIsClientAlreadyExist());
-            dispatch(GetProductDataThunk());
-            dispatch(GetAllCustomerDataThunk());
-            dispatch(GetAllBuyDataThunk());
-
+            clearIsClientAlreadyExist();
+            getProductData();
+            getAllCustomerData();
+            getAllBuyData();
             navigate('/');
         }
 

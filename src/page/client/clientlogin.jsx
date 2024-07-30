@@ -1,26 +1,31 @@
 
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { ShowToast } from "../../component/admin/toaster";
-import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { InsertLoginDataThunk } from "../../feature/client/clientloginSlice";
-import { isClientLoggedInTemp } from "../../feature/client/clientloginSlice";
-import { clearIsClientLoggedIn } from "../../feature/client/clientloginSlice";
 import { useNavigate } from "react-router-dom";
-import { GetLoginDataThunk } from "../../feature/client/clientloginSlice";
-import { GetProductDataThunk } from "../../feature/admin/adminproductSlice";
-import { GetBuyDataThunk } from "../../feature/client/clientbuySlice";
-import { GetAddToCartDataThunk } from "../../feature/client/addtocartSlice";
-import { GetAllRatingDataThunk } from "../../feature/client/ratingSlice";
-import { clearIsRouteProtected } from "../../feature/client/clientloginSlice";
 import { TextField, PasswordField } from "../../component/shared/inputfield";
 import { PrimaryButton } from "../../component/shared/button";
+import { useClientLogin } from "../../store/client/clientloginstore";
+import { useAdminProduct } from "../../store/admin/adminproductstore";
+import { useClientRating } from "../../store/client/clientratingstore";
+import { useClientBuy } from "../../store/client/clientbuystore";
+import { useClientAddToCart } from "../../store/client/clientaddtocardstore";
 
 export const ClientLogin = () => {
 
+    const getProductData = useAdminProduct(state => state.getProductData);
+    const getRatingData = useClientRating(state => state.getRatingData);
+    const getBuyData = useClientBuy(state => state.getBuyData);
+    const getAddToCartData = useClientAddToCart(state => state.getAddToCartData);
+
+    const {clearIsLogin, returnedLoginData, testLogin, getLoginData} = useClientLogin(state => ({
+        clearIsLogin: state.clearIsLogin,
+        returnedLoginData: state.returnedLoginData,
+        testLogin: state.testLogin,
+        getLoginData: state.getLoginData,
+    }))
+
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     const [userLoginCredential, setUserLoginCredential] = useState({
         userloginusername: '',
@@ -41,43 +46,31 @@ export const ClientLogin = () => {
         else if (userLoginCredential.userloginusername === '' === '' && userLoginCredential.userloginpassword === '') {
             ShowToast('username and password must not be empty', 'warning');
         }
-        else if (userLoginCredential.userloginusername != '' || userLoginCredential.userloginpassword != '') {
-            const loginDataTemp = {
-                userloginusername: userLoginCredential.userloginusername,
-                userloginpassword: userLoginCredential.userloginpassword,
-            }
-            dispatch(InsertLoginDataThunk({ loginDataTemp }));
+        else if (userLoginCredential.userloginusername != '' || userLoginCredential.userloginpassword != '') {  
+            testLogin({userLoginCredential});
         }
-
-
     }
 
-    const isClientLoggedIn = useSelector(isClientLoggedInTemp);
     useEffect(() => {
 
-        if (isClientLoggedIn === true) {
+        if (returnedLoginData.islogin === true) {
             ShowToast('successfully login', 'success');
-            dispatch(clearIsClientLoggedIn());
-            navigate('/mainpage');
+            clearIsLogin();
+            navigate('/home');
 
-            const loginDataTemp = {
-                userloginusername: userLoginCredential.userloginusername,
-                userloginpassword: userLoginCredential.userloginpassword,
-            }
-            dispatch(GetLoginDataThunk({ loginDataTemp }));
-            dispatch(GetProductDataThunk());
-            dispatch(GetBuyDataThunk(userLoginCredential.userloginusername));
-            dispatch(GetAddToCartDataThunk(userLoginCredential.userloginusername));
-            dispatch(GetAllRatingDataThunk());
+            getLoginData({userLoginCredential});
+
+            getProductData();
+            getBuyData(userLoginCredential.userloginusername);
+            getAddToCartData(userLoginCredential.userloginusername);
+            getRatingData();
         }
-        if (isClientLoggedIn === false) {
+        if (returnedLoginData.islogin === false) {
             ShowToast('login failed', 'error');
-
-            dispatch(clearIsRouteProtected());
-            dispatch(clearIsClientLoggedIn());
+            clearIsLogin();
         }
 
-    }, [isClientLoggedIn])
+    }, [returnedLoginData.islogin])
 
     return (
         <section className="relative h-screen w-screen flex items-center justify-center 
@@ -108,7 +101,7 @@ export const ClientLogin = () => {
 
                 <PrimaryButton text={'Login'} onClick={handleLoginDataSubmitFunc} />
 
-                <p className="text-center cursor-pointer hover:text-blue-500"><NavLink to={'/sendtoken'}> Forgot Password?</NavLink></p>
+                <p className="text-center cursor-pointer hover:text-blue-500"><NavLink to={'/sendemail'}> Forgot Password?</NavLink></p>
 
                 <p>Don't have an account yet?<span className="hover:text-blue-500 cursor-pointer underline">
                     <NavLink to={'/register'}> Register</NavLink></span></p>
