@@ -6,11 +6,17 @@ import { useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { Empty } from "../../component/client/empty";
 import { useClientAddToCart } from "../../store/client/clientaddtocardstore";
+import { useAdminProduct } from "../../store/admin/adminproductstore";
+import { useNavigate } from "react-router-dom";
 
 export const ClientCart = () => {
 
-    const addToCartProductData = useClientAddToCart(state => state.addToCartProductData);
+    const navigate = useNavigate();
 
+    const getProductIDForViewMore = useAdminProduct(state => state.getProductIDForViewMore);
+
+    const addToCartProductData = useClientAddToCart(state => state.addToCartProductData);
+ 
     console.log(addToCartProductData);
 
     const [searchQuery, setSearchQuery] = useState('');
@@ -72,7 +78,7 @@ export const ClientCart = () => {
                                             <td className="border px-2">{item.addtocartproductcategory}</td>
                                             <td className="border px-2">{item.addtocartproductcreationdate}</td>
                                             <td className="border flex items-center justify-center p-2">
-                                                <button className={`bg-green-400 px-3 py-1 text-white flex items-center gap-x-1`}>View
+     <button onClick={() => {getProductIDForViewMore(item.addtocartproductID, 'cartpage'); navigate('/viewproduct')}} className={`bg-green-400 px-3 py-1 text-white flex items-center gap-x-1`}>View
                                                 </button>
                                             </td>
                                         </tr>

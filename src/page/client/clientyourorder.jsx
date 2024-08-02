@@ -10,7 +10,7 @@ import { Empty } from "../../component/client/empty";
 import { useClientRating } from "../../store/client/clientratingstore";
 import { useClientLogin } from "../../store/client/clientloginstore";
 import { useClientBuy } from "../../store/client/clientbuystore";
-import { useTableData } from "../../store/shared/tabledata";
+import { useTableData } from "../../store/shared/pagination";
 import { Pagination } from "../../component/shared/pagination";
 import { Entries } from "../../component/shared/entries";
 
@@ -41,7 +41,7 @@ export const ClientYourOrder = () => {
     // get the table data
     useEffect(() => {
         getTableData(buyProductData);
-    }, [buyProductData]);
+    }, []);
 
 
     const [idToRecieve, setIdToRecieve] = useState(0);
@@ -131,7 +131,7 @@ export const ClientYourOrder = () => {
                 <section className="flex items-end justify-between">
                     <Entries />
 
-                    <div className='flex justify-end'>
+                    <div className='flex'>
                         <IoSearch className='h-[2.5rem] w-[2.5rem] p-[.5rem] bg-white' />
                         <input
                             value={searchQuery}

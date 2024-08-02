@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { useTableData } from "../../store/shared/tabledata"
+import { useTableData } from "../../store/shared/pagination";
 
 export const Pagination = () => {
 

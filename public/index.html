@@ -24,7 +24,7 @@
     -->
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.11.1/dist/full.min.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
+
   <title>North Star Petshop</title>
   <script>
     tailwind.config = {
@@ -34,8 +34,8 @@
             clifford: '#da373d',
           },
           animation: {
-            'spin': 'spin .5s linear infinite',
-          }
+            'spin': 'spin 3s linear infinite',      
+          },
         },
         screens: {
           'dt': { 'max': '1366px' },
@@ -52,6 +52,18 @@
     .noScrollbar::-webkit-scrollbar {
       display: none;
     }
+
+    progress {
+      height: .7rem;
+    }
+
+    progress::-webkit-progress-bar {
+      background-color: #e0e0e0;
+    }
+
+    progress::-webkit-progress-value {
+      background-color: #EAB308;
+    }
   </style>
 
 </head>
@@ -59,21 +71,9 @@
 <body class="noScrollbar">
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
-  <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-
-
-<call-us-selector phonesystem-url="https://1793.3cx.cloud" party="none"></call-us-selector>
- 
-<script defer src="https://downloads-global.3cx.com/downloads/livechatandtalk/v1/callus.js" id="tcx-callus-js" charset="utf-8"></script>
+  <!-- <call-us-selector phonesystem-url="https://1793.3cx.cloud" party="none"></call-us-selector>
+<script defer src="https://downloads-global.3cx.com/downloads/livechatandtalk/v1/callus.js" id="tcx-callus-js" charset="utf-8"></script> -->
 
 </body>
 
